@@ -1,3 +1,4 @@
+// import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -7,119 +8,246 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    // return const FluentApp(
+    return const MaterialApp(
+      title: 'Desktop App',
+      home: MyPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+// class MyPage extends StatefulWidget {
+//   const MyPage({super.key});
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
+//   @override
+//   State<MyPage> createState() => _MyPageState();
+// }
 
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+// class _MyPageState extends State<MyPage> {
+//   bool checked = false;
 
-  final String title;
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       color: const Color(0xff53A0DEFF),
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+//           Row(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: const [
+//               Icon(
+//                 FluentIcons.add,
+//                 color: Colors.white,
+//               ),
+//               SizedBox(
+//                 width: 20,
+//               ),
+//               Icon(
+//                 FluentIcons.add_link,
+//                 color: Colors.white,
+//               )
+//             ],
+//           ),
+//           const SizedBox(
+//             height: 30,
+//           ),
+//           Button(
+//             child: const Text('Desktop button'),
+//             onPressed: () {
+//               debugPrint('button pressed');
+//             },
+//             style: ButtonStyle(backgroundColor: ButtonState.all(Colors.white)),
+//           ),
+//           const SizedBox(
+//             height: 30,
+//           ),
+//           Checkbox(
+//             checked: checked,
+//             onChanged: (select) {
+//               setState(() {
+//                 checked = select!;
+//               });
+//             },
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+class MyPage extends StatefulWidget {
+  const MyPage({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyPage> createState() => _MyPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _MyPageState extends State<MyPage> {
+  TextEditingController idController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  @override
+  void dispose() {
+    // 컨트롤러 해제
+    idController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text('Chartify Desktop App'),
+        backgroundColor: Colors.blue, // 앱바 배경색 변경
+        // 로고 이미지가 들어갈 자리
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+      body: Container(
+        padding: EdgeInsets.all(16),
+        color: Colors.white, // 전체 배경색 변경
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+          children: [
+            TextFormField(
+              controller: idController,
+              decoration: InputDecoration(
+                hintText: 'ID',
+              ),
+              onChanged: (value) {
+                // ID 입력 값 처리
+              },
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            SizedBox(height: 16),
+            TextFormField(
+              obscureText: true,
+              controller: passwordController,
+              decoration: InputDecoration(
+                hintText: 'Password',
+              ),
+              onChanged: (value) {
+                // Password 입력 값 처리
+              },
+            ),
+            SizedBox(height: 20),
+            Container(
+              width: 200, // 원하는 가로 길이 설정
+              child: ElevatedButton(
+                onPressed: () {
+                  // 로그인 버튼 클릭 시 처리
+                  String loggedInID = idController.text;
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MainPage(loggedInID: loggedInID),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.lightBlue,
+                ),
+                child: Text(
+                  'Sign In',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              width: 200, // 원하는 가로 길이 설정
+              child: ElevatedButton(
+                onPressed: () {
+                  // 회원가입 버튼 클릭 시 처리
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.grey,
+                ),
+                child: Text(
+                  'Sign Up',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+            SizedBox(height: 40),
+            GestureDetector(
+              onTap: () {
+                // "Forgot my ID or Password?" 링크 클릭 시 처리
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ForgotPasswordPage()),
+                );
+              },
+              child: Text(
+                'Forgot my ID or Password?',
+                style: TextStyle(
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class MainPage extends StatelessWidget {
+  final String loggedInID;
+
+  const MainPage({Key? key, required this.loggedInID}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Main Page'),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Hello ',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                loggedInID,
+                style: TextStyle(fontSize: 24),
+              ),
+            ],
+          ),
+          SizedBox(height: 40),
+          ElevatedButton(
+            onPressed: () {
+              // Logout 버튼 클릭 시 처리
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => MyPage()),
+              );
+            },
+            child: Text('Logout'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ForgotPasswordPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Forgot Password'),
+      ),
+      body: Center(
+        child: Text('This is the forgot password page.'),
+      ),
     );
   }
 }
