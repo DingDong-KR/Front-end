@@ -101,38 +101,38 @@ class _MyPageState extends State<MyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chartify Desktop App'),
+        title: const Text('Chartify Desktop App'),
         backgroundColor: Colors.blue, // 앱바 배경색 변경
         // 로고 이미지가 들어갈 자리
       ),
       body: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         color: Colors.white, // 전체 배경색 변경
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
               controller: idController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'ID',
               ),
               onChanged: (value) {
                 // ID 입력 값 처리
               },
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextFormField(
               obscureText: true,
               controller: passwordController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Password',
               ),
               onChanged: (value) {
                 // Password 입력 값 처리
               },
             ),
-            SizedBox(height: 20),
-            Container(
+            const SizedBox(height: 20),
+            SizedBox(
               width: 200, // 원하는 가로 길이 설정
               child: ElevatedButton(
                 onPressed: () {
@@ -148,14 +148,14 @@ class _MyPageState extends State<MyPage> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.lightBlue,
                 ),
-                child: Text(
+                child: const Text(
                   'Sign In',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
             ),
-            SizedBox(height: 10),
-            Container(
+            const SizedBox(height: 10),
+            SizedBox(
               width: 200, // 원하는 가로 길이 설정
               child: ElevatedButton(
                 onPressed: () {
@@ -164,22 +164,23 @@ class _MyPageState extends State<MyPage> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.grey,
                 ),
-                child: Text(
+                child: const Text(
                   'Sign Up',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             GestureDetector(
               onTap: () {
                 // "Forgot my ID or Password?" 링크 클릭 시 처리
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ForgotPasswordPage()),
+                  MaterialPageRoute(
+                      builder: (context) => const ForgotPasswordPage()),
                 );
               },
-              child: Text(
+              child: const Text(
                 'Forgot my ID or Password?',
                 style: TextStyle(
                   color: Colors.blue,
@@ -203,7 +204,7 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Main Page'),
+        title: const Text('Main Page'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -211,26 +212,26 @@ class MainPage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 'Hello ',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               Text(
                 loggedInID,
-                style: TextStyle(fontSize: 24),
+                style: const TextStyle(fontSize: 24),
               ),
             ],
           ),
-          SizedBox(height: 40),
+          const SizedBox(height: 40),
           ElevatedButton(
             onPressed: () {
               // Logout 버튼 클릭 시 처리
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => MyPage()),
+                MaterialPageRoute(builder: (context) => const MyPage()),
               );
             },
-            child: Text('Logout'),
+            child: const Text('Logout'),
           ),
         ],
       ),
@@ -239,13 +240,15 @@ class MainPage extends StatelessWidget {
 }
 
 class ForgotPasswordPage extends StatelessWidget {
+  const ForgotPasswordPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Forgot Password'),
+        title: const Text('Forgot Password'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('This is the forgot password page.'),
       ),
     );
