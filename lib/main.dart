@@ -1,4 +1,3 @@
-// import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,66 +16,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-// class MyPage extends StatefulWidget {
-//   const MyPage({super.key});
-
-//   @override
-//   State<MyPage> createState() => _MyPageState();
-// }
-
-// class _MyPageState extends State<MyPage> {
-//   bool checked = false;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       color: const Color(0xff53A0DEFF),
-//       child: Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: [
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: const [
-//               Icon(
-//                 FluentIcons.add,
-//                 color: Colors.white,
-//               ),
-//               SizedBox(
-//                 width: 20,
-//               ),
-//               Icon(
-//                 FluentIcons.add_link,
-//                 color: Colors.white,
-//               )
-//             ],
-//           ),
-//           const SizedBox(
-//             height: 30,
-//           ),
-//           Button(
-//             child: const Text('Desktop button'),
-//             onPressed: () {
-//               debugPrint('button pressed');
-//             },
-//             style: ButtonStyle(backgroundColor: ButtonState.all(Colors.white)),
-//           ),
-//           const SizedBox(
-//             height: 30,
-//           ),
-//           Checkbox(
-//             checked: checked,
-//             onChanged: (select) {
-//               setState(() {
-//                 checked = select!;
-//               });
-//             },
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
 
 class MyPage extends StatefulWidget {
   const MyPage({Key? key}) : super(key: key);
