@@ -21,7 +21,7 @@ class MainMenu extends StatelessWidget {
         Flexible(
           child: Container(
             width: 122,
-            decoration: BoxDecoration(color: Color(0xFFE4F8EF)),
+            decoration: BoxDecoration(color: Color(0xFFE2F1F6)),
             child: Column(children: [
               GestureDetector(
                 onTap: () {
