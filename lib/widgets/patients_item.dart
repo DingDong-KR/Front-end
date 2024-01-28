@@ -7,9 +7,9 @@ class PatientsItem {
   final String name;
   final String sex;
   final int age;
-  final List<String> symptoms;
+  final List<String> symptoms; // Change to List<String>
   final String status; // 진료중, 응급, 대기중
-  final DateTime time; // parsing 필요
+  final DateTime time; // Change to DateTime
 
   PatientsItem({
     required this.sequence,
@@ -17,8 +17,22 @@ class PatientsItem {
     required this.name,
     required this.sex,
     required this.age,
-    required this.symptoms,
+    required this.symptoms, // Change to List<String>
     required this.status,
-    required this.time,
+    required this.time, // Change to DateTime
   });
 }
+
+// Define your menu items
+final List<PatientsItem> patientsItems = [
+  PatientsItem(
+    sequence: "본진", // 본진인지 침구인지
+    order: 2, // 환자 순서? 번호?
+    name: "이수민",
+    sex: "여",
+    age: 52,
+    symptoms: ["다리아픔"],
+    status: "진료중",
+    time: DateTime.parse("1969-07-20 20:18:04Z"),
+  ),
+];
