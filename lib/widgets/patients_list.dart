@@ -136,7 +136,7 @@ class _PatientsListState extends State<PatientsList>
                   child: AnimatedContainer( //클릭시 서식 변경 애니메이션
                     duration: Duration(milliseconds: 120),
                     width: 105,
-                    height: 85,// 아이템의 높이를 조절
+                    height: 95,// 아이템의 높이를 조절
                     decoration: ShapeDecoration(
                       color: isClicked
                           ? Color(0xFFE2F1F6) // 클릭된 아이템의 배경색

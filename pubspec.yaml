@@ -74,6 +74,7 @@ flutter:
     - assets/icons/icon_addPerson.svg
     - assets/icons/icon_lining.svg
     - assets/icons/icon_message.svg
+    - assets/icons/icon_dropDown.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -21,7 +21,7 @@ final List<MenuItem> menuItems = [
     title: 'A 봉사동아리',
     fontSize: 14,
     fontWeight: FontWeight.w700,
-    iconPath: 'assets/icons/icon_bed.svg',
+    iconPath: 'assets/icons/icon_dropDown.svg',
   ),
   MenuItem(
     title: '홈',

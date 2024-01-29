@@ -55,7 +55,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Text(
-                      '환자이름 /차트번호/생년월일/휴대폰번호',
+                      '환자이름/차트번호/생년월일/휴대폰번호',
                       style: TextStyle(
                         color: Color(0xFFAFAFAF),
                         fontSize: 11,
