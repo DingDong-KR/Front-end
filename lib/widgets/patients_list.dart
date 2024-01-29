@@ -11,12 +11,13 @@ class _PatientsListState extends State<PatientsList>
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
   bool isSwitchOn = false;
+  int? _selectedItemIndex; // 현재 선택된 아이템의 인덱스
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 195,
-      decoration: BoxDecoration(color: Color(0xFFF7F7F7)),
+      decoration: BoxDecoration(color: Colors.white),
       child: Column(
         children: [
           Container(
@@ -124,60 +125,160 @@ class _PatientsListState extends State<PatientsList>
             child: ListView.builder(
               itemCount: patientsItems.length,
               itemBuilder: (context, index) {
-                return Container(
-                  margin: EdgeInsets.symmetric(vertical: 8.0),
-                  decoration: ShapeDecoration(
-                    color: Color(0xFFE2F1F6),
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 1, color: Color(0xFFADE9F9)),
-                      borderRadius: BorderRadius.circular(5),
+                bool isClicked = _selectedItemIndex == index;
+
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _selectedItemIndex = index;
+                    });
+                  },
+                  child: AnimatedContainer( //클릭시 서식 변경 애니메이션
+                    duration: Duration(milliseconds: 120),
+                    width: 105,
+                    height: 85,// 아이템의 높이를 조절
+                    decoration: ShapeDecoration(
+                      color: isClicked
+                          ? Color(0xFFE2F1F6) // 클릭된 아이템의 배경색
+                          : Color(0xFFF7F7F7), // 클릭되지 않은 아이템의 배경색
+                      shape: RoundedRectangleBorder(
+                        side: isClicked
+                            ? BorderSide(width: 1, color: Color(0xFFADE9F9))
+                            : BorderSide.none,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
                     ),
-                  ),
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 32,
-                        height: 13,
-                        // Rest of your patient order and status widgets...
-                      ),
-                      Text(
-                        '이수민',
-                        style: TextStyle(
-                          color: Color(0xFF3EA7C2),
-                          fontSize: 14,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w700,
-                          height: 0.11,
-                          letterSpacing: 0.14,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 32,
+                                height: 13,
+                                decoration: ShapeDecoration(
+                                  color: isClicked
+                                      ? Color(0xFFD9D9D9) // 클릭된 아이템의 배경색
+                                      : Color(0xFFADE9F9), // 클릭되지 않은 아이템의 배경색
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(14.50),
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    '002',
+                                    style: TextStyle(
+                                      color: isClicked
+                                          ? Color(0xFF404855) // 클릭된 아이템의 텍스트 색상
+                                          : Color(0xFF3EA7C2), // 클릭되지 않은 아이템의 텍스트 색상
+                                      fontSize: 10,
+                                      fontFamily: 'Pretendard',
+                                      fontWeight: FontWeight.w500,
+                                      letterSpacing: 0.10,
+                                      height: -0.1,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Spacer(),
+                              Text(
+                                '진료중',
+                                style: TextStyle(
+                                  color: Color(0xFF11E058),
+                                  fontSize: 12,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 0.12,
+                                  height: 0.0,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Padding(
+                                padding:
+                                const EdgeInsets.fromLTRB(0, 4, 0, 0),
+                                child: Container(
+                                  width: 5,
+                                  height: 5,
+                                  decoration: ShapeDecoration(
+                                    color: Color(0xFF11E058),
+                                    shape: OvalBorder(),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            '남,92   팔,허리 아픔', // 환자 세부정보
+                        Padding(
+                          padding: const EdgeInsets.all(9.0),
+                          child: Text(
+                            '이수민',
                             style: TextStyle(
-                              color: Color(0xFF404855),
-                              fontSize: 11,
+                              color: isClicked
+                                  ? Color(0xFF404855) // 클릭된 아이템의 텍스트 색상
+                                  : Color(0xFF3EA7C2), // 클릭되지 않은 아이템의 텍스트 색상
+                              fontSize: 14,
                               fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w400,
-                              height: 0.14,
-                              letterSpacing: 0.11,
+                              fontWeight: FontWeight.w700,
+                              height: -1, // 조정된 부분
+                              letterSpacing: 0.14,
                             ),
                           ),
-                          Text(
-                            '16:04:55', //시간
-                            style: TextStyle(
-                              color: Color(0xFF999999),
-                              fontSize: 10,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w400,
-                              height: 0.15,
-                              letterSpacing: 0.10,
-                            ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(9.0),
+                          child: Row(
+                            children: [
+                              Text(
+                                '여,52',
+                                style: TextStyle(
+                                  color: isClicked
+                                      ? Color(0xFF404855) // 클릭된 아이템의 텍스트 색상
+                                      : Color(0xFF3EA7C2), // 클릭되지 않은 아이템의 텍스트 색상
+                                  fontSize: 11,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w400,
+                                  height: 0.14,
+                                  letterSpacing: 0.11,
+                                ),
+                              ),
+                              SizedBox(width: 20),
+                              Text(
+                                '다리아픔',
+                                style: TextStyle(
+                                  color: isClicked
+                                      ? Color(0xFF404855) // 클릭된 아이템의 텍스트 색상
+                                      : Color(0xFF3EA7C2), // 클릭되지 않은 아이템의 텍스트 색상
+                                  fontSize: 11,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w400,
+                                  height: 0.14,
+                                  letterSpacing: 0.11,
+                                ),
+                              ),
+                              Spacer(),
+                              Text(
+                                '14:01:25',
+                                style: TextStyle(
+                                  color: Color(0xFF999999), // 클릭되지 않은 아이템의 텍스트 색상
+                                  fontSize: 10,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w400,
+                                  height: 0.15,
+                                  letterSpacing: 0.10,
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                 );
               },

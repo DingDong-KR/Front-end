@@ -8,7 +8,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 1500,
+      width: double.infinity,
       height: 49,
       decoration: BoxDecoration(
         color: Colors.white,
