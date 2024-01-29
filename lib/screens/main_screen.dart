@@ -15,6 +15,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor:Color(0xFFE2F1F6),
       body: Row(
         children: [
           MainMenu(navigatorKey: _navigatorKey),
@@ -27,8 +28,9 @@ class _MainScreenState extends State<MainScreen> {
                   child: Row(
                     children: [
                       Container( //환자 리스트
-                          width:244, // 너비 명시해야 Navigator 정상작동
-                          child: PatientsList()),
+                          width:195, // 너비 명시해야 Navigator 정상작동
+                          child: PatientsList()
+                      ),
                       Expanded(
                         // Navigator takes the remaining space
                         child: Navigator(

@@ -6,7 +6,7 @@ import '../screens_main/home_screen.dart';
 import '../screens_main/main_examination_screen.dart';
 import '../screens_main/medicines_screen.dart';
 import '../screens_main/pre_examination_screen.dart';
-import 'menu_items.dart';
+import '../models/menu_items.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MainMenu extends StatelessWidget {

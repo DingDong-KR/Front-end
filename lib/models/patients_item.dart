@@ -35,4 +35,14 @@ final List<PatientsItem> patientsItems = [
     status: "진료중",
     time: DateTime.parse("1969-07-20 20:18:04Z"),
   ),
+  PatientsItem(
+    sequence: "침구", // 본진인지 침구인지
+    order: 8, // 환자 순서? 번호?
+    name: "김빵빵",
+    sex: "남",
+    age: 31,
+    symptoms: ["팔아픔"],
+    status: "대기",
+    time: DateTime.parse("1979-07-20 20:18:04Z"),
+  ),
 ];
