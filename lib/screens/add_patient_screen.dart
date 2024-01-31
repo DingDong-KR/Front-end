@@ -1,0 +1,524 @@
+import 'package:flutter/material.dart';
+
+class AddPatientScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [
+      Container(
+          width: 1000,
+          height: 600,
+          decoration: ShapeDecoration(
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              side: BorderSide(width: 1, color: Color(0xFF3FA7C3)),
+              borderRadius: BorderRadius.circular(5),
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    '신규환자등록',
+                    style: TextStyle(
+                      color: Color(0xFF404855),
+                      fontSize: 14,
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w700,
+                      height: 0.11,
+                      letterSpacing: 0.14,
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          '닫기',
+                          style: TextStyle(
+                            color: Color(0xFF3FA7C3),
+                            fontSize: 12,
+                            fontFamily: 'Pretendard',
+                            fontWeight: FontWeight.w500,
+                            height: 0.12,
+                            letterSpacing: 0.12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          '완료',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontFamily: 'Pretendard',
+                            fontWeight: FontWeight.w500,
+                            height: 0.12,
+                            letterSpacing: 0.12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ), //신규환자등록
+              Row(
+                children: [
+                  Text(
+                    '환자번호',
+                    style: TextStyle(
+                      color: Color(0xFF404855),
+                      fontSize: 12,
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w500,
+                      height: 0.15,
+                    ),
+                  ),
+                  Text(
+                    '이름',
+                    style: TextStyle(
+                      color: Color(0xFF404855),
+                      fontSize: 12,
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w500,
+                      height: 0.15,
+                    ),
+                  ),
+                  Text(
+                    '전화번호',
+                    style: TextStyle(
+                      color: Color(0xFF404855),
+                      fontSize: 12,
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w500,
+                      height: 0.15,
+                    ),
+                  ),
+                ],
+              ), //환자번호
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: '000000',
+                        hintStyle: TextStyle(
+                          color: Color(0xFF3FA7C3),
+                          fontSize: 10,
+                          fontFamily: 'Noto Sans KR',
+                          fontWeight: FontWeight.w400,
+                          height: 0.22,
+                          letterSpacing: 1,
+                        ),
+                      ),
+                    ),
+                  ),
+              Container(
+                  width: 57,
+                  height: 22,
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 1, color: Color(0xFF3FA7C3)),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        '남궁호연',
+                        style: TextStyle(
+                          color: Color(0xFF404855),
+                          fontSize: 10,
+                          fontFamily: 'Noto Sans KR',
+                          fontWeight: FontWeight.w400,
+                          height: 0.22,
+                        ),
+                      ),
+                      Container(
+                        width: 39,
+                        height: 22,
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        decoration: ShapeDecoration(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            side:
+                                BorderSide(width: 1, color: Color(0xFF3FA7C3)),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              '010',
+                              style: TextStyle(
+                                color: Color(0xFF404855),
+                                fontSize: 10,
+                                fontFamily: 'Noto Sans KR',
+                                fontWeight: FontWeight.w400,
+                                height: 0.22,
+                                letterSpacing: 1,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: 46,
+                        height: 22,
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        decoration: ShapeDecoration(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            side:
+                                BorderSide(width: 1, color: Color(0xFF3FA7C3)),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              '3909',
+                              style: TextStyle(
+                                color: Color(0xFF404855),
+                                fontSize: 10,
+                                fontFamily: 'Noto Sans KR',
+                                fontWeight: FontWeight.w400,
+                                height: 0.22,
+                                letterSpacing: 1,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: 46,
+                        height: 22,
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        decoration: ShapeDecoration(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            side:
+                                BorderSide(width: 1, color: Color(0xFF3FA7C3)),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              '3909',
+                              style: TextStyle(
+                                color: Color(0xFF404855),
+                                fontSize: 10,
+                                fontFamily: 'Noto Sans KR',
+                                fontWeight: FontWeight.w400,
+                                height: 0.22,
+                                letterSpacing: 1,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ]), //000000
+              Text(
+                '주소',
+                style: TextStyle(
+                  color: Color(0xFF404855),
+                  fontSize: 12,
+                  fontFamily: 'Pretendard',
+                  fontWeight: FontWeight.w500,
+                  height: 0.15,
+                ),
+              ),
+              Row(
+                children: [
+                  Text(
+                    '상세주소',
+                    style: TextStyle(
+                      color: Color(0xFF404855),
+                      fontSize: 10,
+                      fontFamily: 'Noto Sans KR',
+                      fontWeight: FontWeight.w400,
+                      height: 0.22,
+                    ),
+                  ),
+                  Container(
+                    width: 369,
+                    height: 22,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    decoration: ShapeDecoration(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 1, color: Color(0xFF3FA7C3)),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          '502동 1602호',
+                          style: TextStyle(
+                            color: Color(0xFF404855),
+                            fontSize: 10,
+                            fontFamily: 'Noto Sans KR',
+                            fontWeight: FontWeight.w400,
+                            height: 0.22,
+                            letterSpacing: 1,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  Text(
+                    '주민등록번호',
+                    style: TextStyle(
+                      color: Color(0xFF404855),
+                      fontSize: 12,
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w500,
+                      height: 0.15,
+                    ),
+                  ),
+                  Text(
+                    '성별',
+                    style: TextStyle(
+                      color: Color(0xFF404855),
+                      fontSize: 12,
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w500,
+                      height: 0.15,
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  Container(
+                    width: 59,
+                    height: 22,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    decoration: ShapeDecoration(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 1, color: Color(0xFF3FA7C3)),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          '641113',
+                          style: TextStyle(
+                            color: Color(0xFF404855),
+                            fontSize: 10,
+                            fontFamily: 'Noto Sans KR',
+                            fontWeight: FontWeight.w400,
+                            height: 0.22,
+                            letterSpacing: 1,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Text(
+                    '-',
+                    style: TextStyle(
+                      color: Color(0xFF404855),
+                      fontSize: 14,
+                      fontFamily: 'Noto Sans KR',
+                      fontWeight: FontWeight.w400,
+                      height: 0.11,
+                      letterSpacing: 1.40,
+                    ),
+                  ),
+                  Container(
+                    width: 65,
+                    height: 22,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    decoration: ShapeDecoration(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 1, color: Color(0xFF3FA7C3)),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          '2205116',
+                          style: TextStyle(
+                            color: Color(0xFF404855),
+                            fontSize: 10,
+                            fontFamily: 'Noto Sans KR',
+                            fontWeight: FontWeight.w400,
+                            height: 0.22,
+                            letterSpacing: 1,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: 16,
+                    height: 16,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          left: 0,
+                          top: 0,
+                          child: Container(
+                            width: 16,
+                            height: 16,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: OvalBorder(
+                                side: BorderSide(
+                                    width: 1, color: Color(0xFF3FA7C3)),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Text(
+                    '남',
+                    style: TextStyle(
+                      color: Color(0xFF404855),
+                      fontSize: 12,
+                      fontFamily: 'Noto Sans KR',
+                      fontWeight: FontWeight.w400,
+                      height: 0.15,
+                    ),
+                  ),
+                  Container(
+                    width: 16,
+                    height: 16,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          left: 0,
+                          top: 0,
+                          child: Container(
+                            width: 16,
+                            height: 16,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: OvalBorder(
+                                side: BorderSide(
+                                    width: 1, color: Color(0xFF3FA7C3)),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 3,
+                          top: 3,
+                          child: Container(
+                            width: 10,
+                            height: 10,
+                            decoration: ShapeDecoration(
+                              color: Color(0xFF3FA7C3),
+                              shape: OvalBorder(
+                                side: BorderSide(
+                                    width: 1, color: Color(0xFF3FA7C3)),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Text(
+                    '여',
+                    style: TextStyle(
+                      color: Color(0xFF404855),
+                      fontSize: 12,
+                      fontFamily: 'Noto Sans KR',
+                      fontWeight: FontWeight.w400,
+                      height: 0.15,
+                    ),
+                  ),
+                  Container(
+                    width: 16,
+                    height: 16,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          left: 0,
+                          top: 0,
+                          child: Container(
+                            width: 16,
+                            height: 16,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: OvalBorder(
+                                side: BorderSide(
+                                    width: 1, color: Color(0xFF3FA7C3)),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Text(
+                    '기타',
+                    style: TextStyle(
+                      color: Color(0xFF404855),
+                      fontSize: 12,
+                      fontFamily: 'Noto Sans KR',
+                      fontWeight: FontWeight.w400,
+                      height: 0.15,
+                    ),
+                  )
+                ],
+              )
+            ],
+          ))
+    ]);
+  }
+}

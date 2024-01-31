@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:my_desktop_app/screens/add_patient_screen.dart';
+
+import '../screens/settings_screen.dart';
 
 class TopBar extends StatelessWidget implements PreferredSizeWidget {
   @override
-  Size get preferredSize => Size.fromHeight(49); // Adjust the height accordingly
+  Size get preferredSize =>
+      Size.fromHeight(49); // Adjust the height accordingly
 
   @override
   Widget build(BuildContext context) {
@@ -46,22 +50,22 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
               height: 28,
               decoration: ShapeDecoration(
                 color: Color(0xFFF7F7F7),
-                shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Text(
-                      '환자이름/차트번호/생년월일/휴대폰번호',
-                      style: TextStyle(
-                        color: Color(0xFFAFAFAF),
-                        fontSize: 11,
-                        fontFamily: 'Pretendard',
-                        fontWeight: FontWeight.w400,
-                        height: 0.18,
+                  Flexible(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: '환자이름/차트번호/생년월일/휴대폰번호',
+                        hintStyle: TextStyle(
+                          color: Color(0xFFAFAFAF),
+                          fontSize: 11,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
                   ),
@@ -73,14 +77,32 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          GestureDetector(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0,100,0,0),
+                      child: Dialog(
+                        elevation: 0,
+                        backgroundColor: Colors.transparent,
+                        child: AddPatientScreen(),
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
             child: Container(
               width: 101,
               height: 28,
               decoration: ShapeDecoration(
                 color: Color(0xFFE2F1F6),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -101,7 +123,8 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
           ),
-          Spacer(), // Added Spacer to push '이수민' and the following texts to the right
+          Spacer(),
+          // Added Spacer to push '이수민' and the following texts to the right
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Text(
