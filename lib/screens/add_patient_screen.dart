@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class AddPatientScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Container(
+    return Column(
+      children: [
+        Container(
           width: 500,
           height: 350,
           decoration: ShapeDecoration(
@@ -18,7 +20,9 @@ class AddPatientScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(height: 15,),
+              SizedBox(
+                height: 15,
+              ),
               Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -34,11 +38,12 @@ class AddPatientScreen extends StatelessWidget {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(width:70),
+                    SizedBox(width: 70),
                     Container(
                       width: 56.20,
                       height: 24,
-                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 3),
                       decoration: ShapeDecoration(
                         shape: RoundedRectangleBorder(
                           side: BorderSide(width: 1, color: Color(0xFF3FA7C3)),
@@ -47,7 +52,7 @@ class AddPatientScreen extends StatelessWidget {
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
@@ -61,6 +66,7 @@ class AddPatientScreen extends StatelessWidget {
                               letterSpacing: 0.12,
                             ),
                           ),
+                          SvgPicture.asset('assets/icons/icon_x.svg'),
                         ],
                       ),
                     ),
@@ -68,7 +74,8 @@ class AddPatientScreen extends StatelessWidget {
                     Container(
                       width: 56.20,
                       height: 24,
-                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 3),
                       decoration: ShapeDecoration(
                         shape: RoundedRectangleBorder(
                           side: BorderSide(width: 1, color: Color(0xFF3FA7C3)),
@@ -77,7 +84,7 @@ class AddPatientScreen extends StatelessWidget {
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
@@ -91,6 +98,7 @@ class AddPatientScreen extends StatelessWidget {
                               letterSpacing: 0.12,
                             ),
                           ),
+                          SvgPicture.asset('assets/icons/icon_checked.svg'),
                         ],
                       ),
                     ),
@@ -98,10 +106,14 @@ class AddPatientScreen extends StatelessWidget {
                   ],
                 ),
               ), //신규환자등록
-              SizedBox(height: 27,),
+              SizedBox(
+                height: 27,
+              ),
               Row(
                 children: [
-                  SizedBox(width: 25,),
+                  SizedBox(
+                    width: 25,
+                  ),
                   Text(
                     '환자번호',
                     style: TextStyle(
@@ -112,7 +124,9 @@ class AddPatientScreen extends StatelessWidget {
                       height: 0.15,
                     ),
                   ),
-                  SizedBox(width: 32,),
+                  SizedBox(
+                    width: 32,
+                  ),
                   Text(
                     '이름',
                     style: TextStyle(
@@ -123,7 +137,9 @@ class AddPatientScreen extends StatelessWidget {
                       height: 0.15,
                     ),
                   ),
-                  SizedBox(width: 160,),
+                  SizedBox(
+                    width: 160,
+                  ),
                   Text(
                     '전화번호',
                     style: TextStyle(
@@ -136,17 +152,22 @@ class AddPatientScreen extends StatelessWidget {
                   ),
                 ],
               ), //환자번호
-              SizedBox(height: 5,),
+              SizedBox(
+                height: 5,
+              ),
               Row(
                 children: [
-                  SizedBox(width: 25,),
+                  SizedBox(
+                    width: 25,
+                  ),
                   Container(
                     width: 59,
-                    height: 22,// Set the width based on your requirements
+                    height: 22, // Set the width based on your requirements
                     child: TextField(
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(6),  // Another way to limit the input length
-                        ],
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(6),
+                        // Another way to limit the input length
+                      ],
                       decoration: InputDecoration(
                         hintText: '000000',
                         hintStyle: TextStyle(
@@ -166,16 +187,19 @@ class AddPatientScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 15,),
+                  SizedBox(
+                    width: 15,
+                  ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0,10,0,0),
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: Container(
                       width: 57,
                       height: 22,
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       decoration: ShapeDecoration(
                         color: Color(0xFFF7F7F7),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -196,11 +220,13 @@ class AddPatientScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 125,),
+                  SizedBox(
+                    width: 125,
+                  ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0,10,0,0),
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: Container(
-                      width: 161,
+                      width: 190,
                       height: 22,
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -208,12 +234,13 @@ class AddPatientScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            width: 39,
+                            width: 45,
                             height: 22,
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             decoration: ShapeDecoration(
                               color: Color(0xFFF7F7F7),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -235,10 +262,12 @@ class AddPatientScreen extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            width: 15,
-                            padding: const EdgeInsets.only(left: 5, right: 5, bottom: 2),
+                            width: 20,
+                            padding: const EdgeInsets.only(
+                                left: 5, right: 5, bottom: 2),
                             decoration: ShapeDecoration(
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -252,7 +281,6 @@ class AddPatientScreen extends StatelessWidget {
                                     fontSize: 14,
                                     fontFamily: 'Noto Sans KR',
                                     fontWeight: FontWeight.w400,
-                                    height: 0.11,
                                     letterSpacing: 1.40,
                                   ),
                                 ),
@@ -260,12 +288,13 @@ class AddPatientScreen extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            width: 39,
+                            width: 50,
                             height: 22,
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             decoration: ShapeDecoration(
                               color: Color(0xFFF7F7F7),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -287,10 +316,12 @@ class AddPatientScreen extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            width: 15,
-                            padding: const EdgeInsets.only(left: 5, right: 5, bottom: 2),
+                            width: 20,
+                            padding: const EdgeInsets.only(
+                                left: 5, right: 5, bottom: 2),
                             decoration: ShapeDecoration(
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -304,7 +335,6 @@ class AddPatientScreen extends StatelessWidget {
                                     fontSize: 14,
                                     fontFamily: 'Noto Sans KR',
                                     fontWeight: FontWeight.w400,
-                                    height: 0.11,
                                     letterSpacing: 1.40,
                                   ),
                                 ),
@@ -312,12 +342,13 @@ class AddPatientScreen extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            width: 39,
+                            width: 50,
                             height: 22,
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             decoration: ShapeDecoration(
                               color: Color(0xFFF7F7F7),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -342,20 +373,91 @@ class AddPatientScreen extends StatelessWidget {
                       ),
                     ),
                   )
-              ]), //000000
-              SizedBox(height: 16,),
-              Text(
-                '주소',
-                style: TextStyle(
-                  color: Color(0xFF404855),
-                  fontSize: 12,
-                  fontFamily: 'Pretendard',
-                  fontWeight: FontWeight.w500,
-                  height: 0.15,
-                ),
+                ],
+              ), //000000
+              SizedBox(
+                height: 16,
               ),
               Row(
                 children: [
+                  SizedBox(
+                    width: 25,
+                  ),
+                  Text(
+                    '주소',
+                    style: TextStyle(
+                      color: Color(0xFF404855),
+                      fontSize: 12,
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w500,
+                      height: 0.15,
+                    ),
+                  ),
+                ],
+              ), //주소
+              SizedBox(
+                height: 16,
+              ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 25,
+                  ),
+                  Text(
+                    '우편번호',
+                    style: TextStyle(
+                      color: Color(0xFF404855),
+                      fontSize: 10,
+                      fontFamily: 'Noto Sans KR',
+                      fontWeight: FontWeight.w400,
+                      height: 0.22,
+                    ),
+                  ),
+                  SizedBox(width: 10,),
+                  Container(
+                    width: 67.25,
+                    height: 22,
+                    padding: const EdgeInsets.only(left: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border(
+                        bottom: BorderSide(width: 1, color: Color(0xFF3FA7C3)),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          '검색하기',
+                          style: TextStyle(
+                            color: Color(0xFFAFAFAF),
+                            fontSize: 10,
+                            fontFamily: 'Noto Sans KR',
+                            fontWeight: FontWeight.w400,
+                            height: 0.22,
+                          ),
+                        ),
+                        Positioned(
+                          right: 10,
+                          top: 5,
+                          child:
+                              SvgPicture.asset('assets/icons/icon_search.svg'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ), //우편번호
+              SizedBox(
+                height: 16,
+              ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 25,
+                  ),
                   Text(
                     '상세주소',
                     style: TextStyle(
@@ -366,16 +468,17 @@ class AddPatientScreen extends StatelessWidget {
                       height: 0.22,
                     ),
                   ),
+                  SizedBox(
+                    width: 10,
+                  ),
                   Container(
                     width: 369,
                     height: 22,
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: ShapeDecoration(
-                      color: Colors.white,
+                      color: Color(0xFFF7F7F7),
                       shape: RoundedRectangleBorder(
-                        side: BorderSide(width: 1, color: Color(0xFF3FA7C3)),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
+                          borderRadius: BorderRadius.circular(5)),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -383,23 +486,28 @@ class AddPatientScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          '502동 1602호',
+                          '상세주소를 입력하세요.',
                           style: TextStyle(
-                            color: Color(0xFF404855),
+                            color: Color(0xFFAFAFAF),
                             fontSize: 10,
                             fontFamily: 'Noto Sans KR',
                             fontWeight: FontWeight.w400,
                             height: 0.22,
-                            letterSpacing: 1,
                           ),
                         ),
                       ],
                     ),
-                  )
+                  ),
                 ],
+              ), // 상세주소
+              SizedBox(
+                height: 50,
               ),
               Row(
                 children: [
+                  SizedBox(
+                    width: 25,
+                  ),
                   Text(
                     '주민등록번호',
                     style: TextStyle(
@@ -410,30 +518,37 @@ class AddPatientScreen extends StatelessWidget {
                       height: 0.15,
                     ),
                   ),
-                  Text(
-                    '성별',
-                    style: TextStyle(
-                      color: Color(0xFF404855),
-                      fontSize: 12,
-                      fontFamily: 'Pretendard',
-                      fontWeight: FontWeight.w500,
-                      height: 0.15,
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 195, 0),
+                    child: Text(
+                      '성별',
+                      style: TextStyle(
+                        color: Color(0xFF404855),
+                        fontSize: 12,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w500,
+                        height: 0.15,
+                      ),
                     ),
                   )
                 ],
+              ), //주민등록번호 성별
+              SizedBox(
+                height: 16,
               ),
               Row(
                 children: [
+                  SizedBox(
+                    width: 25,
+                  ),
                   Container(
                     width: 59,
                     height: 22,
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: ShapeDecoration(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(width: 1, color: Color(0xFF3FA7C3)),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
+                      color: Color(0xFFF7F7F7),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -443,7 +558,7 @@ class AddPatientScreen extends StatelessWidget {
                         Text(
                           '641113',
                           style: TextStyle(
-                            color: Color(0xFF404855),
+                            color: Color(0xFFAFAFAF),
                             fontSize: 10,
                             fontFamily: 'Noto Sans KR',
                             fontWeight: FontWeight.w400,
@@ -466,15 +581,12 @@ class AddPatientScreen extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    width: 65,
+                    width: 68,
                     height: 22,
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: ShapeDecoration(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(width: 1, color: Color(0xFF3FA7C3)),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
+                      color: Color(0xFFF7F7F7),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -484,7 +596,7 @@ class AddPatientScreen extends StatelessWidget {
                         Text(
                           '2205116',
                           style: TextStyle(
-                            color: Color(0xFF404855),
+                            color: Color(0xFFAFAFAF),
                             fontSize: 10,
                             fontFamily: 'Noto Sans KR',
                             fontWeight: FontWeight.w400,
@@ -495,124 +607,136 @@ class AddPatientScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Container(
-                    width: 16,
-                    height: 16,
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          left: 0,
-                          top: 0,
-                          child: Container(
-                            width: 16,
-                            height: 16,
-                            decoration: ShapeDecoration(
-                              color: Colors.white,
-                              shape: OvalBorder(
-                                side: BorderSide(
-                                    width: 1, color: Color(0xFF3FA7C3)),
+                  Spacer(),
+                  Padding(
+                      padding: const EdgeInsets.fromLTRB(0,0,90,0),
+                      child: Row(children: [
+                        Container(
+                          width: 16,
+                          height: 16,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 0,
+                                top: 0,
+                                child: Container(
+                                  width: 16,
+                                  height: 16,
+                                  decoration: ShapeDecoration(
+                                    color: Colors.white,
+                                    shape: OvalBorder(
+                                      side: BorderSide(
+                                          width: 1, color: Color(0xFF3FA7C3)),
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  Text(
-                    '남',
-                    style: TextStyle(
-                      color: Color(0xFF404855),
-                      fontSize: 12,
-                      fontFamily: 'Noto Sans KR',
-                      fontWeight: FontWeight.w400,
-                      height: 0.15,
-                    ),
-                  ),
-                  Container(
-                    width: 16,
-                    height: 16,
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          left: 0,
-                          top: 0,
-                          child: Container(
-                            width: 16,
-                            height: 16,
-                            decoration: ShapeDecoration(
-                              color: Colors.white,
-                              shape: OvalBorder(
-                                side: BorderSide(
-                                    width: 1, color: Color(0xFF3FA7C3)),
-                              ),
-                            ),
+                        SizedBox(width: 5,),
+                        Text(
+                          '남',
+                          style: TextStyle(
+                            color: Color(0xFF404855),
+                            fontSize: 12,
+                            fontFamily: 'Noto Sans KR',
+                            fontWeight: FontWeight.w400,
+                            height: 0.15,
                           ),
                         ),
-                        Positioned(
-                          left: 3,
-                          top: 3,
-                          child: Container(
-                            width: 10,
-                            height: 10,
-                            decoration: ShapeDecoration(
-                              color: Color(0xFF3FA7C3),
-                              shape: OvalBorder(
-                                side: BorderSide(
-                                    width: 1, color: Color(0xFF3FA7C3)),
+                        SizedBox(width: 10,),
+                        Container(
+                          width: 16,
+                          height: 16,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 0,
+                                top: 0,
+                                child: Container(
+                                  width: 16,
+                                  height: 16,
+                                  decoration: ShapeDecoration(
+                                    color: Colors.white,
+                                    shape: OvalBorder(
+                                      side: BorderSide(
+                                          width: 1, color: Color(0xFF3FA7C3)),
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
+                              Positioned(
+                                left: 3,
+                                top: 3,
+                                child: Container(
+                                  width: 10,
+                                  height: 10,
+                                  decoration: ShapeDecoration(
+                                    color: Color(0xFF3FA7C3),
+                                    shape: OvalBorder(
+                                      side: BorderSide(
+                                          width: 1, color: Color(0xFF3FA7C3)),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  Text(
-                    '여',
-                    style: TextStyle(
-                      color: Color(0xFF404855),
-                      fontSize: 12,
-                      fontFamily: 'Noto Sans KR',
-                      fontWeight: FontWeight.w400,
-                      height: 0.15,
-                    ),
-                  ),
-                  Container(
-                    width: 16,
-                    height: 16,
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          left: 0,
-                          top: 0,
-                          child: Container(
-                            width: 16,
-                            height: 16,
-                            decoration: ShapeDecoration(
-                              color: Colors.white,
-                              shape: OvalBorder(
-                                side: BorderSide(
-                                    width: 1, color: Color(0xFF3FA7C3)),
-                              ),
-                            ),
+                        SizedBox(width: 5,),
+                        Text(
+                          '여',
+                          style: TextStyle(
+                            color: Color(0xFF404855),
+                            fontSize: 12,
+                            fontFamily: 'Noto Sans KR',
+                            fontWeight: FontWeight.w400,
+                            height: 0.15,
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  Text(
-                    '기타',
-                    style: TextStyle(
-                      color: Color(0xFF404855),
-                      fontSize: 12,
-                      fontFamily: 'Noto Sans KR',
-                      fontWeight: FontWeight.w400,
-                      height: 0.15,
-                    ),
-                  )
+                        SizedBox(width: 10,),
+                        Container(
+                          width: 16,
+                          height: 16,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 0,
+                                top: 0,
+                                child: Container(
+                                  width: 16,
+                                  height: 16,
+                                  decoration: ShapeDecoration(
+                                    color: Colors.white,
+                                    shape: OvalBorder(
+                                      side: BorderSide(
+                                          width: 1, color: Color(0xFF3FA7C3)),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 5,),
+                        Text(
+                          '기타',
+                          style: TextStyle(
+                            color: Color(0xFF404855),
+                            fontSize: 12,
+                            fontFamily: 'Noto Sans KR',
+                            fontWeight: FontWeight.w400,
+                            height: 0.15,
+                          ),
+                        )
+                      ]))
                 ],
               )
             ],
-          ))
-    ]);
+          ),
+        )
+      ],
+    );
   }
 }
