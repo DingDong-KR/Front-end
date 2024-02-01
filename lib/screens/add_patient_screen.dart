@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AddPatientScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
       Container(
-          width: 1000,
-          height: 600,
+          width: 500,
+          height: 350,
           decoration: ShapeDecoration(
             color: Colors.white,
             shape: RoundedRectangleBorder(
@@ -15,69 +16,92 @@ class AddPatientScreen extends StatelessWidget {
             ),
           ),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Text(
-                    '신규환자등록',
-                    style: TextStyle(
-                      color: Color(0xFF404855),
-                      fontSize: 14,
-                      fontFamily: 'Pretendard',
-                      fontWeight: FontWeight.w700,
-                      height: 0.11,
-                      letterSpacing: 0.14,
+              SizedBox(height: 15,),
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      '신규환자등록',
+                      style: TextStyle(
+                        color: Color(0xFF404855),
+                        fontSize: 14,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 0.14,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          '닫기',
-                          style: TextStyle(
-                            color: Color(0xFF3FA7C3),
-                            fontSize: 12,
-                            fontFamily: 'Pretendard',
-                            fontWeight: FontWeight.w500,
-                            height: 0.12,
-                            letterSpacing: 0.12,
-                          ),
+                    SizedBox(width:70),
+                    Container(
+                      width: 56.20,
+                      height: 24,
+                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(width: 1, color: Color(0xFF3FA7C3)),
+                          borderRadius: BorderRadius.circular(5),
                         ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          '완료',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontFamily: 'Pretendard',
-                            fontWeight: FontWeight.w500,
-                            height: 0.12,
-                            letterSpacing: 0.12,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            '닫기',
+                            style: TextStyle(
+                              color: Color(0xFF3FA7C3),
+                              fontSize: 12,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w500,
+                              height: 0.12,
+                              letterSpacing: 0.12,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    SizedBox(width: 10),
+                    Container(
+                      width: 56.20,
+                      height: 24,
+                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(width: 1, color: Color(0xFF3FA7C3)),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            '완료',
+                            style: TextStyle(
+                              color: Color(0xFF3FA7C3),
+                              fontSize: 12,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w500,
+                              height: 0.12,
+                              letterSpacing: 0.12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 15),
+                  ],
+                ),
               ), //신규환자등록
+              SizedBox(height: 27,),
               Row(
                 children: [
+                  SizedBox(width: 25,),
                   Text(
                     '환자번호',
                     style: TextStyle(
@@ -88,6 +112,7 @@ class AddPatientScreen extends StatelessWidget {
                       height: 0.15,
                     ),
                   ),
+                  SizedBox(width: 32,),
                   Text(
                     '이름',
                     style: TextStyle(
@@ -98,6 +123,7 @@ class AddPatientScreen extends StatelessWidget {
                       height: 0.15,
                     ),
                   ),
+                  SizedBox(width: 160,),
                   Text(
                     '전화번호',
                     style: TextStyle(
@@ -110,10 +136,17 @@ class AddPatientScreen extends StatelessWidget {
                   ),
                 ],
               ), //환자번호
+              SizedBox(height: 5,),
               Row(
                 children: [
-                  Expanded(
+                  SizedBox(width: 25,),
+                  Container(
+                    width: 59,
+                    height: 22,// Set the width based on your requirements
                     child: TextField(
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(6),  // Another way to limit the input length
+                        ],
                       decoration: InputDecoration(
                         hintText: '000000',
                         hintStyle: TextStyle(
@@ -121,135 +154,196 @@ class AddPatientScreen extends StatelessWidget {
                           fontSize: 10,
                           fontFamily: 'Noto Sans KR',
                           fontWeight: FontWeight.w400,
-                          height: 0.22,
                           letterSpacing: 1,
                         ),
                       ),
+                      style: TextStyle(
+                        color: Color(0xFF3FA7C3),
+                        fontSize: 10,
+                        fontFamily: 'Noto Sans KR',
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 1,
+                      ),
                     ),
                   ),
-              Container(
-                  width: 57,
-                  height: 22,
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 1, color: Color(0xFF3FA7C3)),
-                      borderRadius: BorderRadius.circular(5),
+                  SizedBox(width: 15,),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0,10,0,0),
+                    child: Container(
+                      width: 57,
+                      height: 22,
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: ShapeDecoration(
+                        color: Color(0xFFF7F7F7),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            '남궁호연',
+                            style: TextStyle(
+                              color: Color(0xFFAFAFAF),
+                              fontSize: 10,
+                              fontFamily: 'Noto Sans KR',
+                              fontWeight: FontWeight.w400,
+                              height: 0.22,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        '남궁호연',
-                        style: TextStyle(
-                          color: Color(0xFF404855),
-                          fontSize: 10,
-                          fontFamily: 'Noto Sans KR',
-                          fontWeight: FontWeight.w400,
-                          height: 0.22,
-                        ),
-                      ),
-                      Container(
-                        width: 39,
-                        height: 22,
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        decoration: ShapeDecoration(
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            side:
-                                BorderSide(width: 1, color: Color(0xFF3FA7C3)),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              '010',
-                              style: TextStyle(
-                                color: Color(0xFF404855),
-                                fontSize: 10,
-                                fontFamily: 'Noto Sans KR',
-                                fontWeight: FontWeight.w400,
-                                height: 0.22,
-                                letterSpacing: 1,
-                              ),
+                  SizedBox(width: 125,),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0,10,0,0),
+                    child: Container(
+                      width: 161,
+                      height: 22,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 39,
+                            height: 22,
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            decoration: ShapeDecoration(
+                              color: Color(0xFFF7F7F7),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                             ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: 46,
-                        height: 22,
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        decoration: ShapeDecoration(
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            side:
-                                BorderSide(width: 1, color: Color(0xFF3FA7C3)),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              '3909',
-                              style: TextStyle(
-                                color: Color(0xFF404855),
-                                fontSize: 10,
-                                fontFamily: 'Noto Sans KR',
-                                fontWeight: FontWeight.w400,
-                                height: 0.22,
-                                letterSpacing: 1,
-                              ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '010',
+                                  style: TextStyle(
+                                    color: Color(0xFFAFAFAF),
+                                    fontSize: 10,
+                                    fontFamily: 'Noto Sans KR',
+                                    fontWeight: FontWeight.w400,
+                                    height: 0.22,
+                                    letterSpacing: 1,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: 46,
-                        height: 22,
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        decoration: ShapeDecoration(
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            side:
-                                BorderSide(width: 1, color: Color(0xFF3FA7C3)),
-                            borderRadius: BorderRadius.circular(5),
                           ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              '3909',
-                              style: TextStyle(
-                                color: Color(0xFF404855),
-                                fontSize: 10,
-                                fontFamily: 'Noto Sans KR',
-                                fontWeight: FontWeight.w400,
-                                height: 0.22,
-                                letterSpacing: 1,
-                              ),
+                          Container(
+                            width: 15,
+                            padding: const EdgeInsets.only(left: 5, right: 5, bottom: 2),
+                            decoration: ShapeDecoration(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                             ),
-                          ],
-                        ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '-',
+                                  style: TextStyle(
+                                    color: Color(0xFF404855),
+                                    fontSize: 14,
+                                    fontFamily: 'Noto Sans KR',
+                                    fontWeight: FontWeight.w400,
+                                    height: 0.11,
+                                    letterSpacing: 1.40,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            width: 39,
+                            height: 22,
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            decoration: ShapeDecoration(
+                              color: Color(0xFFF7F7F7),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '0000',
+                                  style: TextStyle(
+                                    color: Color(0xFFAFAFAF),
+                                    fontSize: 10,
+                                    fontFamily: 'Noto Sans KR',
+                                    fontWeight: FontWeight.w400,
+                                    height: 0.22,
+                                    letterSpacing: 1,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            width: 15,
+                            padding: const EdgeInsets.only(left: 5, right: 5, bottom: 2),
+                            decoration: ShapeDecoration(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '-',
+                                  style: TextStyle(
+                                    color: Color(0xFF404855),
+                                    fontSize: 14,
+                                    fontFamily: 'Noto Sans KR',
+                                    fontWeight: FontWeight.w400,
+                                    height: 0.11,
+                                    letterSpacing: 1.40,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            width: 39,
+                            height: 22,
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            decoration: ShapeDecoration(
+                              color: Color(0xFFF7F7F7),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '0000',
+                                  style: TextStyle(
+                                    color: Color(0xFFAFAFAF),
+                                    fontSize: 10,
+                                    fontFamily: 'Noto Sans KR',
+                                    fontWeight: FontWeight.w400,
+                                    height: 0.22,
+                                    letterSpacing: 1,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                )
+                    ),
+                  )
               ]), //000000
+              SizedBox(height: 16,),
               Text(
                 '주소',
                 style: TextStyle(

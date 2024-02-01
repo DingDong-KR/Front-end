@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_desktop_app/screens/add_patient_screen.dart';
 
-import '../screens/settings_screen.dart';
-
 class TopBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize =>
@@ -43,40 +41,52 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-            child: Container(
-              width: 328,
-              height: 28,
-              decoration: ShapeDecoration(
-                color: Color(0xFFF7F7F7),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5)),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: '환자이름/차트번호/생년월일/휴대폰번호',
-                        hintStyle: TextStyle(
-                          color: Color(0xFFAFAFAF),
-                          fontSize: 11,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w400,
-                        ),
+          SizedBox(width: 10), // Add some spacing
+          Stack(
+            children: [
+              Container(
+                width: 328,
+                height: 28,
+                decoration: ShapeDecoration(
+                  color: Color(0xFFF7F7F7),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: '환자이름/차트번호/생년월일/휴대폰번호',
+                      hintStyle: TextStyle(
+                        color: Color(0xFFAFAFAF),
+                        fontSize: 11,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w400,
                       ),
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 15, // Adjust the vertical padding
+                      ),
+                      border: InputBorder.none
+                    ),
+                    style:TextStyle(
+                      color: Colors.black,
+                      fontSize: 11,
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: SvgPicture.asset('assets/icons/icon_search.svg'),
-                  ),
-                ],
+                ),
               ),
-            ),
+              Positioned(
+                right: 10,
+                top: 5,
+                child: SvgPicture.asset('assets/icons/icon_search.svg'),
+              ),
+            ],
           ),
+          SizedBox(width: 30),
+
           GestureDetector(
             onTap: () {
               showDialog(
@@ -85,7 +95,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
                   return Align(
                     alignment: Alignment.center,
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0,100,0,0),
+                      padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
                       child: Dialog(
                         elevation: 0,
                         backgroundColor: Colors.transparent,
@@ -102,7 +112,8 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
               decoration: ShapeDecoration(
                 color: Color(0xFFE2F1F6),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5)),
+                  borderRadius: BorderRadius.circular(5),
+                ),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
