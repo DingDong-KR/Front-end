@@ -77,6 +77,8 @@ flutter:
     - assets/icons/icon_dropDown.svg
     - assets/icons/icon_checked.svg
     - assets/icons/icon_x.svg
+    - assets/icons/icon_down_arrow.svg
+    - assets/icons/icon_send.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
