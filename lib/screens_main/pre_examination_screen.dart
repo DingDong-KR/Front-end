@@ -13,19 +13,34 @@ class PreExaminationScreen extends StatelessWidget {
       color: Color(0xFFE2F1F6),
       child: Column(
         children: [
-          PatientSimpleInfo(),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(9.0,9.0,9.0,0),
+            child: PatientSimpleInfo(),
+          ),
           Row(
             children: [
-              PatientHistory(patientsItems), // Pass patientsItems as argument
+              Padding(
+                padding: const EdgeInsets.fromLTRB(9.0,3.0,0.0,0),
+                child: PatientHistory(patientsItems),
+              ), // Pass patientsItems as argument
               Column(
                 children: [
                   Row(
                     children: [
-                      Ros(),
-                      NusrsingNote(),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(3.0,3.0,0.0,0),
+                        child: Ros(),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(3.0,3.0,0.0,0),
+                        child: NusrsingNote(),
+                      ),
                     ],
                   ),
-                  MainSymptom(),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(3.0,3.0,0.0,0),
+                    child: MainSymptom(),
+                  ),
                 ],
               )
             ],

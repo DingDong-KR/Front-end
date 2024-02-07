@@ -4,9 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class PatientSimpleInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
+    return Container(
         width: 1100,
         height: 38,
         padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
@@ -73,8 +71,7 @@ class PatientSimpleInfo extends StatelessWidget {
             _buildTreatmentButton(),
           ],
         ),
-      ),
-    );
+      );
   }
 
   Widget _buildTextWithIcon(String text, String icon) {
