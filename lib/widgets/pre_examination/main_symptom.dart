@@ -35,7 +35,7 @@ class MainSymptom extends StatelessWidget {
                 fontSize: 11,
                 fontFamily: 'Pretendard',
                 fontWeight: FontWeight.w400,
-                height: 0.14,
+                height: 1,
                 letterSpacing: 0.11,
               ),
             )
