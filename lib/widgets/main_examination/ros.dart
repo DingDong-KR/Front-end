@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Ros extends StatelessWidget {
   const Ros({super.key});
@@ -55,7 +56,7 @@ class Ros extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                          ,
+                            SvgPicture.asset('assets/icons/icon_document.svg'),
                           ],
                         ),
                       ),
@@ -66,7 +67,8 @@ class Ros extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                          ,
+                            SvgPicture.asset(
+                                'assets/icons/icon_right_arrow.svg'),
                           ],
                         ),
                       ),

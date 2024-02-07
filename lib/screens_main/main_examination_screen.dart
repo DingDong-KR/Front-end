@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:my_desktop_app/models/patient_history_item.dart';
-import 'package:my_desktop_app/widgets/pre_examination/main_symptom.dart';
-import 'package:my_desktop_app/widgets/pre_examination/nursing_note.dart';
-import 'package:my_desktop_app/widgets/pre_examination/patient_history.dart';
-import 'package:my_desktop_app/widgets/pre_examination/patient_simple_info.dart';
-import 'package:my_desktop_app/widgets/pre_examination/ros.dart';
+import 'package:my_desktop_app/widgets/main_examination/diagnosis.dart';
+import 'package:my_desktop_app/widgets/main_examination/image_image.dart';
+import 'package:my_desktop_app/widgets/main_examination/order_set.dart';
+import 'package:my_desktop_app/widgets/main_examination/ros.dart';
+import 'package:my_desktop_app/widgets/main_examination/main_symptom.dart';
+import 'package:my_desktop_app/widgets/main_examination/nursing_note.dart';
+import 'package:my_desktop_app/widgets/main_examination/patient_history.dart';
+import 'package:my_desktop_app/widgets/main_examination/patient_simple_info.dart';
+import 'package:my_desktop_app/widgets/main_examination/treat_record.dart';
+import 'package:my_desktop_app/widgets/main_examination/treatment.dart';
 
 class MainExaminationScreen extends StatelessWidget {
   const MainExaminationScreen({super.key});
@@ -14,34 +19,64 @@ class MainExaminationScreen extends StatelessWidget {
     return Container(
       color: const Color(0xFFE2F1F6), // 예시로 파란색 배경 적용
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(9.0, 9.0, 9.0, 0),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(9.0, 9.0, 9.0, 0),
             child: PatientSimpleInfo(),
           ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(9.0, 3.0, 0.0, 0),
-                child: PatientHistory(patientsItems),
-              ), // Pass patientsItems as argument
               Column(
                 children: [
-                  Row(
+                  const Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
+                        padding: EdgeInsets.fromLTRB(9.0, 3.0, 0.0, 0),
                         child: Ros(),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
-                        child: NusrsingNote(),
+                        padding: EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
+                        child: MainSymptom(),
                       ),
                     ],
                   ),
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(9.0, 3.0, 0.0, 0),
+                    child: NusrsingNote(),
+                  ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
-                    child: MainSymptom(),
+                    padding: const EdgeInsets.fromLTRB(9.0, 3.0, 0.0, 0),
+                    child: PatientHistory(patientsItems),
+                  ),
+                ],
+              ),
+              const Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0.0),
+                    child: TreatRecord(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0.0),
+                    child: Diagnosis(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0.0),
+                    child: Treatment(),
+                  ),
+                ],
+              ),
+              const Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0.0),
+                    child: ImageImage(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0.0),
+                    child: OrderSet(),
                   ),
                 ],
               )
