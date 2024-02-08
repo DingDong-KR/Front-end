@@ -30,10 +30,10 @@ class _MainMenuState extends State<MainMenu> {
         Flexible(
           child: Container(
             width: 127,
-            decoration: BoxDecoration(color: Color(0xFFE2F1F6)),
+            decoration: const BoxDecoration(color: Color(0xFFE2F1F6)),
             child: Column(
               children: [
-                DropdownButtonWidget(),
+                const DropdownButtonWidget(),
                 for (var i = 1; i < menuItems.length; i++)
                   GestureDetector(
                     onTap: () {
@@ -45,7 +45,7 @@ class _MainMenuState extends State<MainMenu> {
                     },
                     child: buildMenuItem(i),
                   ),
-                Spacer(),
+                const Spacer(),
               ],
             ),
           ),
@@ -60,8 +60,8 @@ class _MainMenuState extends State<MainMenu> {
       height: 50.0,
       child: Padding(
         padding: index != 0
-            ? EdgeInsets.symmetric(horizontal: 16.0)
-            : EdgeInsets.fromLTRB(16.0, 0, 2.0, 0),
+            ? const EdgeInsets.symmetric(horizontal: 16.0)
+            : const EdgeInsets.fromLTRB(16.0, 0, 2.0, 0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           textBaseline: TextBaseline.alphabetic,
@@ -70,7 +70,7 @@ class _MainMenuState extends State<MainMenu> {
               Container(
                 width: 4,
                 height: 14,
-                decoration: BoxDecoration(color: Color(0xFF3EA7C2)),
+                decoration: const BoxDecoration(color: Color(0xFF3EA7C2)),
               ),
             if (index != 0) SizedBox(width: index == 0 ? 2.0 : 8.0),
             if (index != 0)
@@ -82,18 +82,18 @@ class _MainMenuState extends State<MainMenu> {
                   child: SvgPicture.asset(
                     menuItems[index].iconPath,
                     color: index == selectedMenuIndex
-                        ? Color(0xFF3EA7C2)
-                        : Color(0xFF404855),
+                        ? const Color(0xFF3EA7C2)
+                        : const Color(0xFF404855),
                   ),
                 ),
               ),
-            if (index != 0) SizedBox(width: 8.0),
+            if (index != 0) const SizedBox(width: 8.0),
             Text(
               menuItems[index].title,
               style: TextStyle(
                 color: index == selectedMenuIndex
-                    ? Color(0xFF3EA7C2)
-                    : Color(0xFF404855),
+                    ? const Color(0xFF3EA7C2)
+                    : const Color(0xFF404855),
                 fontSize: menuItems[index].fontSize,
                 fontFamily: 'Pretendard',
                 fontWeight: index == selectedMenuIndex
@@ -120,14 +120,14 @@ class _MainMenuState extends State<MainMenu> {
       case 2:
         widget.navigatorKey.currentState?.pushReplacement(
           MaterialPageRoute(
-            builder: (context) => PreExaminationScreen(),
+            builder: (context) => const PreExaminationScreen(),
           ),
         );
         break;
       case 3:
         widget.navigatorKey.currentState?.pushReplacement(
           MaterialPageRoute(
-            builder: (context) => MainExaminationScreen(),
+            builder: (context) => const MainExaminationScreen(),
           ),
         );
         break;
@@ -153,19 +153,19 @@ class _MainMenuState extends State<MainMenu> {
         );
         break;
       case 7:
-      // 설정 화면 다이어로그로 띄우기
+        // 설정 화면 다이어로그로 띄우기
         showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text("Settings"),
+              title: const Text("Settings"),
               content: SettingsScreen(),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text("Close"),
+                  child: const Text("Close"),
                 ),
               ],
             );

@@ -232,9 +232,9 @@ class OrderSet extends StatelessWidget {
                                     child: const Column(
                                       mainAxisSize: MainAxisSize.min,
                                       mainAxisAlignment:
-                                      MainAxisAlignment.start,
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       // children: [
                                       // ,
                                       // ],
@@ -303,9 +303,9 @@ class OrderSet extends StatelessWidget {
                                     child: const Column(
                                       mainAxisSize: MainAxisSize.min,
                                       mainAxisAlignment:
-                                      MainAxisAlignment.start,
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       // children: [
                                       // ,
                                       // ],

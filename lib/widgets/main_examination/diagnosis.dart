@@ -85,12 +85,12 @@ class Diagnosis extends StatelessWidget {
                                         width: 14.25,
                                         height: 15.29,
                                         decoration: const BoxDecoration(
-                                          // image: DecorationImage(
-                                          //   image: NetworkImage(
-                                          //       "https://via.placeholder.com/14x15"),
-                                          //   fit: BoxFit.fill,
-                                          // ),
-                                        ),
+                                            // image: DecorationImage(
+                                            //   image: NetworkImage(
+                                            //       "https://via.placeholder.com/14x15"),
+                                            //   fit: BoxFit.fill,
+                                            // ),
+                                            ),
                                       ),
                                     ),
                                   ],
