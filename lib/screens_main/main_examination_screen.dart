@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:my_desktop_app/models/patient_history_item.dart';
-import 'package:my_desktop_app/widgets/main_examination/diagnosis.dart';
-import 'package:my_desktop_app/widgets/main_examination/image_image.dart';
-import 'package:my_desktop_app/widgets/main_examination/order_set.dart';
-import 'package:my_desktop_app/widgets/main_examination/ros.dart';
-import 'package:my_desktop_app/widgets/main_examination/main_symptom.dart';
-import 'package:my_desktop_app/widgets/main_examination/nursing_note.dart';
-import 'package:my_desktop_app/widgets/main_examination/patient_history.dart';
-import 'package:my_desktop_app/widgets/main_examination/patient_simple_info.dart';
-import 'package:my_desktop_app/widgets/main_examination/treat_record.dart';
-import 'package:my_desktop_app/widgets/main_examination/treatment.dart';
+
+import '../models/patient_history_item.dart';
+import '../widgets/main_examination/diagnosis.dart';
+import '../widgets/main_examination/image_section.dart';
+import '../widgets/main_examination/main_symptom.dart';
+import '../widgets/main_examination/nursing_note.dart';
+import '../widgets/main_examination/order_set.dart';
+import '../widgets/main_examination/patient_history.dart';
+import '../widgets/main_examination/patient_simple_info.dart';
+import '../widgets/main_examination/ros.dart';
+import '../widgets/main_examination/treat_record.dart';
+import '../widgets/main_examination/treatment.dart';
 
 class MainExaminationScreen extends StatelessWidget {
   const MainExaminationScreen({super.key});
@@ -72,7 +73,7 @@ class MainExaminationScreen extends StatelessWidget {
                 children: [
                   Padding(
                     padding: EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0.0),
-                    child: ImageImage(),
+                    child: ImageSection(),
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0.0),

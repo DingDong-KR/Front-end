@@ -5,8 +5,8 @@ class Ros extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 313,
-      height: 259,
+      width: 375.50,
+      height: 393.50,
       decoration: BoxDecoration(color: Colors.white),
       child: Padding(
         padding: const EdgeInsets.all(10.0),

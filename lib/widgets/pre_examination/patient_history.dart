@@ -20,8 +20,8 @@ class _PatientHistoryState extends State<PatientHistory> {
     return Column(
       children: [
         Container(
-          width: 247,
-          height: 574,
+          width: 296,
+          height: 790,
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(color: Colors.white),
           child: Column(

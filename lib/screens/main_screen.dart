@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../widgets/main_menu.dart';
 import '../widgets/patients_list.dart';
 import '../widgets/top_bar.dart';

@@ -9,6 +9,8 @@ import '../screens_main/pre_examination_screen.dart';
 import '../models/menu_items.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'dropdown_button_widget.dart';
+
 class MainMenu extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey;
 
@@ -27,24 +29,11 @@ class _MainMenuState extends State<MainMenu> {
       children: [
         Flexible(
           child: Container(
-            width: 122,
+            width: 127,
             decoration: const BoxDecoration(color: Color(0xFFE2F1F6)),
             child: Column(
               children: [
-                GestureDetector(
-                  onTap: () {
-                    // TODO: 드롭 다운 메뉴 구현
-                  },
-                  child: Row(
-                    children: [
-                      buildMenuItem(0),
-                      const SizedBox(
-                        width: 3,
-                      ),
-                      SvgPicture.asset(menuItems[0].iconPath),
-                    ],
-                  ),
-                ),
+                const DropdownButtonWidget(),
                 for (var i = 1; i < menuItems.length; i++)
                   GestureDetector(
                     onTap: () {
@@ -131,7 +120,7 @@ class _MainMenuState extends State<MainMenu> {
       case 2:
         widget.navigatorKey.currentState?.pushReplacement(
           MaterialPageRoute(
-            builder: (context) => PreExaminationScreen(),
+            builder: (context) => const PreExaminationScreen(),
           ),
         );
         break;
