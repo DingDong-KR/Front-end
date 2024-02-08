@@ -47,6 +47,9 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  flutter_svg:
+  get: ^4.6.6
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -60,9 +63,26 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/icons/icon_bed.svg
+    - assets/icons/icon_box.svg
+    - assets/icons/icon_chart.svg
+    - assets/icons/icon_cross.svg
+    - assets/icons/icon_home.svg
+    - assets/icons/icon_pill.svg
+    - assets/icons/icon_settings.svg
+    - assets/icons/icon_search.svg
+    - assets/icons/icon_addPerson.svg
+    - assets/icons/icon_lining.svg
+    - assets/icons/icon_message.svg
+    - assets/icons/icon_dropDown.svg
+    - assets/icons/icon_checked.svg
+    - assets/icons/icon_x.svg
+    - assets/icons/icon_down_arrow.svg
+    - assets/icons/icon_send.svg
+    - assets/icons/icon_right_arrow.svg
+    - assets/icons/icon_document.svg
+    - assets/icons/icon_pencil.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
