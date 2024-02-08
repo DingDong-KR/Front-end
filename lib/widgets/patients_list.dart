@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../models/patients_item.dart';
 
 class PatientsList extends StatefulWidget {
+  const PatientsList({super.key});
+
   @override
   _PatientsListState createState() => _PatientsListState();
 }
@@ -17,13 +19,13 @@ class _PatientsListState extends State<PatientsList>
   Widget build(BuildContext context) {
     return Container(
       width: 195,
-      decoration: BoxDecoration(color: Colors.white),
+      decoration: const BoxDecoration(color: Colors.white),
       child: Column(
         children: [
           Container(
             child: Row(
               children: [
-                Padding(
+                const Padding(
                   padding: EdgeInsets.all(13.0),
                   child: Text(
                     '환자리스트',
@@ -52,7 +54,7 @@ class _PatientsListState extends State<PatientsList>
                     width: 87,
                     height: 20,
                     decoration: ShapeDecoration(
-                      color: Color(0xFFF7F7F7),
+                      color: const Color(0xFFF7F7F7),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14.50),
                       ),
@@ -65,7 +67,7 @@ class _PatientsListState extends State<PatientsList>
                             width: 46,
                             height: 20,
                             decoration: ShapeDecoration(
-                              color: Color(0xFFADE9F9),
+                              color: const Color(0xFFADE9F9),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(11.50),
                               ),
@@ -81,8 +83,8 @@ class _PatientsListState extends State<PatientsList>
                               '본진',
                               style: TextStyle(
                                 color: isSwitchOn
-                                    ? Color(0xFF999999)
-                                    : Color(0xFF404855),
+                                    ? const Color(0xFF999999)
+                                    : const Color(0xFF404855),
                                 fontSize: 12,
                                 fontFamily: 'Pretendard',
                                 fontWeight: isSwitchOn
@@ -102,8 +104,8 @@ class _PatientsListState extends State<PatientsList>
                               '침구',
                               style: TextStyle(
                                 color: isSwitchOn
-                                    ? Color(0xFF404855)
-                                    : Color(0xFF999999),
+                                    ? const Color(0xFF404855)
+                                    : const Color(0xFF999999),
                                 fontSize: 12,
                                 fontFamily: 'Pretendard',
                                 fontWeight: isSwitchOn
@@ -133,17 +135,19 @@ class _PatientsListState extends State<PatientsList>
                       _selectedItemIndex = index;
                     });
                   },
-                  child: AnimatedContainer( //클릭시 서식 변경 애니메이션
-                    duration: Duration(milliseconds: 120),
+                  child: AnimatedContainer(
+                    //클릭시 서식 변경 애니메이션
+                    duration: const Duration(milliseconds: 120),
                     width: 105,
-                    height: 95,// 아이템의 높이를 조절
+                    height: 95, // 아이템의 높이를 조절
                     decoration: ShapeDecoration(
                       color: isClicked
-                          ? Color(0xFFE2F1F6) // 클릭된 아이템의 배경색
-                          : Color(0xFFF7F7F7), // 클릭되지 않은 아이템의 배경색
+                          ? const Color(0xFFE2F1F6) // 클릭된 아이템의 배경색
+                          : const Color(0xFFF7F7F7), // 클릭되지 않은 아이템의 배경색
                       shape: RoundedRectangleBorder(
                         side: isClicked
-                            ? BorderSide(width: 1, color: Color(0xFFADE9F9))
+                            ? const BorderSide(
+                                width: 1, color: Color(0xFFADE9F9))
                             : BorderSide.none,
                         borderRadius: BorderRadius.circular(5),
                       ),
@@ -162,11 +166,11 @@ class _PatientsListState extends State<PatientsList>
                                 height: 13,
                                 decoration: ShapeDecoration(
                                   color: isClicked
-                                      ? Color(0xFFD9D9D9) // 클릭된 아이템의 배경색
-                                      : Color(0xFFADE9F9), // 클릭되지 않은 아이템의 배경색
+                                      ? const Color(0xFFD9D9D9) // 클릭된 아이템의 배경색
+                                      : const Color(
+                                          0xFFADE9F9), // 클릭되지 않은 아이템의 배경색
                                   shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadius.circular(14.50),
+                                    borderRadius: BorderRadius.circular(14.50),
                                   ),
                                 ),
                                 child: Center(
@@ -174,8 +178,10 @@ class _PatientsListState extends State<PatientsList>
                                     '002',
                                     style: TextStyle(
                                       color: isClicked
-                                          ? Color(0xFF404855) // 클릭된 아이템의 텍스트 색상
-                                          : Color(0xFF3EA7C2), // 클릭되지 않은 아이템의 텍스트 색상
+                                          ? const Color(
+                                              0xFF404855) // 클릭된 아이템의 텍스트 색상
+                                          : const Color(
+                                              0xFF3EA7C2), // 클릭되지 않은 아이템의 텍스트 색상
                                       fontSize: 10,
                                       fontFamily: 'Pretendard',
                                       fontWeight: FontWeight.w500,
@@ -185,8 +191,8 @@ class _PatientsListState extends State<PatientsList>
                                   ),
                                 ),
                               ),
-                              Spacer(),
-                              Text(
+                              const Spacer(),
+                              const Text(
                                 '진료중',
                                 style: TextStyle(
                                   color: Color(0xFF11E058),
@@ -197,16 +203,15 @@ class _PatientsListState extends State<PatientsList>
                                   height: 0.0,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
                               Padding(
-                                padding:
-                                const EdgeInsets.fromLTRB(0, 4, 0, 0),
+                                padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
                                 child: Container(
                                   width: 5,
                                   height: 5,
-                                  decoration: ShapeDecoration(
+                                  decoration: const ShapeDecoration(
                                     color: Color(0xFF11E058),
                                     shape: OvalBorder(),
                                   ),
@@ -221,8 +226,9 @@ class _PatientsListState extends State<PatientsList>
                             '이수민',
                             style: TextStyle(
                               color: isClicked
-                                  ? Color(0xFF404855) // 클릭된 아이템의 텍스트 색상
-                                  : Color(0xFF3EA7C2), // 클릭되지 않은 아이템의 텍스트 색상
+                                  ? const Color(0xFF404855) // 클릭된 아이템의 텍스트 색상
+                                  : const Color(
+                                      0xFF3EA7C2), // 클릭되지 않은 아이템의 텍스트 색상
                               fontSize: 14,
                               fontFamily: 'Pretendard',
                               fontWeight: FontWeight.w700,
@@ -239,8 +245,10 @@ class _PatientsListState extends State<PatientsList>
                                 '여,52',
                                 style: TextStyle(
                                   color: isClicked
-                                      ? Color(0xFF404855) // 클릭된 아이템의 텍스트 색상
-                                      : Color(0xFF3EA7C2), // 클릭되지 않은 아이템의 텍스트 색상
+                                      ? const Color(
+                                          0xFF404855) // 클릭된 아이템의 텍스트 색상
+                                      : const Color(
+                                          0xFF3EA7C2), // 클릭되지 않은 아이템의 텍스트 색상
                                   fontSize: 11,
                                   fontFamily: 'Pretendard',
                                   fontWeight: FontWeight.w400,
@@ -248,13 +256,15 @@ class _PatientsListState extends State<PatientsList>
                                   letterSpacing: 0.11,
                                 ),
                               ),
-                              SizedBox(width: 20),
+                              const SizedBox(width: 20),
                               Text(
                                 '다리아픔',
                                 style: TextStyle(
                                   color: isClicked
-                                      ? Color(0xFF404855) // 클릭된 아이템의 텍스트 색상
-                                      : Color(0xFF3EA7C2), // 클릭되지 않은 아이템의 텍스트 색상
+                                      ? const Color(
+                                          0xFF404855) // 클릭된 아이템의 텍스트 색상
+                                      : const Color(
+                                          0xFF3EA7C2), // 클릭되지 않은 아이템의 텍스트 색상
                                   fontSize: 11,
                                   fontFamily: 'Pretendard',
                                   fontWeight: FontWeight.w400,
@@ -262,11 +272,12 @@ class _PatientsListState extends State<PatientsList>
                                   letterSpacing: 0.11,
                                 ),
                               ),
-                              Spacer(),
-                              Text(
+                              const Spacer(),
+                              const Text(
                                 '14:01:25',
                                 style: TextStyle(
-                                  color: Color(0xFF999999), // 클릭되지 않은 아이템의 텍스트 색상
+                                  color:
+                                      Color(0xFF999999), // 클릭되지 않은 아이템의 텍스트 색상
                                   fontSize: 10,
                                   fontFamily: 'Pretendard',
                                   fontWeight: FontWeight.w400,
@@ -294,12 +305,12 @@ class _PatientsListState extends State<PatientsList>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 120),
+      duration: const Duration(milliseconds: 120),
     );
 
     _offsetAnimation = Tween<Offset>(
-      begin: Offset(0, 0),
-      end: Offset(1, 0),
+      begin: const Offset(0, 0),
+      end: const Offset(1, 0),
     ).animate(_controller);
   }
 }

@@ -7,21 +7,23 @@ import '../../models/patient_history_item.dart';
 import '../widgets/pre_examination/ros.dart'; // Import PatientHistoryItem model
 
 class PreExaminationScreen extends StatelessWidget {
+  const PreExaminationScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xFFE2F1F6),
+      color: const Color(0xFFE2F1F6),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(9.0,9.0,9.0,0),
+            padding: const EdgeInsets.fromLTRB(9.0, 9.0, 9.0, 0),
             child: PatientSimpleInfo(),
           ),
           Row(
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(9.0,3.0,0.0,0),
+                padding: const EdgeInsets.fromLTRB(9.0, 3.0, 0.0, 0),
                 child: PatientHistory(patientsItems),
               ), // Pass patientsItems as argument
               Column(
@@ -29,17 +31,17 @@ class PreExaminationScreen extends StatelessWidget {
                   Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(3.0,3.0,0.0,0),
+                        padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
                         child: Ros(),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(3.0,3.0,0.0,0),
+                        padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
                         child: NusrsingNote(),
                       ),
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(3.0,3.0,0.0,0),
+                    padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
                     child: MainSymptom(),
                   ),
                 ],

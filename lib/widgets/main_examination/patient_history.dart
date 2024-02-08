@@ -154,7 +154,7 @@ class _PatientHistoryState extends State<PatientHistory> {
               Column(
                 children: List.generate(
                   20,
-                      (index) {
+                  (index) {
                     final item = index < widget.historyItems.length
                         ? widget.historyItems[index]
                         : null;
@@ -180,7 +180,7 @@ class _PatientHistoryState extends State<PatientHistory> {
         : const Color(0xFFE2F1F6); // Alternating colors
     if (_selectedIndex == index) {
       backgroundColor =
-      const Color(0xFF00C9FF); // Change to darker blue when clicked
+          const Color(0xFF00C9FF); // Change to darker blue when clicked
     }
     return GestureDetector(
       onTap: () {
