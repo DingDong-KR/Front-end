@@ -6,7 +6,8 @@ import '../../models/patient_history_item.dart';
 class PatientHistory extends StatefulWidget {
   final List<PatientHistoryItem> historyItems;
 
-  PatientHistory(this.historyItems); // Constructor to receive historyItems
+  const PatientHistory(this.historyItems,
+      {super.key}); // Constructor to receive historyItems
 
   @override
   _PatientHistoryState createState() => _PatientHistoryState();
@@ -21,13 +22,13 @@ class _PatientHistoryState extends State<PatientHistory> {
       children: [
         Container(
           width: 296,
-          height: 790,
+          height: 478,
           padding: const EdgeInsets.all(14),
-          decoration: BoxDecoration(color: Colors.white),
+          decoration: const BoxDecoration(color: Colors.white),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 width: 219,
                 height: 15,
                 child: Row(
@@ -35,7 +36,7 @@ class _PatientHistoryState extends State<PatientHistory> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      child: Row(
+                      child: const Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -62,7 +63,7 @@ class _PatientHistoryState extends State<PatientHistory> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            child: Row(
+                            child: const Row(
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -98,11 +99,11 @@ class _PatientHistoryState extends State<PatientHistory> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -149,10 +150,10 @@ class _PatientHistoryState extends State<PatientHistory> {
                   ],
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Column(
                 children: List.generate(
-                  31,
+                  20,
                       (index) {
                     final item = index < widget.historyItems.length
                         ? widget.historyItems[index]
@@ -160,7 +161,7 @@ class _PatientHistoryState extends State<PatientHistory> {
                     return Column(
                       children: [
                         _buildHistoryItem(index, item),
-                        SizedBox(height: 1), // 1픽셀의 상하 간격 추가
+                        const SizedBox(height: 1), // 1픽셀의 상하 간격 추가
                       ],
                     );
                   },
@@ -174,10 +175,12 @@ class _PatientHistoryState extends State<PatientHistory> {
   }
 
   Widget _buildHistoryItem(int index, PatientHistoryItem? item) {
-    Color backgroundColor =
-    index % 2 == 0 ? Colors.white : Color(0xFFE2F1F6); // Alternating colors
+    Color backgroundColor = index % 2 == 0
+        ? Colors.white
+        : const Color(0xFFE2F1F6); // Alternating colors
     if (_selectedIndex == index) {
-      backgroundColor = Color(0xFF00C9FF); // Change to darker blue when clicked
+      backgroundColor =
+      const Color(0xFF00C9FF); // Change to darker blue when clicked
     }
     return GestureDetector(
       onTap: () {
@@ -198,9 +201,9 @@ class _PatientHistoryState extends State<PatientHistory> {
           children: [
             Text(
               item?.time != null
-                  ? DateFormat('yy.MM.dd').format(item!.time!)
+                  ? DateFormat('yy.MM.dd').format(item!.time)
                   : '', // Format date as yy.MM.dd
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xFF404855),
                 fontSize: 11,
                 fontFamily: 'Pretendard',
@@ -210,7 +213,7 @@ class _PatientHistoryState extends State<PatientHistory> {
             ),
             Text(
               item?.diagnosis ?? '',
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xFF404855),
                 fontSize: 11,
                 fontFamily: 'Pretendard',
@@ -220,7 +223,7 @@ class _PatientHistoryState extends State<PatientHistory> {
             ),
             Text(
               item?.acupunctureTreatment ?? '',
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xFF404855),
                 fontSize: 11,
                 fontFamily: 'Pretendard',
@@ -230,7 +233,7 @@ class _PatientHistoryState extends State<PatientHistory> {
             ),
             Text(
               item?.medicine ?? '',
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xFF404855),
                 fontSize: 11,
                 fontFamily: 'Pretendard',

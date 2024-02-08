@@ -12,6 +12,7 @@ class PreExaminationScreen extends StatelessWidget {
     return Container(
       color: Color(0xFFE2F1F6),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(9.0,9.0,9.0,0),

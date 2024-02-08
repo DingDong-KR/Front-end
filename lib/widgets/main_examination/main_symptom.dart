@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 
 class MainSymptom extends StatelessWidget {
+  const MainSymptom({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 754,
-      height: 393.50,
-      decoration: ShapeDecoration(
+      width: 146.50,
+      height: 153,
+      decoration: const ShapeDecoration(
         color: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(bottomRight: Radius.circular(5)),
         ),
       ),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10, top: 10), // 왼쪽과 위쪽 여백 추가
+      child: const Padding(
+        padding: EdgeInsets.only(left: 10, top: 10), // 왼쪽과 위쪽 여백 추가
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
