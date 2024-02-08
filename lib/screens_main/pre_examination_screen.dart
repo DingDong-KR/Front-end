@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_desktop_app/widgets/pre_examination/nursing_note.dart';
-import 'package:my_desktop_app/widgets/pre_examination/patient_simple_info.dart';
+import 'package:my_desktop_app/widgets/patient_simple_info.dart';
 import '../widgets/pre_examination/main_symptom.dart';
 import '../widgets/pre_examination/patient_history.dart';
 import '../../models/patient_history_item.dart';

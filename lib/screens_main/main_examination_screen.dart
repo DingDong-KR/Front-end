@@ -7,10 +7,10 @@ import '../widgets/main_examination/main_symptom.dart';
 import '../widgets/main_examination/nursing_note.dart';
 import '../widgets/main_examination/order_set.dart';
 import '../widgets/main_examination/patient_history.dart';
-import '../widgets/main_examination/patient_simple_info.dart';
 import '../widgets/main_examination/ros.dart';
 import '../widgets/main_examination/treat_record.dart';
 import '../widgets/main_examination/treatment.dart';
+import '../widgets/patient_simple_info.dart';
 
 class MainExaminationScreen extends StatelessWidget {
   const MainExaminationScreen({super.key});
@@ -22,7 +22,7 @@ class MainExaminationScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
+           Padding(
             padding: EdgeInsets.fromLTRB(9.0, 9.0, 9.0, 0),
             child: PatientSimpleInfo(),
           ),
