@@ -14,8 +14,6 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = 1216;
-    double screenHeight = 684;
     return GetMaterialApp(
       initialBinding: BindingsBuilder((){
         Get.put(DropdownButtonController()); // 드롭다운 메뉴 상태관리를 위한 클래스
