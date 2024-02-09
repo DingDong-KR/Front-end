@@ -3,6 +3,7 @@ class PrescriptionFields {
   static final String treatmentName = 'treatmentName';                // 처방약 이름
   static final String dosagePerDay = 'dosagePerDay';                  // 1일 투여량
   static final String chartNumber = 'chartNumber';                    // 차트 번호
+  static final String instructions = 'instructions';
   static final String durationOfMedication = 'durationOfMedication';  // 복용일수
   static final String totalAmount = 'totalAmount';                    // 총 팩수
 }
@@ -14,6 +15,7 @@ class Prescription {
   final String treatmentName;
   final int dosagePerDay;
   final int chartNumber;
+  final String instructions;
   final int durationOfMedication;
   final int totalAmount;
 
@@ -22,6 +24,7 @@ class Prescription {
     required this.treatmentName,
     required this.chartNumber,
     required this.dosagePerDay,
+    required this.instructions,
     required this.durationOfMedication,
     required this.totalAmount,
   });
@@ -32,6 +35,7 @@ class Prescription {
       PrescriptionFields.treatmentName: treatmentName,
       PrescriptionFields.dosagePerDay: dosagePerDay,
       PrescriptionFields.chartNumber: chartNumber,
+      PrescriptionFields.instructions: instructions,
       PrescriptionFields.durationOfMedication: durationOfMedication,
       PrescriptionFields.totalAmount: totalAmount,
     };
@@ -43,6 +47,7 @@ class Prescription {
       treatmentName: json[PrescriptionFields.treatmentName] as String,
       dosagePerDay: json[PrescriptionFields.dosagePerDay] as int,
       chartNumber: json[PrescriptionFields.chartNumber] as int,
+      instructions: json[PrescriptionFields.instructions] as String,
       durationOfMedication: json[PrescriptionFields.durationOfMedication] as int,
       totalAmount: json[PrescriptionFields.totalAmount] as int,
     );

@@ -14,8 +14,8 @@ class Acupuncture {
   final int acupunctureIndex;
   final int acupunctureType;
   final int chartNumber;
-  final String treatmentPos1;
-  final String treatmentPos2;
+  final String? treatmentPos1;
+  final String? treatmentPos2;
   final String? treatmentPos3;
   final String? treatmentPos4;
 
@@ -23,8 +23,8 @@ class Acupuncture {
     required this.acupunctureIndex,
     required this.acupunctureType,
     required this.chartNumber,
-    required this.treatmentPos1,
-    required this.treatmentPos2,
+    this.treatmentPos1,
+    this.treatmentPos2,
     this.treatmentPos3,
     this.treatmentPos4,
   });

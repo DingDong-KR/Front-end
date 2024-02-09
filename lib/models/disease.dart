@@ -1,7 +1,7 @@
 class DiseaseFields {
   static final String diseaseIndex = 'diseaseIndex';                        // 진료된 병을 각각 구분하기 위한 index
   static final String chartNumber = 'chartNumber';                          // 진료된 병명과 연결된 차트
-  static final String primarySecondaryDisease = 'primarySecondaryDisease';  // 주/부에 따라 분리 원래 bool이지만 따로 저장이 안되서 int 로 저장됨
+  static final String primarySecondaryDisease = 'primarySecondaryDisease';  // 주/부에 따라 분리 원래 bool이지만 따로 저장이 안되서 int 로 저장됨 0:주 1:부
   static final String diseaseCode = 'diseaseCode';                          // 병 코드 (주/부 구분하는데 사용되기도 함)
   static final String diseaseName = 'diseaseName';                          // 병 이름 -> 한글 명만 있지만, 상병 검색에서는 영어이름도 포함될 것
 }
