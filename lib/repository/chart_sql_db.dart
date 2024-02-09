@@ -52,6 +52,7 @@ class SqlDataBase {
       CREATE TABLE ${User.tableName}(
         ${UserFields.userId} TEXT PRIMARY KEY,
         ${UserFields.name} TEXT NOT NULL,
+        ${UserFields.email} TEXT NOT NULL,
         ${UserFields.password} TEXT NOT NULL,
         ${UserFields.affiliation} TEXT, 
         UNIQUE(${UserFields.userId})
@@ -68,7 +69,8 @@ class SqlDataBase {
           ${PatientFields.age} INTEGER NOT NULL,
           ${PatientFields.address} TEXT NOT NULL,
           ${PatientFields.socialSecurityNumber} INTEGER NOT NULL UNIQUE,
-          ${PatientFields.lastVisitDate} TEXT
+          ${PatientFields.lastVisitDate} TEXT,
+          ${PatientFields.queue} INTEGER
         )
         '''
     );
@@ -79,12 +81,14 @@ class SqlDataBase {
       ${PreExaminationFields.patientNumber} INTEGER NOT NULL,
       ${PreExaminationFields.measurementDate} TEXT NOT NULL,
       ${PreExaminationFields.bt} REAL NOT NULL,
-      ${PreExaminationFields.bp} INTEGER NOT NULL,
+      ${PreExaminationFields.bp_h} INTEGER NOT NULL,
+      ${PreExaminationFields.bp_l} INTEGER NOT NULL,
       ${PreExaminationFields.bloodSugar} INTEGER NOT NULL,
       ${PreExaminationFields.mainSymptoms} TEXT NOT NULL,
       ${PreExaminationFields.rosKeywords} TEXT NOT NULL,
       ${PreExaminationFields.rosDescriptives[0]} TEXT,
       ${PreExaminationFields.rosDescriptives[1]} TEXT,
+      ${PreExaminationFields.bodyType} INTEGER,
       ${PreExaminationFields.ros_detail} TEXT,
       ${PreExaminationFields.additionalNotes} TEXT,
       ${PreExaminationFields.consentToCollectPersonalInformation} INTEGER,
@@ -124,8 +128,8 @@ class SqlDataBase {
       ${AcupunctureFields.acupunctureIndex} INTEGER PRIMARY KEY,
       ${AcupunctureFields.acupunctureType} INTEGER NOT NULL,
       ${AcupunctureFields.chartNumber} INTEGER NOT NULL,
-      ${AcupunctureFields.treatmentPos1} TEXT NOT NULL,
-      ${AcupunctureFields.treatmentPos2} TEXT NOT NULL,
+      ${AcupunctureFields.treatmentPos1} TEXT,
+      ${AcupunctureFields.treatmentPos2} TEXT,
       ${AcupunctureFields.treatmentPos3} TEXT,
       ${AcupunctureFields.treatmentPos4} TEXT
     )
@@ -137,6 +141,7 @@ class SqlDataBase {
       ${PrescriptionFields.treatmentName} TEXT NOT NULL,
       ${PrescriptionFields.dosagePerDay} INTEGER NOT NULL,
       ${PrescriptionFields.chartNumber} INTEGER NOT NULL,
+      ${PrescriptionFields.instructions} TEXT NOT NULL,
       ${PrescriptionFields.durationOfMedication} INTEGER NOT NULL,
       ${PrescriptionFields.totalAmount} INTEGER NOT NULL
     )
@@ -146,7 +151,8 @@ class SqlDataBase {
       CREATE TABLE ${DiseaseList.tableName}(
         ${DiseaseListFields.diseaseCode} TEXT NOT NULL PRIMARY KEY,
         ${DiseaseListFields.koreanName} TEXT,
-        ${DiseaseListFields.englishName} TEXT
+        ${DiseaseListFields.englishName} TEXT,
+        ${DiseaseListFields.completeness} TEXT
       )
       '''
     );

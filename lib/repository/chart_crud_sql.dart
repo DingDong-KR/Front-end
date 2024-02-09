@@ -110,7 +110,8 @@ class PreExaminationProvider {
       patientNumber: preExamination.patientNumber,
       measurementDate: DateTime.now(), // 현재 날짜를 사용
       bt: preExamination.bt,
-      bp: preExamination.bp,
+      bp_h: preExamination.bp_h,
+      bp_l: preExamination.bp_l,
       bloodSugar: preExamination.bloodSugar,
       mainSymptoms: preExamination.mainSymptoms,
       rosKeywords: preExamination.rosKeywords,
@@ -392,12 +393,22 @@ class DiseaseListProvider {
     return result.map((json) => DiseaseList.fromJson(json)).toList();
   }
 
-  Future<DiseaseList> getDiseaseCode(String koreanName) async {
+  Future<DiseaseList> getDiseaseCode_kor(String koreanName) async {
     final db = await SqlDataBase.instance.database;
     final result = await db.query(
       DiseaseList.tableName,
       where: "${DiseaseListFields.koreanName} = ?",
       whereArgs: [koreanName],
+    );
+    return result.map((json) => DiseaseList.fromJson(json)).first;
+  }
+
+  Future<DiseaseList> getDiseaseCode_en(String englishName) async {
+    final db = await SqlDataBase.instance.database;
+    final result = await db.query(
+      DiseaseList.tableName,
+      where: "${DiseaseListFields.englishName} = ?",
+      whereArgs: [englishName],
     );
     return result.map((json) => DiseaseList.fromJson(json)).first;
   }
