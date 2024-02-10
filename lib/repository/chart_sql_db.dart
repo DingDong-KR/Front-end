@@ -42,6 +42,7 @@ class SqlDataBase {
 
     Directory databasesPath = await getApplicationDocumentsDirectory();
     String path = join(databasesPath.path, 'chart.db');
+    
     print('데이터베이스의 위치: $path');
     _database = await openDatabase(path,
         version: 1, onCreate: _dataBaseCreate); /*onCreate의 경우 db가 없으면 생성하라는뜻 */
