@@ -51,6 +51,7 @@ dev_dependencies:
   get: ^4.6.6
   sqflite: ^2.3.2
   sqflite_common_ffi: ^2.3.2+1
+  path_provider: ^2.0.9
 
 
 # For information on the generic Dart part of this file, see the
@@ -85,6 +86,7 @@ flutter:
     - assets/icons/icon_right_arrow.svg
     - assets/icons/icon_document.svg
     - assets/icons/icon_pencil.svg
+    - assets/chart.db
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
