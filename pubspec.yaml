@@ -86,7 +86,7 @@ flutter:
     - assets/icons/icon_right_arrow.svg
     - assets/icons/icon_document.svg
     - assets/icons/icon_pencil.svg
-    - assets/chart.db
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
