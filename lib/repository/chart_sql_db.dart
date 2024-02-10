@@ -12,7 +12,7 @@ import '../repository/chart_sql_db.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:path/path.dart';
-
+import 'package:path_provider/path_provider.dart';
 
 
 class SqlDataBase {
@@ -40,8 +40,8 @@ class SqlDataBase {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
 
-    var databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'chart.db');
+    Directory databasesPath = await getApplicationDocumentsDirectory();
+    String path = join(databasesPath.path, 'chart.db');
     print('데이터베이스의 위치: $path');
     _database = await openDatabase(path,
         version: 1, onCreate: _dataBaseCreate); /*onCreate의 경우 db가 없으면 생성하라는뜻 */
