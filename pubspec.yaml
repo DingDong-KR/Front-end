@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   fluent_ui: ^4.8.4
   http:
+  path_provider_macos: ^2.0.7
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +68,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/db/chart.db
     - assets/icons/icon_bed.svg
     - assets/icons/icon_box.svg
     - assets/icons/icon_chart.svg
@@ -76,7 +78,7 @@ flutter:
     - assets/icons/icon_settings.svg
     - assets/icons/icon_search.svg
     - assets/icons/icon_addPerson.svg
-    - assets/icons/icon_lining.svg
+    - assets/icons/icon_lining.svg  
     - assets/icons/icon_message.svg
     - assets/icons/icon_dropDown.svg
     - assets/icons/icon_checked.svg
@@ -86,7 +88,7 @@ flutter:
     - assets/icons/icon_right_arrow.svg
     - assets/icons/icon_document.svg
     - assets/icons/icon_pencil.svg
-
+    
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
