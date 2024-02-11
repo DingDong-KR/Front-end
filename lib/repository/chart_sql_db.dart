@@ -10,7 +10,6 @@ import '../models/user.dart';
 import '../models/disease_list.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:path/path.dart';
-import 'package:flutter/services.dart' show ByteData, rootBundle;
 
 class SqlDataBase {
   static final SqlDataBase instance = SqlDataBase._instance();
@@ -96,12 +95,9 @@ class SqlDataBase {
     }
 
     // Load database from asset and copy
-    print('Creating new copy from asset');
-    ByteData data = await rootBundle.load(join('assets', 'db', 'chart.db'));
-    List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
-
-    // Save copied asset to documents
-    await new File(path).writeAsBytes(bytes);
+    File file = File("assets/db/chart.db");
+    List<int> bytes = await file.readAsBytes();
+    await File(path).writeAsBytes(bytes, flush: true);
 
     print('Overwritten db from assets');
   }
