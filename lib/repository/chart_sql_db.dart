@@ -8,12 +8,9 @@ import '../models/patients.dart';
 import '../models/prescription.dart';
 import '../models/user.dart';
 import '../models/disease_list.dart';
-import '../repository/chart_sql_db.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
-
+import 'package:flutter/services.dart' show ByteData, rootBundle;
 
 class SqlDataBase {
   static final SqlDataBase instance = SqlDataBase._instance();
@@ -40,14 +37,77 @@ class SqlDataBase {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
 
-    Directory databasesPath = await getApplicationDocumentsDirectory();
-    String path = join(databasesPath.path, 'chart.db');
-    
+    var databasesPath = await getDatabasesPath();
+    var path = join(databasesPath, "chart.db");
     print('데이터베이스의 위치: $path');
+
+
+    // 앱 내부 저장소에 DB가 존재하는 지확인하고 없으면 ASSETS/DB/chart.db를 복사해서 집어넣음
+    var exists = await databaseExists(path);
+
+    if (!exists) {
+      print("Creating new copy from asset");
+
+      // Make sure the parent directory exists
+      try {
+        await Directory(dirname(path)).create(recursive: true);
+      } catch (_) {}
+      
+      // ByteData data = await rootBundle.load(join("assets", "chart.db"));
+      // List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+
+      File file = File("assets/db/chart.db");
+      List<int> bytes = await file.readAsBytes();
+      await File(path).writeAsBytes(bytes, flush: true);
+    }
     _database = await openDatabase(path,
-        version: 1, onCreate: _dataBaseCreate); /*onCreate의 경우 db가 없으면 생성하라는뜻 */
+        version: 2, onCreate: _dataBaseCreate); /*onCreate의 경우 db가 없으면 생성하라는뜻*/
   }
 
+
+  // DB를 볼수 있는 곳에 위치 시키려 했으나, FLUTTER가 앱 전용 저장소 를 제외하고는 사용 불가 함
+  // //해당 앱의 문서 디렉토리에 db 복사본을 저장 -> path_provider 필요
+  // Future<void> copyDbToAppDataDirectory() async {
+  //   var databasesPath = await getDatabasesPath();
+  //   String srcPath = join(databasesPath, 'chart.db');
+  
+  //   // Directory appDocDir = await getApplicationDocumentsDirectory(); appDocDir.path
+    
+  //   String currentTime = DateFormat('yyyy_MM_dd_HH_mm_ss').format(DateTime.now());
+  //   String dstPath = join('../DB/', 'chart_$currentTime.db');
+
+
+  //   File srcFile = File(srcPath);
+  //   await srcFile.copy(dstPath);
+
+  //   print('Copied db to $dstPath');
+  // }
+
+  //내부 db에 덮어씌우기
+  Future<void> overwriteDbFromAssets() async {
+    var databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, 'chart.db');
+
+    // Delete the existing database file
+    var exists = await databaseExists(path);
+    if (exists) {
+      print('Deleting existing database');
+      await deleteDatabase(path);
+    }
+
+    // Load database from asset and copy
+    print('Creating new copy from asset');
+    ByteData data = await rootBundle.load(join('assets', 'db', 'chart.db'));
+    List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+
+    // Save copied asset to documents
+    await new File(path).writeAsBytes(bytes);
+
+    print('Overwritten db from assets');
+  }
+
+
+  // 일단 작성했으나 필요는 없음
   void _dataBaseCreate(Database db, int version) async {
     await db.execute('''
       CREATE TABLE ${User.tableName}(
@@ -159,9 +219,13 @@ class SqlDataBase {
     );
   }
 
+
+
   void closeDataBase() async {
     if (_database != null) await _database!.close();
   }
+
+
 
 }
 
