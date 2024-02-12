@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:flutter/services.dart';
+
 import '../models/pre_examination.dart';
 import '../models/acupuncture.dart';
 import '../models/disease.dart';
@@ -55,14 +57,17 @@ class SqlDataBase {
       // ByteData data = await rootBundle.load(join("assets", "chart.db"));
       // List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
-      File file = File("assets/db/chart.db");
-      List<int> bytes = await file.readAsBytes();
+      // File file = File("assets/db/chart.db");
+      // List<int> bytes = await file.readAsBytes();
+
+      ByteData data = await rootBundle.load('assets/db/chart.db');
+      List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       await File(path).writeAsBytes(bytes, flush: true);
     }
     _database = await openDatabase(path,
         version: 2, onCreate: _dataBaseCreate); /*onCreate의 경우 db가 없으면 생성하라는뜻*/
   }
-
+ 
 
   // DB를 볼수 있는 곳에 위치 시키려 했으나, FLUTTER가 앱 전용 저장소 를 제외하고는 사용 불가 함
   // //해당 앱의 문서 디렉토리에 db 복사본을 저장 -> path_provider 필요
@@ -95,9 +100,14 @@ class SqlDataBase {
     }
 
     // Load database from asset and copy
-    File file = File("assets/db/chart.db");
-    List<int> bytes = await file.readAsBytes();
+    // File file = File("assets/db/chart.db");
+    // List<int> bytes = await file.readAsBytes();
+    // await File(path).writeAsBytes(bytes, flush: true);
+
+    ByteData data = await rootBundle.load('assets/db/chart.db');
+    List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
     await File(path).writeAsBytes(bytes, flush: true);
+
 
     print('Overwritten db from assets');
   }
