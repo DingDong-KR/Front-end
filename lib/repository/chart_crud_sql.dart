@@ -104,6 +104,8 @@ class PatientProvider {
 class PreExaminationProvider {
   Future<int> insertPreExamination(PreExamination preExamination) async {
     final db = await SqlDataBase.instance.database;
+
+    // 이부분 수정필요 (필수 사항, 선택사항 분리 필요)
     var modifiedPreExamination = PreExamination(
       chartNumber: preExamination.chartNumber,
       userId: preExamination.userId,
@@ -116,6 +118,8 @@ class PreExaminationProvider {
       mainSymptoms: preExamination.mainSymptoms,
       rosKeywords: preExamination.rosKeywords,
       rosDescriptives: preExamination.rosDescriptives,
+      bodyType: preExamination.bodyType,
+      ros_detail: preExamination.ros_detail,
       additionalNotes: preExamination.additionalNotes,
       consentToCollectPersonalInformation: preExamination.consentToCollectPersonalInformation,
     );
