@@ -20,7 +20,7 @@ class App extends StatelessWidget {
         Get.put(DropdownButtonController()); // 드롭다운 메뉴 상태관리를 위한 클래스
       }),
       title: 'DingDong',
-      home: MainScreen(),
+      home: LoginScreen(),
     );
   }
 }

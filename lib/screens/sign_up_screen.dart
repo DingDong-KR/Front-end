@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart'; // Import path package
 
 class SignUpScreen extends StatelessWidget {
-
-  String name = ''; // 이름을 입력하는 TextFormField의 값을 할당
+  // 변수 선언
+  final TextEditingController userIdController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController affiliationController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,17 +36,15 @@ class SignUpScreen extends StatelessWidget {
               ),
               SizedBox(height: 20),
               TextFormField(
+                controller: nameController,
                 decoration: InputDecoration(
                   labelText: '이름',
                   border: OutlineInputBorder(),
                 ),
-                onChanged: (value) {
-                  // 사용자가 이름을 입력할 때마다 호출되는 콜백
-                  name = value; // 변수에 입력된 값을 할당
-                },
               ),
               SizedBox(height: 10),
               TextFormField(
+                controller: emailController,
                 decoration: InputDecoration(
                   labelText: '이메일',
                   border: OutlineInputBorder(),
@@ -48,6 +52,7 @@ class SignUpScreen extends StatelessWidget {
               ),
               SizedBox(height: 10),
               TextFormField(
+                controller: userIdController,
                 decoration: InputDecoration(
                   labelText: '아이디',
                   border: OutlineInputBorder(),
@@ -55,6 +60,7 @@ class SignUpScreen extends StatelessWidget {
               ),
               SizedBox(height: 10),
               TextFormField(
+                controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   labelText: '비밀번호',
@@ -63,6 +69,7 @@ class SignUpScreen extends StatelessWidget {
               ),
               SizedBox(height: 10),
               TextFormField(
+                controller: affiliationController,
                 decoration: InputDecoration(
                   labelText: '소속',
                   border: OutlineInputBorder(),
@@ -82,7 +89,14 @@ class SignUpScreen extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () async {
                       // 회원 가입 정보를 데이터베이스에 저장
-                      await saveUserDataToDatabase(context);
+                      await saveUserDataToDatabase(
+                        context,
+                        nameController.text,
+                        emailController.text,
+                        userIdController.text,
+                        passwordController.text,
+                        affiliationController.text,
+                      );
                     },
                     child: Text('가입하기'),
                   ),
@@ -96,59 +110,85 @@ class SignUpScreen extends StatelessWidget {
   }
 }
 
-Future<void> saveUserDataToDatabase(BuildContext context) async {
-  String name = ''; // 이름을 입력하는 TextFormField의 값을 할당
-  String email = ''; // 이메일을 입력하는 TextFormField의 값을 할당
-  String username = ''; // 아이디를 입력하는 TextFormField의 값을 할당
-  String password = ''; // 비밀번호를 입력하는 TextFormField의 값을 할당
-  String organization = ''; // 소속을 입력하는 TextFormField의 값을 할당
+Future<void> saveUserDataToDatabase(
+    BuildContext context,
+    String name,
+    String email,
+    String userId,
+    String password,
+    String affiliation,
+    ) async {
+  // 데이터베이스 경로 설정
+  String databasesPath = await getDatabasesPath();
+  String path = join(databasesPath, 'chart.db');
 
-  User user = User(
-    name: name,
-    email: email,
-    username: username,
-    password: password,
-    organization: organization,
+  // 데이터베이스 열기
+  Database database = await openDatabase(
+    path,
+    version: 1,
+    onCreate: (Database db, int version) async {
+      // 데이터베이스가 존재하지 않는 경우 테이블 생성
+      await db.execute(
+          'CREATE TABLE IF NOT EXISTS user (id INTEGER PRIMARY KEY, name TEXT, email TEXT, username TEXT, password TEXT, organization TEXT)');
+    },
   );
 
-  // DatabaseHelper databaseHelper = DatabaseHelper();
-  // int userId = await databaseHelper.insertUser(user.toMap());
-  //
-  // if (userId != -1) {
-  //   // 가입 성공
-  //   Navigator.of(context).pop(); // 다이얼로그 닫기
-  // } else {
-  //   // 가입 실패
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     SnackBar(
-  //       content: Text('회원 가입에 실패했습니다.'),
-  //     ),
-  //   );
-  // }
+  // User 객체 생성
+  Map<String, dynamic> userMap = {
+    'userId': userId,
+    'name': name,
+    'email': email,
+    'password': password,
+    'affiliation': affiliation,
+  };
+
+  // User 정보를 데이터베이스에 삽입
+  try {
+    int result = await database.insert('user', userMap);
+    if (result != -1) {
+      // 가입 성공
+      Navigator.of(context).pop(); // 다이얼로그 닫기
+    } else {
+      // 가입 실패
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('회원 가입에 실패했습니다.'),
+        ),
+      );
+    }
+  } catch (e) {
+    print('Error inserting user: $e');
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('회원 가입에 실패했습니다.'),
+      ),
+    );
+    Navigator.of(context).pop();
+  }
 }
 
 class User {
+  final String userId;
   final String name;
   final String email;
-  final String username;
   final String password;
-  final String organization;
+  final String affiliation;
 
   User({
+    required this.userId,
     required this.name,
     required this.email,
-    required this.username,
     required this.password,
-    required this.organization,
+    required this.affiliation,
   });
 
   Map<String, dynamic> toMap() {
     return {
+      'userId': userId,
       'name': name,
       'email': email,
-      'username': username,
       'password': password,
-      'organization': organization,
+      'affiliation': affiliation,
     };
   }
 }
