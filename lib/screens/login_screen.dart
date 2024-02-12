@@ -4,8 +4,9 @@ import 'package:my_desktop_app/screens/forgot_id_screen.dart';
 import 'package:my_desktop_app/screens/forgot_password_screen.dart';
 import 'package:my_desktop_app/screens/main_screen.dart';
 import 'package:my_desktop_app/screens/sign_up_screen.dart';
+import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart'; // Import sqflite package
-import '../models/user.dart'; // Import user model
+import 'package:my_desktop_app/models/user.dart'; // Import user model
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -15,81 +16,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController idController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-
-  late Database _database; // Database instance
-
-  @override
-  void initState() {
-    super.initState();
-    _initDatabase();
-  }
-
-  // Initialize database
-  Future<void> _initDatabase() async {
-    _database = await openDatabase(
-      'chart.db',
-      version: 1,
-      onCreate: (db, version) {
-        return db.execute(
-          'CREATE TABLE users(id INTEGER PRIMARY KEY, username TEXT, password TEXT)',
-        );
-      },
-    );
-  }
-
-  @override
-  void dispose() {
-    idController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
-
-  Future<bool> _handleLogin(String username, String password) async {
-    // Query the database to check if user exists
-    List<Map<String, dynamic>> users = await _database.rawQuery(
-      'SELECT * FROM users WHERE username = ? AND password = ?',
-      [username, password],
-    );
-
-    return users.isNotEmpty; // Return true if user exists, false otherwise
-  }
-
-  void _showLoginFailedDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Login Failed'),
-        content: const Text('Invalid username or password. Please try again.'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _login() async {
-    String username = idController.text;
-    String password = passwordController.text;
-
-    bool isAuthenticated = await _handleLogin(username, password);
-    if (isAuthenticated) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MainScreen(),
-        ),
-      );
-    } else {
-      _showLoginFailedDialog();
-    }
-  }
+  final TextEditingController idController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -199,7 +127,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   onChanged: (bool? value) {
                     // Handle checkbox change
                   },
-                  fillColor: MaterialStateProperty.resolveWith<Color?>((states) {
+                  fillColor:
+                      MaterialStateProperty.resolveWith<Color?>((states) {
                     if (states.contains(MaterialState.selected)) {
                       return Color(0xFF3FA7C3); // Color when selected
                     }
@@ -224,7 +153,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   onChanged: (bool? value) {
                     // Handle checkbox change
                   },
-                  fillColor: MaterialStateProperty.resolveWith<Color?>((states) {
+                  fillColor:
+                      MaterialStateProperty.resolveWith<Color?>((states) {
                     if (states.contains(MaterialState.selected)) {
                       return Color(0xFF3FA7C3); // Color when selected
                     }
@@ -250,7 +180,14 @@ class _LoginScreenState extends State<LoginScreen> {
               width: 373,
               height: 40,
               child: ElevatedButton(
-                onPressed: _login,
+                onPressed: () async {
+                  // 회원 가입 정보를 데이터베이스에 저장
+                  await _handleLogin(
+                    context,
+                    idController.text,
+                    passwordController.text,
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF3FA7C3),
                 ),
@@ -278,7 +215,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const ForgotIdScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => const ForgotIdScreen()),
                     );
                   },
                   child: Text(
@@ -306,7 +244,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const ForgotPasswordScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => const ForgotPasswordScreen()),
                     );
                   },
                   child: const Text.rich(
@@ -378,3 +317,62 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
+void _showLoginFailedDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text('Login Failed'),
+      content: const Text('Invalid Id or password. Please try again.'),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Text('OK'),
+        ),
+      ],
+    ),
+  );
+}
+
+Future<void> _handleLogin(BuildContext context, String userId, String password) async {
+  // 데이터베이스 경로 설정
+  String databasesPath = await getDatabasesPath();
+  String path = join(databasesPath, 'chart.db');
+
+  // 데이터베이스 열기
+  Database database = await openDatabase(
+    path,
+    version: 1,
+    onCreate: (Database db, int version) async {
+      // 데이터베이스가 존재하지 않는 경우 테이블 생성
+      await db.execute(
+        'CREATE TABLE IF NOT EXISTS user (userId INTEGER PRIMARY KEY, name TEXT, email TEXT, name TEXT, password TEXT, affiliation TEXT)',
+      );
+    },
+  );
+
+  // Query the database to check if user exists
+  List<Map<String, dynamic>> user = await database.rawQuery(
+    'SELECT * FROM user WHERE userId = ? AND password = ?',
+    [userId, password],
+  );
+
+  // 사용자 인증 확인
+  bool isAuthenticated = user.isNotEmpty;
+
+  if (isAuthenticated) {
+    // 로그인 성공 시 MainScreen으로 이동(유저 정보와 함께)
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MainScreen(user: User.fromMap(user.first)),
+      ),
+    );
+  } else {
+    // 로그인 실패 시 경고 다이얼로그 표시
+    _showLoginFailedDialog(context);
+  }
+}
+

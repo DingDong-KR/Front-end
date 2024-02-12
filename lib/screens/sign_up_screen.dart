@@ -110,7 +110,7 @@ class SignUpScreen extends StatelessWidget {
   }
 }
 
-Future<void> saveUserDataToDatabase(
+Future<void> saveUserDataToDatabase( //TODO: sql 파일에 합쳐야함
     BuildContext context,
     String name,
     String email,
@@ -167,28 +167,4 @@ Future<void> saveUserDataToDatabase(
   }
 }
 
-class User {
-  final String userId;
-  final String name;
-  final String email;
-  final String password;
-  final String affiliation;
 
-  User({
-    required this.userId,
-    required this.name,
-    required this.email,
-    required this.password,
-    required this.affiliation,
-  });
-
-  Map<String, dynamic> toMap() {
-    return {
-      'userId': userId,
-      'name': name,
-      'email': email,
-      'password': password,
-      'affiliation': affiliation,
-    };
-  }
-}

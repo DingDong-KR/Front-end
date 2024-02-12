@@ -8,13 +8,14 @@ import '../screens_main/medicines_screen.dart';
 import '../screens_main/pre_examination_screen.dart';
 import '../models/menu_items.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:my_desktop_app/models/user.dart';
 import 'dropdown_button_widget.dart';
 
 class MainMenu extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey;
+  final User user; // 유저 정보를 받을 변수
 
-  const MainMenu({Key? key, required this.navigatorKey}) : super(key: key);
+  const MainMenu({Key? key, required this.navigatorKey, required this.user}) : super(key: key);
 
   @override
   _MainMenuState createState() => _MainMenuState();
@@ -113,7 +114,7 @@ class _MainMenuState extends State<MainMenu> {
       case 1:
         widget.navigatorKey.currentState?.pushReplacement(
           MaterialPageRoute(
-            builder: (context) => HomeScreen(),
+            builder: (context) => HomeScreen(user: widget.user), // 홈 스크린으로 이동하면서 유저 정보 전달
           ),
         );
         break;

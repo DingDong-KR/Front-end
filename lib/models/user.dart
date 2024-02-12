@@ -47,11 +47,33 @@ class User {
     );
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+      'userId': userId,
+      'name': name,
+      'email': email,
+      'password': password,
+      'affiliation': affiliation,
+    };
+  }
+
+  // Map을 User 객체로 변환하는 메서드
+  factory User.fromMap(Map<String, dynamic> map) {
+    return User(
+      userId: map['userId'],
+      name: map['name'],
+      email: map['email'],
+      password: map['password'],
+      affiliation: map['affiliation'],
+    );
+  }
+
   // 현재 User 객체를 복제하고 일부 속성을 변경 (불변 객체 활용 방식)
   /*
     User user1 = User(userId: '1', name: 'John', password: '1234', affiliation: 'Company1');
     User user2 = user1.clone(name: 'Jane');
   */
+
   User clone({
     String? userId,
     String? name,
