@@ -56,9 +56,14 @@ class SqlDataBase {
       // ByteData data = await rootBundle.load(join("assets", "chart.db"));
       // List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
-      File file = File("assets/db/chart.db");
-      List<int> bytes = await file.readAsBytes();
+      // File file = File("assets/db/chart.db");
+      // List<int> bytes = await file.readAsBytes();
+      // await File(path).writeAsBytes(bytes, flush: true);
+
+      ByteData data = await rootBundle.load('assets/db/chart.db');
+      List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       await File(path).writeAsBytes(bytes, flush: true);
+
     }
     _database = await openDatabase(path,
         version: 2, onCreate: _dataBaseCreate); /*onCreate의 경우 db가 없으면 생성하라는뜻*/
@@ -97,11 +102,16 @@ class SqlDataBase {
 
     // Load database from asset and copy
     print('Creating new copy from asset');
-    ByteData data = await rootBundle.load(join('assets', 'db', 'chart.db'));
-    List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    // ByteData data = await rootBundle.load(join('assets', 'db', 'chart.db'));
+    // List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
-    // Save copied asset to documents
-    await new File(path).writeAsBytes(bytes);
+    // // Save copied asset to documents
+    // await new File(path).writeAsBytes(bytes);
+
+    ByteData data = await rootBundle.load('assets/db/chart.db');
+    List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    await File(path).writeAsBytes(bytes, flush: true);
+
 
     print('Overwritten db from assets');
   }
