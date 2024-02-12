@@ -49,7 +49,6 @@ class SqlDataBase {
     if (!exists) {
       print("Creating new copy from asset");
 
-      // Make sure the parent directory exists
       try {
         await Directory(dirname(path)).create(recursive: true);
       } catch (_) {}
