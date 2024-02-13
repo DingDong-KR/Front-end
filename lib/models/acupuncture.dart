@@ -11,7 +11,7 @@ class AcupunctureFields {
 class Acupuncture {
   static String tableName = 'acupuncture';
 
-  final int acupunctureIndex;
+  final int? acupunctureIndex;
   final int acupunctureType;
   final int chartNumber;
   final String? treatmentPos1;
@@ -20,7 +20,7 @@ class Acupuncture {
   final String? treatmentPos4;
 
   const Acupuncture({
-    required this.acupunctureIndex,
+    this.acupunctureIndex,
     required this.acupunctureType,
     required this.chartNumber,
     this.treatmentPos1,
@@ -53,4 +53,3 @@ class Acupuncture {
     );
   }
 }
-

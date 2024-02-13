@@ -124,8 +124,7 @@ class SqlDataBase {
         ${UserFields.userId} TEXT PRIMARY KEY,
         ${UserFields.name} TEXT NOT NULL,
         ${UserFields.email} TEXT NOT NULL,
-        ${UserFields.password} TEXT NOT NULL,
-        ${UserFields.affiliation} TEXT, 
+        ${UserFields.password} TEXT NOT NULL, 
         UNIQUE(${UserFields.userId})
       )
       '''

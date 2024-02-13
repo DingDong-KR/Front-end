@@ -8,13 +8,13 @@ class MedicalImageFields {
 class MedicalImage {
   static String tableName = 'medicalImage';
 
-  final int imageIndex;
+  final int? imageIndex;
   final int chartNumber;
   final String treatmentArea;
   final String medicalImagePath;
 
   const MedicalImage({
-    required this.imageIndex,
+    this.imageIndex,
     required this.chartNumber,
     required this.treatmentArea,
     required this.medicalImagePath,

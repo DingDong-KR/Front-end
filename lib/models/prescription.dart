@@ -11,7 +11,7 @@ class PrescriptionFields {
 class Prescription {
   static String tableName = 'prescription';
 
-  final int prescriptionIndex;
+  final int? prescriptionIndex;
   final String treatmentName;
   final int dosagePerDay;
   final int chartNumber;
@@ -20,7 +20,7 @@ class Prescription {
   final int totalAmount;
 
   const Prescription({
-    required this.prescriptionIndex,
+    this.prescriptionIndex,
     required this.treatmentName,
     required this.chartNumber,
     required this.dosagePerDay,

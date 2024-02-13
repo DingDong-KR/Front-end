@@ -17,10 +17,10 @@ class PatientHistoryItem {
 
 final List<PatientHistoryItem> patientsItems = [
   PatientHistoryItem(
-    time: DateTime.parse("1969-07-20 20:18:04Z"),
-    diagnosis: "손가락 골절",
-    acupunctureTreatment: "약침치료",
-    medicine: "가미소요산"
+      time: DateTime.parse("1969-07-20 20:18:04Z"),
+      diagnosis: "손가락 골절",
+      acupunctureTreatment: "약침치료",
+      medicine: "가미소요산"
   ),
   PatientHistoryItem(
       time: DateTime.parse("1978-07-20 20:18:04Z"),

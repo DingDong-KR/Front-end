@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'package:my_desktop_app/models/user_affiliation.dart';
+
 import '../models/pre_examination.dart';
 import '../models/acupuncture.dart';
 import '../models/disease.dart';
@@ -7,414 +10,240 @@ import '../models/patients.dart';
 import '../models/prescription.dart';
 import '../models/user.dart';
 import '../models/disease_list.dart';
-import '../repository/chart_sql_db.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:path/path.dart';
+import 'package:flutter/services.dart' show ByteData, rootBundle;
 
+class SqlDataBase {
+  static final SqlDataBase instance = SqlDataBase._instance();
 
-class UserProvider {
-  Future<int> insertUser(User user) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.insert(User.tableName, user.toJson());
+  Database? _database;
+
+  SqlDataBase._instance() {
+    _initDataBase();
   }
 
-  Future<List<User>> getUsers() async {
-    final db = await SqlDataBase.instance.database;
-    final result = await db.query(User.tableName);
-    return result.map((json) => User.fromJson(json)).toList();
+  /* instance 좀더 유용하게 불러오기 가능 */
+  factory SqlDataBase() {
+    return instance;
   }
 
-  Future<User> getUser(String userId) async {
-    final db = await SqlDataBase.instance.database;
-    final result = await db.query(
-      User.tableName,
-      where: "${UserFields.userId} = ?",
-      whereArgs: [userId],
+  Future<Database> get database async {
+    if (_database != null) return _database!;
+    await _initDataBase();
+    return _database!;
+  }
+
+  Future<void> _initDataBase() async {
+    // sqflite_common_ffi os 호환 문제 때문에 사용함
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
+
+    var databasesPath = await getDatabasesPath();
+    var path = join(databasesPath, "chart.db");
+    print('데이터베이스의 위치: $path');
+
+
+    // 앱 내부 저장소에 DB가 존재하는 지확인하고 없으면 ASSETS/DB/chart.db를 복사해서 집어넣음
+    var exists = await databaseExists(path);
+
+    if (!exists) {
+      print("Creating new copy from asset");
+
+      // Make sure the parent directory exists
+      try {
+        await Directory(dirname(path)).create(recursive: true);
+      } catch (_) {}
+
+      // ByteData data = await rootBundle.load(join("assets", "chart.db"));
+      // List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+
+      // File file = File("assets/db/chart.db");
+      // List<int> bytes = await file.readAsBytes();
+      // await File(path).writeAsBytes(bytes, flush: true);
+
+      ByteData data = await rootBundle.load('assets/db/chart.db');
+      List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+      await File(path).writeAsBytes(bytes, flush: true);
+
+    }
+    _database = await openDatabase(path,
+        version: 2, onCreate: _dataBaseCreate); /*onCreate의 경우 db가 없으면 생성하라는뜻*/
+  }
+
+
+  // DB를 볼수 있는 곳에 위치 시키려 했으나, FLUTTER가 앱 전용 저장소 를 제외하고는 사용 불가 함
+  // //해당 앱의 문서 디렉토리에 db 복사본을 저장 -> path_provider 필요
+  // Future<void> copyDbToAppDataDirectory() async {
+  //   var databasesPath = await getDatabasesPath();
+  //   String srcPath = join(databasesPath, 'chart.db');
+
+  //   // Directory appDocDir = await getApplicationDocumentsDirectory(); appDocDir.path
+
+  //   String currentTime = DateFormat('yyyy_MM_dd_HH_mm_ss').format(DateTime.now());
+  //   String dstPath = join('../DB/', 'chart_$currentTime.db');
+
+
+  //   File srcFile = File(srcPath);
+  //   await srcFile.copy(dstPath);
+
+  //   print('Copied db to $dstPath');
+  // }
+
+  //내부 db에 덮어씌우기
+  Future<void> overwriteDbFromAssets() async {
+    var databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, 'chart.db');
+
+    // Delete the existing database file
+    var exists = await databaseExists(path);
+    if (exists) {
+      print('Deleting existing database');
+      await deleteDatabase(path);
+    }
+
+    // Load database from asset and copy
+    print('Creating new copy from asset');
+    // ByteData data = await rootBundle.load(join('assets', 'db', 'chart.db'));
+    // List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+
+    // // Save copied asset to documents
+    // await new File(path).writeAsBytes(bytes);
+
+    ByteData data = await rootBundle.load('assets/db/chart.db');
+    List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    await File(path).writeAsBytes(bytes, flush: true);
+
+
+    print('Overwritten db from assets');
+  }
+
+
+  // 일단 작성했으나 필요는 없음
+  void _dataBaseCreate(Database db, int version) async {
+    await db.execute('''
+      CREATE TABLE ${User.tableName}(
+        ${UserFields.userId} TEXT PRIMARY KEY,
+        ${UserFields.name} TEXT NOT NULL,
+        ${UserFields.email} TEXT NOT NULL,
+        ${UserFields.password} TEXT NOT NULL,
+        UNIQUE(${UserFields.userId})
+      )
+      '''
     );
-    return result.map((json) => User.fromJson(json)).first;
-  }
-
-  Future<int> updateUser(User user) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.update(
-      User.tableName,
-      user.toJson(),
-      where: "${UserFields.userId} = ?",
-      whereArgs: [user.userId],
+    await db.execute('''
+      CREATE TABLE ${UserAffiliation.tableName}(
+        ${UserAffiliationFields.userAffiliationsId} INTEGER PRIMARY KEY AUTOINCREMENT,
+        ${UserAffiliationFields.userId} TEXT,
+        ${UserAffiliationFields.affiliation} TEXT NOT NULL,
+      )
+      '''
     );
-  }
-
-
-  Future<int> deleteUser(String userId) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.delete(
-      User.tableName,
-      where: "${UserFields.userId} = ?",
-      whereArgs: [userId],
+    await db.execute(
+        '''
+        CREATE TABLE ${Patient.tableName}(
+          ${PatientFields.patientNumber} INTEGER PRIMARY KEY AUTOINCREMENT,
+          ${PatientFields.name} TEXT NOT NULL,
+          ${PatientFields.gender} TEXT NOT NULL,
+          ${PatientFields.age} INTEGER NOT NULL,
+          ${PatientFields.address} TEXT NOT NULL,
+          ${PatientFields.socialSecurityNumber} INTEGER NOT NULL UNIQUE,
+          ${PatientFields.lastVisitDate} TEXT,
+          ${PatientFields.queue} INTEGER
+        )
+        '''
     );
-  }
-}
-
-class PatientProvider {
-  // Patient 생성
-  Future<int> insertPatient(Patient patient) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.insert(Patient.tableName, patient.toJson());
-  }
-
-  // Patient 조회
-  Future<List<Patient>> getPatients() async {
-    final db = await SqlDataBase.instance.database;
-    final result = await db.query(Patient.tableName);
-    return result.map((json) => Patient.fromJson(json)).toList();
-  }
-
-  // Patient 상세 조회
-  Future<Patient> getPatient(int patientNumber) async {
-    final db = await SqlDataBase.instance.database;
-    final result = await db.query(
-      Patient.tableName,
-      where: "${PatientFields.patientNumber} = ?",
-      whereArgs: [patientNumber],
+    await db.execute('''
+    CREATE TABLE ${PreExamination.tableName}(
+      ${PreExaminationFields.chartNumber} INTEGER PRIMARY KEY AUTOINCREMENT,
+      ${PreExaminationFields.userId} TEXT NOT NULL,
+      ${PreExaminationFields.patientNumber} INTEGER NOT NULL,
+      ${PreExaminationFields.measurementDate} TEXT NOT NULL,
+      ${PreExaminationFields.bt} REAL NOT NULL,
+      ${PreExaminationFields.bp_h} INTEGER NOT NULL,
+      ${PreExaminationFields.bp_l} INTEGER NOT NULL,
+      ${PreExaminationFields.bloodSugar} INTEGER NOT NULL,
+      ${PreExaminationFields.mainSymptoms} TEXT NOT NULL,
+      ${PreExaminationFields.rosKeywords} TEXT NOT NULL,
+      ${PreExaminationFields.rosDescriptives[0]} TEXT,
+      ${PreExaminationFields.rosDescriptives[1]} TEXT,
+      ${PreExaminationFields.bodyType} INTEGER,
+      ${PreExaminationFields.ros_detail} TEXT,
+      ${PreExaminationFields.additionalNotes} TEXT,
+      ${PreExaminationFields.consentToCollectPersonalInformation} INTEGER,
+      FOREIGN KEY (${PreExaminationFields.patientNumber}) REFERENCES ${Patient.tableName}(${PatientFields.patientNumber}) ON DELETE CASCADE
+    )
+    '''
     );
-    return result.map((json) => Patient.fromJson(json)).first;
-  }
-/* 향후 추가 예정
-  // Patient 수정
-  Future<int> updatePatient(Patient patient) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.update(
-      Patient.tableName,
-      patient.toJson(),
-      where: "${PatientFields.patientNumber} = ?",
-      whereArgs: [patient.patientNumber],
+    await db.execute('''
+    CREATE TABLE ${MedicalRecord.tableName}(
+      ${MedicalRecordFields.chartNumber} INTEGER PRIMARY KEY,
+      ${MedicalRecordFields.userId} TEXT NOT NULL,
+      ${MedicalRecordFields.medicalRecord} TEXT NOT NULL
+    )
+    '''
     );
-  }
-
-  // Patient 삭제
-  Future<int> deletePatient(int patientNumber) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.delete(
-      Patient.tableName,
-      where: "${PatientFields.patientNumber} = ?",
-      whereArgs: [patientNumber],
+    await db.execute('''
+    CREATE TABLE ${MedicalImage.tableName}(
+      ${MedicalImageFields.imageIndex} INTEGER PRIMARY KEY AUTOINCREMENT,
+      ${MedicalImageFields.chartNumber} INTEGER NOT NULL,
+      ${MedicalImageFields.treatmentArea} TEXT NOT NULL,
+      ${MedicalImageFields.medicalImagePath} TEXT NOT NULL
+    )
+    '''
     );
-  }
-*/
-}
-
-class PreExaminationProvider {
-  Future<int> insertPreExamination(PreExamination preExamination) async {
-    final db = await SqlDataBase.instance.database;
-
-    // 이부분 수정필요 (필수 사항, 선택사항 분리 필요)
-    var modifiedPreExamination = PreExamination(
-      chartNumber: preExamination.chartNumber,
-      userId: preExamination.userId,
-      patientNumber: preExamination.patientNumber,
-      measurementDate: DateTime.now(), // 현재 날짜를 사용
-      bt: preExamination.bt,
-      bp_h: preExamination.bp_h,
-      bp_l: preExamination.bp_l,
-      bloodSugar: preExamination.bloodSugar,
-      mainSymptoms: preExamination.mainSymptoms,
-      rosKeywords: preExamination.rosKeywords,
-      rosDescriptives: preExamination.rosDescriptives,
-      bodyType: preExamination.bodyType,
-      ros_detail: preExamination.ros_detail,
-      additionalNotes: preExamination.additionalNotes,
-      consentToCollectPersonalInformation: preExamination.consentToCollectPersonalInformation,
+    await db.execute('''
+    CREATE TABLE ${Disease.tableName}(
+      ${DiseaseFields.diseaseIndex} INTEGER PRIMARY KEY AUTOINCREMENT,
+      ${DiseaseFields.primarySecondaryDisease} INTEGER NOT NULL,
+      ${DiseaseFields.chartNumber} INTEGER NOT NULL,
+      ${DiseaseFields.diseaseCode} TEXT NOT NULL,
+      ${DiseaseFields.diseaseName} TEXT NOT NULL
+    )
+    '''
     );
-
-    return await db.insert(PreExamination.tableName, modifiedPreExamination.toJson());
-  }
-
-  Future<List<PreExamination>> getPreExaminations(int patientNumber) async {
-    final db = await SqlDataBase.instance.database;
-    final result = await db.query(
-      PreExamination.tableName,
-      where: "${PreExaminationFields.patientNumber} = ?",
-      whereArgs: [patientNumber],
+    await db.execute('''
+    CREATE TABLE ${Acupuncture.tableName}(
+      ${AcupunctureFields.acupunctureIndex} INTEGER PRIMARY KEY AUTOINCREMENT,
+      ${AcupunctureFields.acupunctureType} INTEGER NOT NULL,
+      ${AcupunctureFields.chartNumber} INTEGER NOT NULL,
+      ${AcupunctureFields.treatmentPos1} TEXT,
+      ${AcupunctureFields.treatmentPos2} TEXT,
+      ${AcupunctureFields.treatmentPos3} TEXT,
+      ${AcupunctureFields.treatmentPos4} TEXT
+    )
+    '''
     );
-    return result.map((json) => PreExamination.fromJson(json)).toList();
-  }
-  Future<PreExamination> getPreExamination(int chartNumber) async {
-    final db = await SqlDataBase.instance.database;
-    final result = await db.query(
-      PreExamination.tableName,
-      where: "${PreExaminationFields.chartNumber} = ?",
-      whereArgs: [chartNumber],
+    await db.execute('''
+    CREATE TABLE ${Prescription.tableName}(
+      ${PrescriptionFields.prescriptionIndex} INTEGER PRIMARY KEY AUTOINCREMENT,
+      ${PrescriptionFields.treatmentName} TEXT NOT NULL,
+      ${PrescriptionFields.dosagePerDay} INTEGER NOT NULL,
+      ${PrescriptionFields.chartNumber} INTEGER NOT NULL,
+      ${PrescriptionFields.instructions} TEXT NOT NULL,
+      ${PrescriptionFields.durationOfMedication} INTEGER NOT NULL,
+      ${PrescriptionFields.totalAmount} INTEGER NOT NULL
+    )
+    '''
     );
-    return result.map((json) => PreExamination.fromJson(json)).first;
-  }
-/* 향후 추가 예정
-  Future<int> updatePreExamination(PreExamination preExamination) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.update(
-      PreExamination.tableName,
-      preExamination.toJson(),
-      where: "${PreExaminationFields.chartNumber} = ?",
-      whereArgs: [preExamination.chartNumber],
-    );
-  }
-
-  Future<int> deletePreExamination(int chartNumber) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.delete(
-      PreExamination.tableName,
-      where: "${PreExaminationFields.chartNumber} = ?",
-      whereArgs: [chartNumber],
-    );
-  }
-*/
-}
-class MedicalRecordProvider {
-  Future<int> insertMedicalRecord(MedicalRecord medicalRecord) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.insert(MedicalRecord.tableName, medicalRecord.toJson());
-  }
-/* 단순히 진료 기록 리스트 전부 불러오는것
-  Future<List<MedicalRecord>> getMedicalRecords() async {
-    final db = await SqlDataBase.instance.database;
-    final result = await db.query(MedicalRecord.tableName);
-    return result.map((json) => MedicalRecord.fromJson(json)).toList();
-  }
- */
-  Future<MedicalRecord> getMedicalRecord(int chartNumber) async {
-    final db = await SqlDataBase.instance.database;
-    final result = await db.query(
-      MedicalRecord.tableName,
-      where: "${MedicalRecordFields.chartNumber} = ?",
-      whereArgs: [chartNumber],
-    );
-    return result.map((json) => MedicalRecord.fromJson(json)).first;
-  }
-
-/*
-  Future<int> updateMedicalRecord(MedicalRecord medicalRecord) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.update(
-      MedicalRecord.tableName,
-      medicalRecord.toJson(),
-      where: "${MedicalRecordFields.chartNumber} = ?",
-      whereArgs: [medicalRecord.chartNumber],
-    );
-  }
-
-  Future<int> deleteMedicalRecord(int chartNumber) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.delete(
-      MedicalRecord.tableName,
-      where: "${MedicalRecordFields.chartNumber} = ?",
-      whereArgs: [chartNumber],
-    );
-  }
-*/
-}
-
-class MedicalImageProvider {
-  Future<int> insertMedicalImage(MedicalImage medicalImage) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.insert(MedicalImage.tableName, medicalImage.toJson());
-  }
-
-/*
-  Future<List<MedicalImage>> getMedicalImages() async {
-    final db = await SqlDataBase.instance.database;
-    final result = await db.query(MedicalImage.tableName);
-    return result.map((json) => MedicalImage.fromJson(json)).toList();
-  }
-*/
-
-  Future<List<MedicalImage>> getMedicalImage(int chartNumber) async {
-    final db = await SqlDataBase.instance.database;
-    final result = await db.query(
-      MedicalImage.tableName,
-      where: "${MedicalImageFields.chartNumber} = ?",
-      whereArgs: [chartNumber],
-    );
-    return result.map((json) => MedicalImage.fromJson(json)).toList();
-  }
-
-/*
-  Future<int> updateMedicalImage(MedicalImage medicalImage) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.update(
-      MedicalImage.tableName,
-      medicalImage.toJson(),
-      where: "${MedicalImageFields.imageIndex} = ?",
-      whereArgs: [medicalImage.imageIndex],
+    await db.execute('''
+      CREATE TABLE ${DiseaseList.tableName}(
+        ${DiseaseListFields.diseaseListIndex} INTEGER PRIMARY KEY AUTOINCREMENT,
+        ${DiseaseListFields.diseaseCode} TEXT NOT NULL,
+        ${DiseaseListFields.koreanName} TEXT,
+        ${DiseaseListFields.englishName} TEXT,
+        ${DiseaseListFields.completeness} TEXT
+      )
+      '''
     );
   }
 
-  Future<int> deleteMedicalImage(int imageIndex) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.delete(
-      MedicalImage.tableName,
-      where: "${MedicalImageFields.imageIndex} = ?",
-      whereArgs: [imageIndex],
-    );
-  }
-*/
-}
-
-class DiseaseProvider {
-  Future<int> insertDisease(Disease disease) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.insert(Disease.tableName, disease.toJson());
-  }
-  /**
-      Future<List<Disease>> getDiseases() async {
-      final db = await SqlDataBase.instance.database;
-      final result = await db.query(Disease.tableName);
-      return result.map((json) => Disease.fromJson(json)).toList();
-      }
-   */
-  Future<List<Disease>> getDisease(int chartNumber) async {
-    final db = await SqlDataBase.instance.database;
-    final result = await db.query(
-      Disease.tableName,
-      where: "${DiseaseFields.chartNumber} = ?",
-      whereArgs: [chartNumber],
-    );
-    return result.map((json) => Disease.fromJson(json)).toList();
-  }
-
-/*
-  Future<int> updateDisease(Disease disease) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.update(
-      Disease.tableName,
-      disease.toJson(),
-      where: "${DiseaseFields.diseaseIndex} = ?",
-      whereArgs: [disease.diseaseIndex],
-    );
-  }
-
-  Future<int> deleteDisease(int diseaseIndex) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.delete(
-      Disease.tableName,
-      where: "${DiseaseFields.diseaseIndex} = ?",
-      whereArgs: [diseaseIndex],
-    );
-  }
-*/
-}
-class AcupunctureProvider {
-  Future<int> insertAcupuncture(Acupuncture acupuncture) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.insert(Acupuncture.tableName, acupuncture.toJson());
-  }
-  /**
-      Future<List<Acupuncture>> getAcupunctures() async {
-      final db = await SqlDataBase.instance.database;
-      final result = await db.query(Acupuncture.tableName);
-      return result.map((json) => Acupuncture.fromJson(json)).toList();
-      }
-   */
-  Future<List<Acupuncture>> getAcupuncture(int chartNumber) async {
-    final db = await SqlDataBase.instance.database;
-    final result = await db.query(
-      Acupuncture.tableName,
-      where: "${AcupunctureFields.chartNumber} = ?",
-      whereArgs: [chartNumber],
-    );
-    return result.map((json) => Acupuncture.fromJson(json)).toList();
-  }
-
-/*
-  Future<int> updateAcupuncture(Acupuncture acupuncture) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.update(
-      Acupuncture.tableName,
-      acupuncture.toJson(),
-      where: "${AcupunctureFields.acupunctureIndex} = ?",
-      whereArgs: [acupuncture.acupunctureIndex],
-    );
-  }
-
-  Future<int> deleteAcupuncture(int acupunctureIndex) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.delete(
-      Acupuncture.tableName,
-      where: "${AcupunctureFields.acupunctureIndex} = ?",
-      whereArgs: [acupunctureIndex],
-    );
-  }
-*/
-}
 
 
-
-class PrescriptionProvider {
-  Future<int> insertPrescription(Prescription prescription) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.insert(Prescription.tableName, prescription.toJson());
-  }
-/*
-  Future<List<Prescription>> getPrescriptions() async {
-    final db = await SqlDataBase.instance.database;
-    final result = await db.query(Prescription.tableName);
-    return result.map((json) => Prescription.fromJson(json)).toList();
-  }
-*/
-  Future<List<Prescription>> getPrescription(int chartNumber) async {
-    final db = await SqlDataBase.instance.database;
-    final result = await db.query(
-      Prescription.tableName,
-      where: "${PrescriptionFields.chartNumber} = ?",
-      whereArgs: [chartNumber],
-    );
-    return result.map((json) => Prescription.fromJson(json)).toList();
+  void closeDataBase() async {
+    if (_database != null) await _database!.close();
   }
 
-/*
-  Future<int> updatePrescription(Prescription prescription) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.update(
-      Prescription.tableName,
-      prescription.toJson(),
-      where: "${PrescriptionFields.prescriptionIndex} = ?",
-      whereArgs: [prescription.prescriptionIndex],
-    );
-  }
 
-  Future<int> deletePrescription(int prescriptionIndex) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.delete(
-      Prescription.tableName,
-      where: "${PrescriptionFields.prescriptionIndex} = ?",
-      whereArgs: [prescriptionIndex],
-    );
-  }
-*/
-}
-
-
-class DiseaseListProvider {
-  Future<List<DiseaseList>> getDiseaseList() async {
-    final db = await SqlDataBase.instance.database;
-    final result = await db.query(DiseaseList.tableName);
-    return result.map((json) => DiseaseList.fromJson(json)).toList();
-  }
-
-  Future<DiseaseList> getDiseaseCode_kor(String koreanName) async {
-    final db = await SqlDataBase.instance.database;
-    final result = await db.query(
-      DiseaseList.tableName,
-      where: "${DiseaseListFields.koreanName} = ?",
-      whereArgs: [koreanName],
-    );
-    return result.map((json) => DiseaseList.fromJson(json)).first;
-  }
-
-  Future<DiseaseList> getDiseaseCode_en(String englishName) async {
-    final db = await SqlDataBase.instance.database;
-    final result = await db.query(
-      DiseaseList.tableName,
-      where: "${DiseaseListFields.englishName} = ?",
-      whereArgs: [englishName],
-    );
-    return result.map((json) => DiseaseList.fromJson(json)).first;
-  }
 
 }

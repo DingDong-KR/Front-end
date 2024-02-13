@@ -9,14 +9,14 @@ class DiseaseFields {
 class Disease {
   static String tableName = 'disease';
 
-  final int diseaseIndex;
+  final int? diseaseIndex;
   final int chartNumber;
   final bool primarySecondaryDisease;
   final String diseaseCode;
   final String diseaseName;
 
   const Disease({
-    required this.diseaseIndex,
+    this.diseaseIndex,
     required this.chartNumber,
     required this.primarySecondaryDisease,
     required this.diseaseCode,
