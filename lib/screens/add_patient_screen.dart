@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:my_desktop_app/models/patients.dart';
+import 'package:my_desktop_app/repository/chart_crud_sql.dart';
 
 class AddPatientScreen extends StatefulWidget {
   const AddPatientScreen({super.key});
@@ -10,6 +12,33 @@ class AddPatientScreen extends StatefulWidget {
 }
 
 class _AddPatientScreenState extends State<AddPatientScreen> {
+  final TextEditingController nameController = TextEditingController();
+  String selectedGender = ''; // 선택된 성별을 저장할 변수
+  final TextEditingController ssnFrontController = TextEditingController();
+  final TextEditingController ssnBackController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+
+  int age = 0; // 나이를 저장할 변수
+  String ssn = ''; // 주민번호를 저장할 변수
+
+  // 환자 정보를 저장하기 위한 함수
+  Future<void> savePatient() async {
+    // 입력된 값들을 이용하여 Patient 객체 생성
+    final Patient newPatient = Patient(
+      name: nameController.text,
+      gender: selectedGender,
+      age: age,
+      socialSecurityNumber: int.parse(ssn),
+      address: addressController.text,
+      //lastVisitDate: DateTime.parse(lastVisitDateController.text),
+      //queue: int.parse(queueController.text),
+    );
+
+    // 데이터베이스에 환자 정보 추가
+    final PatientProvider patientProvider = PatientProvider();
+    await patientProvider.insertPatient(newPatient);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -87,7 +116,16 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                     const SizedBox(width: 10),
                     GestureDetector(
                       onTap: () {
+                        ssn = ssnFrontController.text + ssnBackController.text;
+
                         // 완료 버튼이 눌렸을 때 실행되는 로직
+                        print(nameController.text);
+                        print(selectedGender);
+                        print(ssn);
+                        print(age);
+
+                        // db에 저장시킴
+                        savePatient();
                         Navigator.pop(context); // 현재 화면을 닫는 동작을 수행
                       },
                       child: Container(
@@ -214,7 +252,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: Container(
-                      width: 57,
+                      width: 100,
                       height: 22,
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       decoration: ShapeDecoration(
@@ -222,19 +260,35 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5)),
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            '남궁호연',
-                            style: TextStyle(
-                              color: Color(0xFFAFAFAF),
-                              fontSize: 10,
-                              fontFamily: 'Noto Sans KR',
-                              fontWeight: FontWeight.w400,
-                              height: 0.22,
+                          // Text(
+                          //   '이름',
+                          //   style: TextStyle(
+                          //     color: Color(0xFFAFAFAF),
+                          //     fontSize: 10,
+                          //     fontFamily: 'Noto Sans KR',
+                          //     fontWeight: FontWeight.w400,
+                          //     height: 0.22,
+                          //   ),
+                          // ),
+                          Expanded(
+                            // Expand를 사용하지 않으면 튕김. 왜지?
+                            child: TextFormField(
+                              controller: nameController,
+                              decoration: const InputDecoration(
+                                hintText: '이름',
+                                labelStyle: TextStyle(
+                                  color: Color(0xFFAFAFAF),
+                                  fontSize: 10,
+                                  fontFamily: 'Noto Sans KR',
+                                  fontWeight: FontWeight.w400,
+                                  height: 0.22,
+                                ),
+                              ),
                             ),
                           ),
                         ],
@@ -242,141 +296,182 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                     ),
                   ),
                   const SizedBox(
-                    width: 125,
+                    width: 87,
                   ),
                   Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 90, 0),
-                      child: Row(children: [
-                        SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                left: 0,
-                                top: 0,
-                                child: Container(
-                                  width: 16,
-                                  height: 16,
-                                  decoration: const ShapeDecoration(
-                                    color: Colors.white,
-                                    shape: OvalBorder(
-                                      side: BorderSide(
-                                          width: 1, color: Color(0xFF3FA7C3)),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                    padding: const EdgeInsets.fromLTRB(0, 5, 50, 0),
+                    child: // 성별 선택을 위한 라디오 버튼 그룹
+                        Row(
+                      children: [
+                        Radio(
+                          value: '남',
+                          groupValue: selectedGender,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedGender = value.toString();
+                              print(selectedGender);
+                            });
+                          },
                         ),
-                        const SizedBox(
-                          width: 5,
+                        const Text('남'),
+                        Radio(
+                          value: '여',
+                          groupValue: selectedGender,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedGender = value.toString();
+                              print(selectedGender);
+                            });
+                          },
                         ),
-                        const Text(
-                          '남',
-                          style: TextStyle(
-                            color: Color(0xFF404855),
-                            fontSize: 12,
-                            fontFamily: 'Noto Sans KR',
-                            fontWeight: FontWeight.w400,
-                            height: 0.15,
-                          ),
+                        const Text('여'),
+                        Radio(
+                          value: '기타',
+                          groupValue: selectedGender,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedGender = value.toString();
+                              print(selectedGender);
+                            });
+                          },
                         ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                left: 0,
-                                top: 0,
-                                child: Container(
-                                  width: 16,
-                                  height: 16,
-                                  decoration: const ShapeDecoration(
-                                    color: Colors.white,
-                                    shape: OvalBorder(
-                                      side: BorderSide(
-                                          width: 1, color: Color(0xFF3FA7C3)),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 3,
-                                top: 3,
-                                child: Container(
-                                  width: 10,
-                                  height: 10,
-                                  decoration: const ShapeDecoration(
-                                    color: Color(0xFF3FA7C3),
-                                    shape: OvalBorder(
-                                      side: BorderSide(
-                                          width: 1, color: Color(0xFF3FA7C3)),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        const Text(
-                          '여',
-                          style: TextStyle(
-                            color: Color(0xFF404855),
-                            fontSize: 12,
-                            fontFamily: 'Noto Sans KR',
-                            fontWeight: FontWeight.w400,
-                            height: 0.15,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                left: 0,
-                                top: 0,
-                                child: Container(
-                                  width: 16,
-                                  height: 16,
-                                  decoration: const ShapeDecoration(
-                                    color: Colors.white,
-                                    shape: OvalBorder(
-                                      side: BorderSide(
-                                          width: 1, color: Color(0xFF3FA7C3)),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        const Text(
-                          '기타',
-                          style: TextStyle(
-                            color: Color(0xFF404855),
-                            fontSize: 12,
-                            fontFamily: 'Noto Sans KR',
-                            fontWeight: FontWeight.w400,
-                            height: 0.15,
-                          ),
-                        )
-                      ]))
+                        const Text('기타'),
+                      ],
+                    ),
+                    // child: Row(
+                    //   children: [
+                    //     SizedBox(
+                    //       width: 16,
+                    //       height: 16,
+                    //       child: Stack(
+                    //         children: [
+                    //           Positioned(
+                    //             left: 0,
+                    //             top: 0,
+                    //             child: Container(
+                    //               width: 16,
+                    //               height: 16,
+                    //               decoration: const ShapeDecoration(
+                    //                 color: Colors.white,
+                    //                 shape: OvalBorder(
+                    //                   side: BorderSide(
+                    //                       width: 1, color: Color(0xFF3FA7C3)),
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //     const SizedBox(
+                    //       width: 5,
+                    //     ),
+                    //     const Text(
+                    //       '남',
+                    //       style: TextStyle(
+                    //         color: Color(0xFF404855),
+                    //         fontSize: 12,
+                    //         fontFamily: 'Noto Sans KR',
+                    //         fontWeight: FontWeight.w400,
+                    //         height: 0.15,
+                    //       ),
+                    //     ),
+                    //     const SizedBox(
+                    //       width: 10,
+                    //     ),
+                    //     SizedBox(
+                    //       width: 16,
+                    //       height: 16,
+                    //       child: Stack(
+                    //         children: [
+                    //           Positioned(
+                    //             left: 0,
+                    //             top: 0,
+                    //             child: Container(
+                    //               width: 16,
+                    //               height: 16,
+                    //               decoration: const ShapeDecoration(
+                    //                 color: Colors.white,
+                    //                 shape: OvalBorder(
+                    //                   side: BorderSide(
+                    //                       width: 1, color: Color(0xFF3FA7C3)),
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           ),
+                    //           Positioned(
+                    //             left: 3,
+                    //             top: 3,
+                    //             child: Container(
+                    //               width: 10,
+                    //               height: 10,
+                    //               decoration: const ShapeDecoration(
+                    //                 color: Color(0xFF3FA7C3),
+                    //                 shape: OvalBorder(
+                    //                   side: BorderSide(
+                    //                       width: 1, color: Color(0xFF3FA7C3)),
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //     const SizedBox(
+                    //       width: 5,
+                    //     ),
+                    //     const Text(
+                    //       '여',
+                    //       style: TextStyle(
+                    //         color: Color(0xFF404855),
+                    //         fontSize: 12,
+                    //         fontFamily: 'Noto Sans KR',
+                    //         fontWeight: FontWeight.w400,
+                    //         height: 0.15,
+                    //       ),
+                    //     ),
+                    //     const SizedBox(
+                    //       width: 10,
+                    //     ),
+                    //     SizedBox(
+                    //       width: 16,
+                    //       height: 16,
+                    //       child: Stack(
+                    //         children: [
+                    //           Positioned(
+                    //             left: 0,
+                    //             top: 0,
+                    //             child: Container(
+                    //               width: 16,
+                    //               height: 16,
+                    //               decoration: const ShapeDecoration(
+                    //                 color: Colors.white,
+                    //                 shape: OvalBorder(
+                    //                   side: BorderSide(
+                    //                       width: 1, color: Color(0xFF3FA7C3)),
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //     const SizedBox(
+                    //       width: 5,
+                    //     ),
+                    //     const Text(
+                    //       '기타',
+                    //       style: TextStyle(
+                    //         color: Color(0xFF404855),
+                    //         fontSize: 12,
+                    //         fontFamily: 'Noto Sans KR',
+                    //         fontWeight: FontWeight.w400,
+                    //         height: 0.15,
+                    //       ),
+                    //     )
+                    //   ],
+                    // ),
+                  ),
                 ],
               ), //000000
               const SizedBox(
@@ -486,19 +581,35 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5)),
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          '상세주소를 입력하세요.',
-                          style: TextStyle(
-                            color: Color(0xFFAFAFAF),
-                            fontSize: 10,
-                            fontFamily: 'Noto Sans KR',
-                            fontWeight: FontWeight.w400,
-                            height: 0.22,
+                        // Text(
+                        //   '상세주소를 입력하세요.',
+                        //   style: TextStyle(
+                        //     color: Color(0xFFAFAFAF),
+                        //     fontSize: 10,
+                        //     fontFamily: 'Noto Sans KR',
+                        //     fontWeight: FontWeight.w400,
+                        //     height: 0.22,
+                        //   ),
+                        // ),
+                        Expanded(
+                          // Expand를 사용하지 않으면 튕김. 왜지?
+                          child: TextFormField(
+                            controller: addressController,
+                            decoration: const InputDecoration(
+                              hintText: '상세주소를 입력하세요.',
+                              labelStyle: TextStyle(
+                                color: Color(0xFFAFAFAF),
+                                fontSize: 10,
+                                fontFamily: 'Noto Sans KR',
+                                fontWeight: FontWeight.w400,
+                                height: 0.22,
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -535,7 +646,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                     width: 25,
                   ),
                   Container(
-                    width: 59,
+                    width: 100,
                     height: 22,
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: ShapeDecoration(
@@ -543,20 +654,74 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5)),
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          '641113',
-                          style: TextStyle(
-                            color: Color(0xFFAFAFAF),
-                            fontSize: 10,
-                            fontFamily: 'Noto Sans KR',
-                            fontWeight: FontWeight.w400,
-                            height: 0.22,
-                            letterSpacing: 1,
+                        // Text(
+                        //   '641113',
+                        //   style: TextStyle(
+                        //     color: Color(0xFFAFAFAF),
+                        //     fontSize: 10,
+                        //     fontFamily: 'Noto Sans KR',
+                        //     fontWeight: FontWeight.w400,
+                        //     height: 0.22,
+                        //     letterSpacing: 1,
+                        //   ),
+                        // ),
+                        Expanded(
+                          // Expand를 사용하지 않으면 튕김. 왜지?
+                          child: TextFormField(
+                            controller: ssnFrontController,
+                            decoration: const InputDecoration(
+                              hintText: '앞자리',
+                              labelStyle: TextStyle(
+                                color: Color(0xFFAFAFAF),
+                                fontSize: 10,
+                                fontFamily: 'Noto Sans KR',
+                                fontWeight: FontWeight.w400,
+                                height: 0.22,
+                              ),
+                            ),
+                            onChanged: (value) {
+                              setState(() {
+                                if (value.length == 6) {
+                                  // 현재 날짜 가져오기
+                                  DateTime today = DateTime.now();
+
+                                  // 주민등록번호에서 생년월일 추출
+                                  int birthYear =
+                                      int.parse(value.substring(0, 2));
+                                  int birthMonth =
+                                      int.parse(value.substring(2, 4));
+                                  int birthDay =
+                                      int.parse(value.substring(4, 6));
+
+                                  // 2000년 이후 출생자인 경우 2000년을 더함
+                                  if (birthYear >= 0 && birthYear <= 21) {
+                                    birthYear += 2000;
+                                  } else {
+                                    birthYear += 1900;
+                                  }
+
+                                  // 생년월일을 이용하여 생년월일 객체 생성
+                                  DateTime birthDate =
+                                      DateTime(birthYear, birthMonth, birthDay);
+
+                                  // 나이 계산
+                                  age = today.year - birthDate.year;
+
+                                  // 생일이 지났는지 체크
+                                  if (today.month < birthDate.month ||
+                                      (today.month == birthDate.month &&
+                                          today.day < birthDate.day)) {
+                                    age--;
+                                  }
+                                  print(age);
+                                }
+                              });
+                            },
                           ),
                         ),
                       ],
@@ -574,7 +739,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                     ),
                   ),
                   Container(
-                    width: 68,
+                    width: 120,
                     height: 22,
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: ShapeDecoration(
@@ -582,20 +747,36 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5)),
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          '2205116',
-                          style: TextStyle(
-                            color: Color(0xFFAFAFAF),
-                            fontSize: 10,
-                            fontFamily: 'Noto Sans KR',
-                            fontWeight: FontWeight.w400,
-                            height: 0.22,
-                            letterSpacing: 1,
+                        // Text(
+                        //   '2205116',
+                        //   style: TextStyle(
+                        //     color: Color(0xFFAFAFAF),
+                        //     fontSize: 10,
+                        //     fontFamily: 'Noto Sans KR',
+                        //     fontWeight: FontWeight.w400,
+                        //     height: 0.22,
+                        //     letterSpacing: 1,
+                        //   ),
+                        // ),
+                        Expanded(
+                          // Expand를 사용하지 않으면 튕김. 왜지?
+                          child: TextFormField(
+                            controller: ssnBackController,
+                            decoration: const InputDecoration(
+                              hintText: '뒷자리',
+                              labelStyle: TextStyle(
+                                color: Color(0xFFAFAFAF),
+                                fontSize: 10,
+                                fontFamily: 'Noto Sans KR',
+                                fontWeight: FontWeight.w400,
+                                height: 0.22,
+                              ),
+                            ),
                           ),
                         ),
                       ],
