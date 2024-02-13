@@ -1,18 +1,50 @@
+import 'dart:async';
+import 'package:intl/intl.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:my_desktop_app/models/user.dart';
 import 'package:my_desktop_app/screens/add_patient_screen.dart';
 
-class TopBar extends StatelessWidget implements PreferredSizeWidget {
+class TopBar extends StatefulWidget implements PreferredSizeWidget {
+  final User user;
+  const TopBar({Key? key, required this.user}) : super(key: key);
+
+  @override
+  State<TopBar> createState() => _TopBarState();
+
   @override
   Size get preferredSize =>
-      Size.fromHeight(49); // Adjust the height accordingly
+      const Size.fromHeight(49); // Adjust the height accordingly
+}
+
+class _TopBarState extends State<TopBar> {
+  late DateTime _currentTime;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // 초기에 현재 시간을 가져와서 설정
+    _currentTime = DateTime.now();
+
+    // 1초마다 화면을 업데이트하는 타이머 설정
+    Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      if (mounted) {
+        // 화면이 소멸되면 타이머를 중단하기 위해 체크
+        setState(() {
+          _currentTime = DateTime.now();
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       height: 49,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         boxShadow: [
           BoxShadow(
@@ -27,8 +59,8 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Text(
               '환자검색',
               style: TextStyle(
@@ -41,35 +73,34 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
           ),
-          SizedBox(width: 10), // Add some spacing
+          const SizedBox(width: 10), // Add some spacing
           Stack(
             children: [
               Container(
                 width: 328,
                 height: 28,
                 decoration: ShapeDecoration(
-                  color: Color(0xFFF7F7F7),
+                  color: const Color(0xFFF7F7F7),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.0),
                   child: TextField(
                     decoration: InputDecoration(
-                      hintText: '환자이름/차트번호/생년월일/휴대폰번호',
-                      hintStyle: TextStyle(
-                        color: Color(0xFFAFAFAF),
-                        fontSize: 11,
-                        fontFamily: 'Pretendard',
-                        fontWeight: FontWeight.w400,
-                      ),
-                      contentPadding: EdgeInsets.symmetric(
-                        vertical: 15, // Adjust the vertical padding
-                      ),
-                      border: InputBorder.none
-                    ),
-                    style:TextStyle(
+                        hintText: '환자이름/차트번호/생년월일/휴대폰번호',
+                        hintStyle: TextStyle(
+                          color: Color(0xFFAFAFAF),
+                          fontSize: 11,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w400,
+                        ),
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 15, // Adjust the vertical padding
+                        ),
+                        border: InputBorder.none),
+                    style: TextStyle(
                       color: Colors.black,
                       fontSize: 11,
                       fontFamily: 'Pretendard',
@@ -85,17 +116,17 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ],
           ),
-          SizedBox(width: 30),
+          const SizedBox(width: 30),
 
           GestureDetector(
             onTap: () {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return Align(
+                  return const Align(
                     alignment: Alignment.center,
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+                      padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
                       child: Dialog(
                         elevation: 0,
                         backgroundColor: Colors.transparent,
@@ -110,7 +141,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
               width: 101,
               height: 28,
               decoration: ShapeDecoration(
-                color: Color(0xFFE2F1F6),
+                color: const Color(0xFFE2F1F6),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
@@ -118,7 +149,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(
+                  const Text(
                     '신규환자',
                     style: TextStyle(
                       color: Color(0xFF404855),
@@ -134,13 +165,13 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
           ),
-          Spacer(),
+          const Spacer(),
           // Added Spacer to push '이수민' and the following texts to the right
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Text(
-              '이수민',
-              style: TextStyle(
+              'Doc. ${widget.user.name}',
+              style: const TextStyle(
                 color: Color(0xFF404855),
                 fontSize: 12,
                 fontFamily: 'Pretendard',
@@ -152,8 +183,8 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Text(
-              '2024-05-24',
-              style: TextStyle(
+              DateFormat('yyyy-MM-dd').format(_currentTime),
+              style: const TextStyle(
                 color: Color(0xFF404855),
                 fontSize: 12,
                 fontFamily: 'Pretendard',
@@ -166,8 +197,8 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Text(
-              '20:12:44',
-              style: TextStyle(
+              DateFormat('HH:mm:ss').format(_currentTime),
+              style: const TextStyle(
                 color: Color(0xFF404855),
                 fontSize: 12,
                 fontFamily: 'Pretendard',

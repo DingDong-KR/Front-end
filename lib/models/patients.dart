@@ -1,12 +1,13 @@
 class PatientFields {
-  static final String patientNumber = 'patientNumber';                // 환자 번호
-  static final String name = 'name';                                  // 환자 이름
-  static final String gender = 'gender';                              // 환자 성별
-  static final String age = 'age';                                    // 환자 연령
-  static final String socialSecurityNumber = 'socialSecurityNumber';  // 환자 주민번호
-  static final String address = 'address';                            // 환자 주소
-  static final String lastVisitDate = 'lastVisitDate';                // 환자 최근 방문 날 -> 추후 예진 차트 작성시 입력되게 할 것임
-  static final String queue = 'queue'; // 대기열
+  static const String patientNumber = 'patientNumber'; // 환자 번호
+  static const String name = 'name'; // 환자 이름
+  static const String gender = 'gender'; // 환자 성별
+  static const String age = 'age'; // 환자 연령
+  static const String socialSecurityNumber = 'socialSecurityNumber'; // 환자 주민번호
+  static const String address = 'address'; // 환자 주소
+  static const String lastVisitDate =
+      'lastVisitDate'; // 환자 최근 방문 날 -> 추후 예진 차트 작성시 입력되게 할 것임
+  static const String queue = 'queue'; // 대기열
 }
 
 class Patient {
@@ -17,6 +18,7 @@ class Patient {
   final String gender;
   final int age;
   final int socialSecurityNumber;
+  final String address; // 없어서 추가했음
   DateTime? lastVisitDate; // 이후에 수정해야 함
   int? queue;
 
@@ -26,6 +28,7 @@ class Patient {
     required this.gender,
     required this.age,
     required this.socialSecurityNumber,
+    required this.address, // 추가함
     this.lastVisitDate,
     this.queue,
   });
@@ -37,8 +40,9 @@ class Patient {
       PatientFields.gender: gender,
       PatientFields.age: age,
       PatientFields.socialSecurityNumber: socialSecurityNumber,
+      PatientFields.address: address, // 추가함
       PatientFields.lastVisitDate: lastVisitDate?.toIso8601String(),
-      PatientFields.queue: queue,
+      PatientFields.queue: queue, // 대기열 하나씩 증가하게하는거 구현필요
     };
   }
 
@@ -49,6 +53,7 @@ class Patient {
       gender: json[PatientFields.gender] as String,
       age: json[PatientFields.age] as int,
       socialSecurityNumber: json[PatientFields.socialSecurityNumber] as int,
+      address: json[PatientFields.address] as String,
       lastVisitDate: json[PatientFields.lastVisitDate] != null
           ? DateTime.parse(json[PatientFields.lastVisitDate] as String)
           : null,
