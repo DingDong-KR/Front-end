@@ -38,6 +38,8 @@ dependencies:
   http:
   path: ^1.8.3
   sqflite_common_ffi: ^2.3.2+1
+  intl: ^0.18.1
+  flutter_svg: ^2.0.9
 
 dev_dependencies:
   flutter_test:
@@ -49,7 +51,6 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-  flutter_svg:
   get: ^4.6.6
   sqflite: ^2.3.2
 

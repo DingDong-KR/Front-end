@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class AddPatientScreen extends StatelessWidget {
+class AddPatientScreen extends StatefulWidget {
+  const AddPatientScreen({super.key});
+
+  @override
+  State<AddPatientScreen> createState() => _AddPatientScreenState();
+}
+
+class _AddPatientScreenState extends State<AddPatientScreen> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -13,21 +20,21 @@ class AddPatientScreen extends StatelessWidget {
           decoration: ShapeDecoration(
             color: Colors.white,
             shape: RoundedRectangleBorder(
-              side: BorderSide(width: 1, color: Color(0xFF3FA7C3)),
+              side: const BorderSide(width: 1, color: Color(0xFF3FA7C3)),
               borderRadius: BorderRadius.circular(5),
             ),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
+                    const Text(
                       '신규환자등록',
                       style: TextStyle(
                         color: Color(0xFF404855),
@@ -38,7 +45,7 @@ class AddPatientScreen extends StatelessWidget {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(width: 70),
+                    const SizedBox(width: 70),
                     GestureDetector(
                       onTap: () {
                         // 닫기 버튼이 눌렸을 때 실행되는 로직
@@ -47,10 +54,12 @@ class AddPatientScreen extends StatelessWidget {
                       child: Container(
                         width: 56.20,
                         height: 24,
-                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 3),
                         decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
-                            side: BorderSide(width: 1, color: Color(0xFF3FA7C3)),
+                            side: const BorderSide(
+                                width: 1, color: Color(0xFF3FA7C3)),
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
@@ -59,7 +68,7 @@ class AddPatientScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
+                            const Text(
                               '닫기',
                               style: TextStyle(
                                 color: Color(0xFF3FA7C3),
@@ -74,47 +83,54 @@ class AddPatientScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                    ),//닫기 버튼
-                    SizedBox(width: 10),
-                    Container(
-                      width: 56.20,
-                      height: 24,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 5, vertical: 3),
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 1, color: Color(0xFF3FA7C3)),
-                          borderRadius: BorderRadius.circular(5),
+                    ), //닫기 버튼
+                    const SizedBox(width: 10),
+                    GestureDetector(
+                      onTap: () {
+                        // 완료 버튼이 눌렸을 때 실행되는 로직
+                        Navigator.pop(context); // 현재 화면을 닫는 동작을 수행
+                      },
+                      child: Container(
+                        width: 56.20,
+                        height: 24,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 3),
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                                width: 1, color: Color(0xFF3FA7C3)),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Text(
+                              '완료',
+                              style: TextStyle(
+                                color: Color(0xFF3FA7C3),
+                                fontSize: 12,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w500,
+                                height: 0.12,
+                                letterSpacing: 0.12,
+                              ),
+                            ),
+                            SvgPicture.asset('assets/icons/icon_checked.svg'),
+                          ],
                         ),
                       ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            '완료',
-                            style: TextStyle(
-                              color: Color(0xFF3FA7C3),
-                              fontSize: 12,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w500,
-                              height: 0.12,
-                              letterSpacing: 0.12,
-                            ),
-                          ),
-                          SvgPicture.asset('assets/icons/icon_checked.svg'),
-                        ],
-                      ),
                     ), //완료 버튼
-                    SizedBox(width: 15),
+                    const SizedBox(width: 15),
                   ],
                 ),
               ), //신규환자등록
-              SizedBox(
+              const SizedBox(
                 height: 27,
               ),
-              Row(
+              const Row(
                 children: [
                   SizedBox(
                     width: 25,
@@ -157,15 +173,15 @@ class AddPatientScreen extends StatelessWidget {
                   ),
                 ],
               ), //환자번호, 이름
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Row(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 25,
                   ),
-                  Container(
+                  SizedBox(
                     width: 59,
                     height: 22, // Set the width based on your requirements
                     child: TextField(
@@ -173,7 +189,7 @@ class AddPatientScreen extends StatelessWidget {
                         LengthLimitingTextInputFormatter(6),
                         // Another way to limit the input length
                       ],
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: '000000',
                         hintStyle: TextStyle(
                           color: Color(0xFF3FA7C3),
@@ -183,7 +199,7 @@ class AddPatientScreen extends StatelessWidget {
                           letterSpacing: 1,
                         ),
                       ),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Color(0xFF3FA7C3),
                         fontSize: 10,
                         fontFamily: 'Noto Sans KR',
@@ -192,7 +208,7 @@ class AddPatientScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 15,
                   ),
                   Padding(
@@ -202,11 +218,11 @@ class AddPatientScreen extends StatelessWidget {
                       height: 22,
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       decoration: ShapeDecoration(
-                        color: Color(0xFFF7F7F7),
+                        color: const Color(0xFFF7F7F7),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5)),
                       ),
-                      child: Row(
+                      child: const Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -225,13 +241,13 @@ class AddPatientScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 125,
                   ),
                   Padding(
-                      padding: const EdgeInsets.fromLTRB(0,0,90,0),
+                      padding: const EdgeInsets.fromLTRB(0, 0, 90, 0),
                       child: Row(children: [
-                        Container(
+                        SizedBox(
                           width: 16,
                           height: 16,
                           child: Stack(
@@ -242,7 +258,7 @@ class AddPatientScreen extends StatelessWidget {
                                 child: Container(
                                   width: 16,
                                   height: 16,
-                                  decoration: ShapeDecoration(
+                                  decoration: const ShapeDecoration(
                                     color: Colors.white,
                                     shape: OvalBorder(
                                       side: BorderSide(
@@ -254,8 +270,10 @@ class AddPatientScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                        SizedBox(width: 5,),
-                        Text(
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        const Text(
                           '남',
                           style: TextStyle(
                             color: Color(0xFF404855),
@@ -265,8 +283,10 @@ class AddPatientScreen extends StatelessWidget {
                             height: 0.15,
                           ),
                         ),
-                        SizedBox(width: 10,),
-                        Container(
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        SizedBox(
                           width: 16,
                           height: 16,
                           child: Stack(
@@ -277,7 +297,7 @@ class AddPatientScreen extends StatelessWidget {
                                 child: Container(
                                   width: 16,
                                   height: 16,
-                                  decoration: ShapeDecoration(
+                                  decoration: const ShapeDecoration(
                                     color: Colors.white,
                                     shape: OvalBorder(
                                       side: BorderSide(
@@ -292,7 +312,7 @@ class AddPatientScreen extends StatelessWidget {
                                 child: Container(
                                   width: 10,
                                   height: 10,
-                                  decoration: ShapeDecoration(
+                                  decoration: const ShapeDecoration(
                                     color: Color(0xFF3FA7C3),
                                     shape: OvalBorder(
                                       side: BorderSide(
@@ -304,8 +324,10 @@ class AddPatientScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                        SizedBox(width: 5,),
-                        Text(
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        const Text(
                           '여',
                           style: TextStyle(
                             color: Color(0xFF404855),
@@ -315,8 +337,10 @@ class AddPatientScreen extends StatelessWidget {
                             height: 0.15,
                           ),
                         ),
-                        SizedBox(width: 10,),
-                        Container(
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        SizedBox(
                           width: 16,
                           height: 16,
                           child: Stack(
@@ -327,7 +351,7 @@ class AddPatientScreen extends StatelessWidget {
                                 child: Container(
                                   width: 16,
                                   height: 16,
-                                  decoration: ShapeDecoration(
+                                  decoration: const ShapeDecoration(
                                     color: Colors.white,
                                     shape: OvalBorder(
                                       side: BorderSide(
@@ -339,8 +363,10 @@ class AddPatientScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                        SizedBox(width: 5,),
-                        Text(
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        const Text(
                           '기타',
                           style: TextStyle(
                             color: Color(0xFF404855),
@@ -353,10 +379,10 @@ class AddPatientScreen extends StatelessWidget {
                       ]))
                 ],
               ), //000000
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
-              Row(
+              const Row(
                 children: [
                   SizedBox(
                     width: 25,
@@ -373,15 +399,15 @@ class AddPatientScreen extends StatelessWidget {
                   ),
                 ],
               ), //주소
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               Row(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 25,
                   ),
-                  Text(
+                  const Text(
                     '우편번호',
                     style: TextStyle(
                       color: Color(0xFF404855),
@@ -391,12 +417,14 @@ class AddPatientScreen extends StatelessWidget {
                       height: 0.22,
                     ),
                   ),
-                  SizedBox(width: 10,),
+                  const SizedBox(
+                    width: 10,
+                  ),
                   Container(
                     width: 67.25,
                     height: 22,
                     padding: const EdgeInsets.only(left: 10),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.white,
                       border: Border(
                         bottom: BorderSide(width: 1, color: Color(0xFF3FA7C3)),
@@ -407,7 +435,7 @@ class AddPatientScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
+                        const Text(
                           '검색하기',
                           style: TextStyle(
                             color: Color(0xFFAFAFAF),
@@ -428,15 +456,15 @@ class AddPatientScreen extends StatelessWidget {
                   ),
                 ],
               ), //우편번호
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               Row(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 25,
                   ),
-                  Text(
+                  const Text(
                     '상세주소',
                     style: TextStyle(
                       color: Color(0xFF404855),
@@ -446,7 +474,7 @@ class AddPatientScreen extends StatelessWidget {
                       height: 0.22,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Container(
@@ -454,11 +482,11 @@ class AddPatientScreen extends StatelessWidget {
                     height: 22,
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: ShapeDecoration(
-                      color: Color(0xFFF7F7F7),
+                      color: const Color(0xFFF7F7F7),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5)),
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -478,10 +506,10 @@ class AddPatientScreen extends StatelessWidget {
                   ),
                 ],
               ), // 상세주소
-              SizedBox(
+              const SizedBox(
                 height: 50,
               ),
-              Row(
+              const Row(
                 children: [
                   SizedBox(
                     width: 25,
@@ -498,12 +526,12 @@ class AddPatientScreen extends StatelessWidget {
                   ),
                 ],
               ), //주민등록번호
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               Row(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 25,
                   ),
                   Container(
@@ -511,10 +539,11 @@ class AddPatientScreen extends StatelessWidget {
                     height: 22,
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: ShapeDecoration(
-                      color: Color(0xFFF7F7F7),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                      color: const Color(0xFFF7F7F7),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -533,7 +562,7 @@ class AddPatientScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Text(
+                  const Text(
                     '-',
                     style: TextStyle(
                       color: Color(0xFF404855),
@@ -549,10 +578,11 @@ class AddPatientScreen extends StatelessWidget {
                     height: 22,
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: ShapeDecoration(
-                      color: Color(0xFFF7F7F7),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                      color: const Color(0xFFF7F7F7),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
