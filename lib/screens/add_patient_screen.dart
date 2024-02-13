@@ -39,37 +39,42 @@ class AddPatientScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(width: 70),
-                    Container(
-                      width: 56.20,
-                      height: 24,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 5, vertical: 3),
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 1, color: Color(0xFF3FA7C3)),
-                          borderRadius: BorderRadius.circular(5),
+                    GestureDetector(
+                      onTap: () {
+                        // 닫기 버튼이 눌렸을 때 실행되는 로직
+                        Navigator.pop(context); // 예시로 현재 화면을 닫는 동작을 수행합니다.
+                      },
+                      child: Container(
+                        width: 56.20,
+                        height: 24,
+                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(width: 1, color: Color(0xFF3FA7C3)),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              '닫기',
+                              style: TextStyle(
+                                color: Color(0xFF3FA7C3),
+                                fontSize: 12,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w500,
+                                height: 0.12,
+                                letterSpacing: 0.12,
+                              ),
+                            ),
+                            SvgPicture.asset('assets/icons/icon_x.svg'),
+                          ],
                         ),
                       ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            '닫기',
-                            style: TextStyle(
-                              color: Color(0xFF3FA7C3),
-                              fontSize: 12,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w500,
-                              height: 0.12,
-                              letterSpacing: 0.12,
-                            ),
-                          ),
-                          SvgPicture.asset('assets/icons/icon_x.svg'),
-                        ],
-                      ),
-                    ),
+                    ),//닫기 버튼
                     SizedBox(width: 10),
                     Container(
                       width: 56.20,
@@ -101,7 +106,7 @@ class AddPatientScreen extends StatelessWidget {
                           SvgPicture.asset('assets/icons/icon_checked.svg'),
                         ],
                       ),
-                    ),
+                    ), //완료 버튼
                     SizedBox(width: 15),
                   ],
                 ),
@@ -141,7 +146,7 @@ class AddPatientScreen extends StatelessWidget {
                     width: 160,
                   ),
                   Text(
-                    '전화번호',
+                    '성별',
                     style: TextStyle(
                       color: Color(0xFF404855),
                       fontSize: 12,
@@ -151,7 +156,7 @@ class AddPatientScreen extends StatelessWidget {
                     ),
                   ),
                 ],
-              ), //환자번호
+              ), //환자번호, 이름
               SizedBox(
                 height: 5,
               ),
@@ -224,155 +229,128 @@ class AddPatientScreen extends StatelessWidget {
                     width: 125,
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                    child: Container(
-                      width: 190,
-                      height: 22,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 45,
-                            height: 22,
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            decoration: ShapeDecoration(
-                              color: Color(0xFFF7F7F7),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '010',
-                                  style: TextStyle(
-                                    color: Color(0xFFAFAFAF),
-                                    fontSize: 10,
-                                    fontFamily: 'Noto Sans KR',
-                                    fontWeight: FontWeight.w400,
-                                    height: 0.22,
-                                    letterSpacing: 1,
+                      padding: const EdgeInsets.fromLTRB(0,0,90,0),
+                      child: Row(children: [
+                        Container(
+                          width: 16,
+                          height: 16,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 0,
+                                top: 0,
+                                child: Container(
+                                  width: 16,
+                                  height: 16,
+                                  decoration: ShapeDecoration(
+                                    color: Colors.white,
+                                    shape: OvalBorder(
+                                      side: BorderSide(
+                                          width: 1, color: Color(0xFF3FA7C3)),
+                                    ),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          Container(
-                            width: 20,
-                            padding: const EdgeInsets.only(
-                                left: 5, right: 5, bottom: 2),
-                            decoration: ShapeDecoration(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '-',
-                                  style: TextStyle(
-                                    color: Color(0xFF404855),
-                                    fontSize: 14,
-                                    fontFamily: 'Noto Sans KR',
-                                    fontWeight: FontWeight.w400,
-                                    letterSpacing: 1.40,
+                        ),
+                        SizedBox(width: 5,),
+                        Text(
+                          '남',
+                          style: TextStyle(
+                            color: Color(0xFF404855),
+                            fontSize: 12,
+                            fontFamily: 'Noto Sans KR',
+                            fontWeight: FontWeight.w400,
+                            height: 0.15,
+                          ),
+                        ),
+                        SizedBox(width: 10,),
+                        Container(
+                          width: 16,
+                          height: 16,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 0,
+                                top: 0,
+                                child: Container(
+                                  width: 16,
+                                  height: 16,
+                                  decoration: ShapeDecoration(
+                                    color: Colors.white,
+                                    shape: OvalBorder(
+                                      side: BorderSide(
+                                          width: 1, color: Color(0xFF3FA7C3)),
+                                    ),
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            width: 50,
-                            height: 22,
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            decoration: ShapeDecoration(
-                              color: Color(0xFFF7F7F7),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '0000',
-                                  style: TextStyle(
-                                    color: Color(0xFFAFAFAF),
-                                    fontSize: 10,
-                                    fontFamily: 'Noto Sans KR',
-                                    fontWeight: FontWeight.w400,
-                                    height: 0.22,
-                                    letterSpacing: 1,
+                              ),
+                              Positioned(
+                                left: 3,
+                                top: 3,
+                                child: Container(
+                                  width: 10,
+                                  height: 10,
+                                  decoration: ShapeDecoration(
+                                    color: Color(0xFF3FA7C3),
+                                    shape: OvalBorder(
+                                      side: BorderSide(
+                                          width: 1, color: Color(0xFF3FA7C3)),
+                                    ),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          Container(
-                            width: 20,
-                            padding: const EdgeInsets.only(
-                                left: 5, right: 5, bottom: 2),
-                            decoration: ShapeDecoration(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '-',
-                                  style: TextStyle(
-                                    color: Color(0xFF404855),
-                                    fontSize: 14,
-                                    fontFamily: 'Noto Sans KR',
-                                    fontWeight: FontWeight.w400,
-                                    letterSpacing: 1.40,
+                        ),
+                        SizedBox(width: 5,),
+                        Text(
+                          '여',
+                          style: TextStyle(
+                            color: Color(0xFF404855),
+                            fontSize: 12,
+                            fontFamily: 'Noto Sans KR',
+                            fontWeight: FontWeight.w400,
+                            height: 0.15,
+                          ),
+                        ),
+                        SizedBox(width: 10,),
+                        Container(
+                          width: 16,
+                          height: 16,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 0,
+                                top: 0,
+                                child: Container(
+                                  width: 16,
+                                  height: 16,
+                                  decoration: ShapeDecoration(
+                                    color: Colors.white,
+                                    shape: OvalBorder(
+                                      side: BorderSide(
+                                          width: 1, color: Color(0xFF3FA7C3)),
+                                    ),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          Container(
-                            width: 50,
-                            height: 22,
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            decoration: ShapeDecoration(
-                              color: Color(0xFFF7F7F7),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '0000',
-                                  style: TextStyle(
-                                    color: Color(0xFFAFAFAF),
-                                    fontSize: 10,
-                                    fontFamily: 'Noto Sans KR',
-                                    fontWeight: FontWeight.w400,
-                                    height: 0.22,
-                                    letterSpacing: 1,
-                                  ),
-                                ),
-                              ],
-                            ),
+                        ),
+                        SizedBox(width: 5,),
+                        Text(
+                          '기타',
+                          style: TextStyle(
+                            color: Color(0xFF404855),
+                            fontSize: 12,
+                            fontFamily: 'Noto Sans KR',
+                            fontWeight: FontWeight.w400,
+                            height: 0.15,
                           ),
-                        ],
-                      ),
-                    ),
-                  )
+                        )
+                      ]))
                 ],
               ), //000000
               SizedBox(
@@ -518,22 +496,8 @@ class AddPatientScreen extends StatelessWidget {
                       height: 0.15,
                     ),
                   ),
-                  Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 195, 0),
-                    child: Text(
-                      '성별',
-                      style: TextStyle(
-                        color: Color(0xFF404855),
-                        fontSize: 12,
-                        fontFamily: 'Pretendard',
-                        fontWeight: FontWeight.w500,
-                        height: 0.15,
-                      ),
-                    ),
-                  )
                 ],
-              ), //주민등록번호 성별
+              ), //주민등록번호
               SizedBox(
                 height: 16,
               ),
@@ -607,130 +571,6 @@ class AddPatientScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Spacer(),
-                  Padding(
-                      padding: const EdgeInsets.fromLTRB(0,0,90,0),
-                      child: Row(children: [
-                        Container(
-                          width: 16,
-                          height: 16,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                left: 0,
-                                top: 0,
-                                child: Container(
-                                  width: 16,
-                                  height: 16,
-                                  decoration: ShapeDecoration(
-                                    color: Colors.white,
-                                    shape: OvalBorder(
-                                      side: BorderSide(
-                                          width: 1, color: Color(0xFF3FA7C3)),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 5,),
-                        Text(
-                          '남',
-                          style: TextStyle(
-                            color: Color(0xFF404855),
-                            fontSize: 12,
-                            fontFamily: 'Noto Sans KR',
-                            fontWeight: FontWeight.w400,
-                            height: 0.15,
-                          ),
-                        ),
-                        SizedBox(width: 10,),
-                        Container(
-                          width: 16,
-                          height: 16,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                left: 0,
-                                top: 0,
-                                child: Container(
-                                  width: 16,
-                                  height: 16,
-                                  decoration: ShapeDecoration(
-                                    color: Colors.white,
-                                    shape: OvalBorder(
-                                      side: BorderSide(
-                                          width: 1, color: Color(0xFF3FA7C3)),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 3,
-                                top: 3,
-                                child: Container(
-                                  width: 10,
-                                  height: 10,
-                                  decoration: ShapeDecoration(
-                                    color: Color(0xFF3FA7C3),
-                                    shape: OvalBorder(
-                                      side: BorderSide(
-                                          width: 1, color: Color(0xFF3FA7C3)),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 5,),
-                        Text(
-                          '여',
-                          style: TextStyle(
-                            color: Color(0xFF404855),
-                            fontSize: 12,
-                            fontFamily: 'Noto Sans KR',
-                            fontWeight: FontWeight.w400,
-                            height: 0.15,
-                          ),
-                        ),
-                        SizedBox(width: 10,),
-                        Container(
-                          width: 16,
-                          height: 16,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                left: 0,
-                                top: 0,
-                                child: Container(
-                                  width: 16,
-                                  height: 16,
-                                  decoration: ShapeDecoration(
-                                    color: Colors.white,
-                                    shape: OvalBorder(
-                                      side: BorderSide(
-                                          width: 1, color: Color(0xFF3FA7C3)),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 5,),
-                        Text(
-                          '기타',
-                          style: TextStyle(
-                            color: Color(0xFF404855),
-                            fontSize: 12,
-                            fontFamily: 'Noto Sans KR',
-                            fontWeight: FontWeight.w400,
-                            height: 0.15,
-                          ),
-                        )
-                      ]))
                 ],
               )
             ],

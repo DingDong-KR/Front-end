@@ -10,7 +10,6 @@ class SignUpScreen extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController affiliationController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -68,13 +67,6 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 10),
-              TextFormField(
-                controller: affiliationController,
-                decoration: InputDecoration(
-                  labelText: '소속',
-                  border: OutlineInputBorder(),
-                ),
-              ),
               SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -95,7 +87,6 @@ class SignUpScreen extends StatelessWidget {
                         emailController.text,
                         userIdController.text,
                         passwordController.text,
-                        affiliationController.text,
                       );
                     },
                     child: Text('가입하기'),
@@ -116,7 +107,6 @@ Future<void> saveUserDataToDatabase( //TODO: sql 파일에 합쳐야함
     String email,
     String userId,
     String password,
-    String affiliation,
     ) async {
   // 데이터베이스 경로 설정
   String databasesPath = await getDatabasesPath();
@@ -129,7 +119,7 @@ Future<void> saveUserDataToDatabase( //TODO: sql 파일에 합쳐야함
     onCreate: (Database db, int version) async {
       // 데이터베이스가 존재하지 않는 경우 테이블 생성
       await db.execute(
-          'CREATE TABLE IF NOT EXISTS user (id INTEGER PRIMARY KEY, name TEXT, email TEXT, username TEXT, password TEXT, organization TEXT)');
+          'CREATE TABLE IF NOT EXISTS user (id INTEGER PRIMARY KEY, name TEXT, email TEXT, username TEXT, password TEXT)');
     },
   );
 
@@ -139,7 +129,6 @@ Future<void> saveUserDataToDatabase( //TODO: sql 파일에 합쳐야함
     'name': name,
     'email': email,
     'password': password,
-    'affiliation': affiliation,
   };
 
   // User 정보를 데이터베이스에 삽입

@@ -34,7 +34,7 @@ class _MainMenuState extends State<MainMenu> {
             decoration: const BoxDecoration(color: Color(0xFFE2F1F6)),
             child: Column(
               children: [
-                const DropdownButtonWidget(),
+                DropdownButtonWidget(user: widget.user),
                 for (var i = 1; i < menuItems.length; i++)
                   GestureDetector(
                     onTap: () {

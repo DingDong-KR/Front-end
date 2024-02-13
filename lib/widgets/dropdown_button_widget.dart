@@ -1,58 +1,152 @@
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:my_desktop_app/controller/dropdown_button_controller.dart';
-import 'package:my_desktop_app/controller/dropdown_button_controller.dart'
-    as my_controller;
+import 'package:get/get.dart';
+import '../controller/dropdown_button_controller.dart';
+import '../models/user.dart';
 
-class DropdownButtonWidget extends GetView<DropdownButtonController> {
-  const DropdownButtonWidget({Key? key}) : super(key: key);
+class DropdownButtonWidget extends StatelessWidget {
+  final User user; // User information variable
+  final DropdownButtonController controller =
+      Get.put(DropdownButtonController());
+
+  DropdownButtonWidget(
+      {required this.user}); // Constructor to initialize 'user'
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton(
-        offset: Offset(-80, 35), // 수정
-        shape: ShapeBorder.lerp(
-            RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10))),
-            RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10))),
-            0),
-        onSelected: (int value) {
-          controller.changeDropdownMenu(value);
-        },
-        elevation: 0,
-        itemBuilder: (BuildContext context) {
-          return my_controller.DropdownMenu.values
-              .map(
-                (menu) => PopupMenuItem(
-                  value: menu.index,
-                  height: 30, // 수정: 메뉴 항목의 높이 설정
-                  child: Center(child: Text(menu.name)),
-                ),
-              )
-              .toList();
-        },
-        child: Obx(
-          () => Container(
-            padding: EdgeInsets.only(top: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center, // 수정
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  controller.currentItem.value.name,
-                  textAlign: TextAlign.right, // 수정
-                ),
-                SizedBox(width: 5,),
-                SvgPicture.asset('assets/icons/icon_down_arrow.svg')
-              ],
-            ),
+    return GetBuilder<DropdownButtonController>(
+      init: controller,
+      builder: (_) {
+        return FutureBuilder<List<PopupMenuEntry<String>>>(
+          future: _getUserAffiliationEntries(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else {
+              List<PopupMenuEntry<String>> items =
+                  (snapshot.data as List<PopupMenuEntry<String>>?) ?? [];
+              if (items.isEmpty) {
+                // If no affiliations found, just show the dropdown button
+                return _buildDropdownButton();
+              }
+              return _buildPopupMenuButton(items);
+            }
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildDropdownButton() {
+    return PopupMenuButton<String>(
+      offset: Offset(-80, 35),
+      shape: ShapeBorder.lerp(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(10),
+            bottomRight: Radius.circular(10),
           ),
-        ));
+        ),
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+          ),
+        ),
+        0,
+      ),
+      elevation: 0,
+      itemBuilder: (BuildContext context) => [],
+      child: Obx(
+        () => Container(
+          padding: EdgeInsets.only(top: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                controller.currentItem.value ?? '채널을 선택하세요',
+                textAlign: TextAlign.right,
+              ),
+              SizedBox(width: 5),
+              SvgPicture.asset('assets/icons/icon_down_arrow.svg')
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPopupMenuButton(List<PopupMenuEntry<String>> items) {
+    return PopupMenuButton<String>(
+      offset: Offset(-80, 35),
+      shape: ShapeBorder.lerp(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(10),
+            bottomRight: Radius.circular(10),
+          ),
+        ),
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+          ),
+        ),
+        0,
+      ),
+      onSelected: (String? affiliation) {
+        controller.changeDropdownMenu(affiliation ?? '');
+      },
+      elevation: 0,
+      itemBuilder: (BuildContext context) => items,
+      child: Obx(
+        () => Container(
+          padding: EdgeInsets.only(top: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                controller.currentItem.value ?? '채널을 선택하세요',
+                textAlign: TextAlign.right,
+              ),
+              SizedBox(width: 5),
+              SvgPicture.asset('assets/icons/icon_down_arrow.svg')
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<List<PopupMenuEntry<String>>> _getUserAffiliationEntries() async {
+    //해당 유저의 가입 동아리 찾는 메서드
+    String databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, 'chart.db');
+
+    Database database = await openDatabase(
+      path,
+      version: 1,
+    );
+
+    List<Map<String, dynamic>> userAffiliations = await database.rawQuery(
+      'SELECT affiliation FROM userAffiliation WHERE userId = ? ORDER BY affiliation ASC',
+      [user.userId.toString()],
+    );
+
+    return userAffiliations.map((userAffiliation) {
+      return PopupMenuItem<String>(
+        value: userAffiliation['affiliation'].toString(),
+        height: 30,
+        child: Center(
+          child: Text(userAffiliation['affiliation']),
+        ),
+      );
+    }).toList();
   }
 }
