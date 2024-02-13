@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:my_desktop_app/models/user_affiliation.dart';
+
 import '../models/pre_examination.dart';
 import '../models/acupuncture.dart';
 import '../models/disease.dart';
@@ -52,7 +54,7 @@ class SqlDataBase {
       try {
         await Directory(dirname(path)).create(recursive: true);
       } catch (_) {}
-      
+
       // ByteData data = await rootBundle.load(join("assets", "chart.db"));
       // List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
@@ -75,9 +77,9 @@ class SqlDataBase {
   // Future<void> copyDbToAppDataDirectory() async {
   //   var databasesPath = await getDatabasesPath();
   //   String srcPath = join(databasesPath, 'chart.db');
-  
+
   //   // Directory appDocDir = await getApplicationDocumentsDirectory(); appDocDir.path
-    
+
   //   String currentTime = DateFormat('yyyy_MM_dd_HH_mm_ss').format(DateTime.now());
   //   String dstPath = join('../DB/', 'chart_$currentTime.db');
 
@@ -124,12 +126,19 @@ class SqlDataBase {
         ${UserFields.userId} TEXT PRIMARY KEY,
         ${UserFields.name} TEXT NOT NULL,
         ${UserFields.email} TEXT NOT NULL,
-        ${UserFields.password} TEXT NOT NULL, 
+        ${UserFields.password} TEXT NOT NULL,
         UNIQUE(${UserFields.userId})
       )
       '''
     );
-
+    await db.execute('''
+      CREATE TABLE ${UserAffiliation.tableName}(
+        ${UserAffiliationFields.userAffiliationsId} INTEGER PRIMARY KEY AUTOINCREMENT,
+        ${UserAffiliationFields.userId} TEXT,
+        ${UserAffiliationFields.affiliation} TEXT NOT NULL,
+      )
+      '''
+    );
     await db.execute(
         '''
         CREATE TABLE ${Patient.tableName}(
@@ -176,7 +185,7 @@ class SqlDataBase {
     );
     await db.execute('''
     CREATE TABLE ${MedicalImage.tableName}(
-      ${MedicalImageFields.imageIndex} INTEGER PRIMARY KEY,
+      ${MedicalImageFields.imageIndex} INTEGER PRIMARY KEY AUTOINCREMENT,
       ${MedicalImageFields.chartNumber} INTEGER NOT NULL,
       ${MedicalImageFields.treatmentArea} TEXT NOT NULL,
       ${MedicalImageFields.medicalImagePath} TEXT NOT NULL
@@ -185,7 +194,7 @@ class SqlDataBase {
     );
     await db.execute('''
     CREATE TABLE ${Disease.tableName}(
-      ${DiseaseFields.diseaseIndex} INTEGER PRIMARY KEY,
+      ${DiseaseFields.diseaseIndex} INTEGER PRIMARY KEY AUTOINCREMENT,
       ${DiseaseFields.primarySecondaryDisease} INTEGER NOT NULL,
       ${DiseaseFields.chartNumber} INTEGER NOT NULL,
       ${DiseaseFields.diseaseCode} TEXT NOT NULL,
@@ -195,7 +204,7 @@ class SqlDataBase {
     );
     await db.execute('''
     CREATE TABLE ${Acupuncture.tableName}(
-      ${AcupunctureFields.acupunctureIndex} INTEGER PRIMARY KEY,
+      ${AcupunctureFields.acupunctureIndex} INTEGER PRIMARY KEY AUTOINCREMENT,
       ${AcupunctureFields.acupunctureType} INTEGER NOT NULL,
       ${AcupunctureFields.chartNumber} INTEGER NOT NULL,
       ${AcupunctureFields.treatmentPos1} TEXT,
@@ -207,7 +216,7 @@ class SqlDataBase {
     );
     await db.execute('''
     CREATE TABLE ${Prescription.tableName}(
-      ${PrescriptionFields.prescriptionIndex} INTEGER PRIMARY KEY,
+      ${PrescriptionFields.prescriptionIndex} INTEGER PRIMARY KEY AUTOINCREMENT,
       ${PrescriptionFields.treatmentName} TEXT NOT NULL,
       ${PrescriptionFields.dosagePerDay} INTEGER NOT NULL,
       ${PrescriptionFields.chartNumber} INTEGER NOT NULL,
@@ -219,7 +228,8 @@ class SqlDataBase {
     );
     await db.execute('''
       CREATE TABLE ${DiseaseList.tableName}(
-        ${DiseaseListFields.diseaseCode} TEXT NOT NULL PRIMARY KEY,
+        ${DiseaseListFields.diseaseListIndex} INTEGER PRIMARY KEY AUTOINCREMENT,
+        ${DiseaseListFields.diseaseCode} TEXT NOT NULL,
         ${DiseaseListFields.koreanName} TEXT,
         ${DiseaseListFields.englishName} TEXT,
         ${DiseaseListFields.completeness} TEXT
