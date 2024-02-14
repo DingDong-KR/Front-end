@@ -1,12 +1,13 @@
 import 'dart:io';
-import 'package:my_desktop_app/models/user_affiliation.dart';
+import '../models/patient_private_info.dart';
+import '../models/user_affiliation.dart';
 
 import '../models/pre_examination.dart';
 import '../models/acupuncture.dart';
 import '../models/disease.dart';
 import '../models/medical_image.dart';
 import '../models/medical_record.dart';
-import '../models/patients.dart';
+
 import '../models/prescription.dart';
 import '../models/user.dart';
 import '../models/disease_list.dart';
@@ -45,28 +46,28 @@ class SqlDataBase {
 
 
     // 앱 내부 저장소에 DB가 존재하는 지확인하고 없으면 ASSETS/DB/chart.db를 복사해서 집어넣음
-    var exists = await databaseExists(path);
+    // var exists = await databaseExists(path);
 
-    if (!exists) {
-      print("Creating new copy from asset");
+    // if (!exists) {
+    //   print("Creating new copy from asset");
 
-      // Make sure the parent directory exists
-      try {
-        await Directory(dirname(path)).create(recursive: true);
-      } catch (_) {}
+    //   // Make sure the parent directory exists
+    //   try {
+    //     await Directory(dirname(path)).create(recursive: true);
+    //   } catch (_) {}
 
-      // ByteData data = await rootBundle.load(join("assets", "chart.db"));
-      // List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    //   // ByteData data = await rootBundle.load(join("assets", "chart.db"));
+    //   // List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
-      // File file = File("assets/db/chart.db");
-      // List<int> bytes = await file.readAsBytes();
-      // await File(path).writeAsBytes(bytes, flush: true);
+    //   // File file = File("assets/db/chart.db");
+    //   // List<int> bytes = await file.readAsBytes();
+    //   // await File(path).writeAsBytes(bytes, flush: true);
 
-      ByteData data = await rootBundle.load('assets/db/chart.db');
-      List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
-      await File(path).writeAsBytes(bytes, flush: true);
+    //   ByteData data = await rootBundle.load('assets/db/chart.db');
+    //   List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    //   await File(path).writeAsBytes(bytes, flush: true);
 
-    }
+    // }
     _database = await openDatabase(path,
         version: 2, onCreate: _dataBaseCreate); /*onCreate의 경우 db가 없으면 생성하라는뜻*/
   }
@@ -135,21 +136,19 @@ class SqlDataBase {
       CREATE TABLE ${UserAffiliation.tableName}(
         ${UserAffiliationFields.userAffiliationsId} INTEGER PRIMARY KEY AUTOINCREMENT,
         ${UserAffiliationFields.userId} TEXT,
-        ${UserAffiliationFields.affiliation} TEXT NOT NULL,
+        ${UserAffiliationFields.affiliation} TEXT NOT NULL
       )
       '''
     );
     await db.execute(
         '''
-        CREATE TABLE ${Patient.tableName}(
-          ${PatientFields.patientNumber} INTEGER PRIMARY KEY AUTOINCREMENT,
-          ${PatientFields.name} TEXT NOT NULL,
-          ${PatientFields.gender} TEXT NOT NULL,
-          ${PatientFields.age} INTEGER NOT NULL,
-          ${PatientFields.address} TEXT NOT NULL,
-          ${PatientFields.socialSecurityNumber} INTEGER NOT NULL UNIQUE,
-          ${PatientFields.lastVisitDate} TEXT,
-          ${PatientFields.queue} INTEGER
+        CREATE TABLE ${PatientPrivateInfo.tableName}(
+          ${PatientPrivateInfoFields.patientNumber} INTEGER PRIMARY KEY AUTOINCREMENT,
+          ${PatientPrivateInfoFields.name} TEXT NOT NULL,
+          ${PatientPrivateInfoFields.gender} TEXT NOT NULL,
+          ${PatientPrivateInfoFields.age} INTEGER NOT NULL,
+          ${PatientPrivateInfoFields.address} TEXT NOT NULL,
+          ${PatientPrivateInfoFields.socialSecurityNumber} TEXT NOT NULL UNIQUE
         )
         '''
     );
@@ -159,19 +158,21 @@ class SqlDataBase {
       ${PreExaminationFields.userId} TEXT NOT NULL,
       ${PreExaminationFields.patientNumber} INTEGER NOT NULL,
       ${PreExaminationFields.measurementDate} TEXT NOT NULL,
-      ${PreExaminationFields.bt} REAL NOT NULL,
-      ${PreExaminationFields.bp_h} INTEGER NOT NULL,
-      ${PreExaminationFields.bp_l} INTEGER NOT NULL,
-      ${PreExaminationFields.bloodSugar} INTEGER NOT NULL,
-      ${PreExaminationFields.mainSymptoms} TEXT NOT NULL,
-      ${PreExaminationFields.rosKeywords} TEXT NOT NULL,
+      ${PreExaminationFields.bt} REAL,
+      ${PreExaminationFields.bp_h} INTEGER,
+      ${PreExaminationFields.bp_l} INTEGER,
+      ${PreExaminationFields.bloodSugar} INTEGER,
+      ${PreExaminationFields.mainSymptoms} TEXT,
+      ${PreExaminationFields.rosKeywords} TEXT,
       ${PreExaminationFields.rosDescriptives[0]} TEXT,
       ${PreExaminationFields.rosDescriptives[1]} TEXT,
       ${PreExaminationFields.bodyType} INTEGER,
       ${PreExaminationFields.ros_detail} TEXT,
       ${PreExaminationFields.additionalNotes} TEXT,
       ${PreExaminationFields.consentToCollectPersonalInformation} INTEGER,
-      FOREIGN KEY (${PreExaminationFields.patientNumber}) REFERENCES ${Patient.tableName}(${PatientFields.patientNumber}) ON DELETE CASCADE
+      ${PreExaminationFields.queue} INTEGER,
+      ${PreExaminationFields.state} TEXT,
+      FOREIGN KEY (${PreExaminationFields.patientNumber}) REFERENCES ${PatientPrivateInfo.tableName}(${PatientPrivateInfoFields.patientNumber}) ON DELETE CASCADE
     )
     '''
     );

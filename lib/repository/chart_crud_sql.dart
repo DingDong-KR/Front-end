@@ -1,11 +1,12 @@
 import 'dart:ffi';
 
+import '../models/patient_private_info.dart';
 import '../models/pre_examination.dart';
 import '../models/acupuncture.dart';
 import '../models/disease.dart';
 import '../models/medical_image.dart';
 import '../models/medical_record.dart';
-import '../models/patients.dart';
+
 import '../models/prescription.dart';
 import '../models/user.dart';
 import '../models/disease_list.dart';
@@ -99,27 +100,27 @@ class UserAffiliationProvider {
 }
 class PatientProvider {
   // Patient 생성
-  Future<int> insertPatient(Patient patient) async {
+  Future<int> insertPatient(PatientPrivateInfo patientPrivateInfo) async {
     final db = await SqlDataBase.instance.database;
-    return await db.insert(Patient.tableName, patient.toJson());
+    return await db.insert(PatientPrivateInfo.tableName, patientPrivateInfo.toJson());
   }
 
   // Patient 조회
-  Future<List<Patient>> getPatients() async {
+  Future<List<PatientPrivateInfo>> getPatients() async {
     final db = await SqlDataBase.instance.database;
-    final result = await db.query(Patient.tableName);
-    return result.map((json) => Patient.fromJson(json)).toList();
+    final result = await db.query(PatientPrivateInfo.tableName);
+    return result.map((json) => PatientPrivateInfo.fromJson(json)).toList();
   }
 
   // Patient 상세 조회
-  Future<Patient> getPatient(int patientNumber) async {
+  Future<PatientPrivateInfo> getPatient(int patientNumber) async {
     final db = await SqlDataBase.instance.database;
     final result = await db.query(
-      Patient.tableName,
-      where: "${PatientFields.patientNumber} = ?",
+      PatientPrivateInfo.tableName,
+      where: "${PatientPrivateInfoFields.patientNumber} = ?",
       whereArgs: [patientNumber],
     );
-    return result.map((json) => Patient.fromJson(json)).first;
+    return result.map((json) => PatientPrivateInfo.fromJson(json)).first;
   }
 /* 향후 추가 예정
   // Patient 수정
@@ -166,6 +167,8 @@ class PreExaminationProvider {
       ros_detail: preExamination.ros_detail,
       additionalNotes: preExamination.additionalNotes,
       consentToCollectPersonalInformation: preExamination.consentToCollectPersonalInformation,
+      queue: preExamination.queue,
+      state: preExamination.state
     );
 
     return await db.insert(PreExamination.tableName, modifiedPreExamination.toJson());
