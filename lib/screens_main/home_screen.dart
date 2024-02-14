@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: 300,),
+            SizedBox(height: 200,),
             Text(
               '${user.name}님, 안녕하세요.',
               style: TextStyle(
