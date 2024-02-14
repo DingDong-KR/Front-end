@@ -17,7 +17,8 @@ class AddVitalScreen extends StatefulWidget {
 class _AddVitalScreenState extends State<AddVitalScreen> {
   int _selectedIndex = 0; // Define _selectedIndex
   final TextEditingController BTController = TextEditingController();
-  final TextEditingController BPController = TextEditingController();
+  final TextEditingController SBPController = TextEditingController();
+  final TextEditingController DBPController = TextEditingController();
   final TextEditingController BSController = TextEditingController();
 
   // 환자 바이탈 저장하기 위한 함수
@@ -27,8 +28,8 @@ class _AddVitalScreenState extends State<AddVitalScreen> {
       chartNumber: 0, // 적절한 값으로 변경해야 함
       patientNumber: 0, // 적절한 값으로 변경해야 함
       bt: double.tryParse(BTController.text),
-      sbp: int.tryParse(BPController.text), // 적절한 필드명으로 변경해야 함
-      dbp: 0, // 적절한 필드명으로 변경해야 함
+      sbp: int.tryParse(SBPController.text), // 적절한 필드명으로 변경해야 함
+      dbp: int.tryParse(DBPController.text), // 적절한 필드명으로 변경해야 함
       bloodSugar: int.tryParse(BSController.text), // 적절한 필드명으로 변경해야 함
     );
 
@@ -40,7 +41,7 @@ class _AddVitalScreenState extends State<AddVitalScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 500,
+      width: 600,
       height: 350,
       decoration: ShapeDecoration(
         color: Colors.white,
@@ -69,7 +70,7 @@ class _AddVitalScreenState extends State<AddVitalScreen> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(width: 70),
+              SizedBox(width: 110),
               GestureDetector(
                 onTap: () {
                   // 닫기 버튼이 눌렸을 때 실행되는 로직
@@ -109,7 +110,7 @@ class _AddVitalScreenState extends State<AddVitalScreen> {
               SizedBox(width: 10),
               GestureDetector(
                 onTap: () {
-                  // db에 저장시킴 savePatientVital();
+                  savePatientVital();
                   Navigator.pop(context); // 현재 화면을 닫는 동작을 수행
                 },
                 child: Container(
@@ -167,7 +168,7 @@ class _AddVitalScreenState extends State<AddVitalScreen> {
                   ),
                   SizedBox(height: 20,),
                   Container(
-                    width: 131,
+                    width: 120,
                     height: 25,
                     decoration: ShapeDecoration(
                       color: Color(0xFFF7F7F7),
@@ -202,12 +203,12 @@ class _AddVitalScreenState extends State<AddVitalScreen> {
                   ),
                 ],
               ),
-              SizedBox(width: 32),
+              SizedBox(width: 16),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'BP',
+                    'BP: systole',
                     style: TextStyle(
                       color: Color(0xFF404855),
                       fontSize: 12,
@@ -218,7 +219,7 @@ class _AddVitalScreenState extends State<AddVitalScreen> {
                   ),
                   SizedBox(height: 20,),
                   Container(
-                    width: 131,
+                    width: 120,
                     height: 25,
                     decoration: ShapeDecoration(
                       color: Color(0xFFF7F7F7),
@@ -230,7 +231,7 @@ class _AddVitalScreenState extends State<AddVitalScreen> {
                       padding: EdgeInsets.symmetric(horizontal: 10.0),
                       child: TextField(
                         decoration: InputDecoration(
-                          hintText: 'Blood Pressure',
+                          hintText: 'BP in systole',
                           hintStyle: TextStyle(
                             color: Color(0xFFAFAFAF),
                             fontSize: 11,
@@ -253,7 +254,58 @@ class _AddVitalScreenState extends State<AddVitalScreen> {
                   ),
                 ],
               ),
-              SizedBox(width: 32),
+              SizedBox(width: 16),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'BP: diastole',
+                    style: TextStyle(
+                      color: Color(0xFF404855),
+                      fontSize: 12,
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w500,
+                      height: 0.15,
+                    ),
+                  ),
+                  SizedBox(height: 20,),
+                  Container(
+                    width: 120,
+                    height: 25,
+                    decoration: ShapeDecoration(
+                      color: Color(0xFFF7F7F7),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10.0),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: 'BP in diastole',
+                          hintStyle: TextStyle(
+                            color: Color(0xFFAFAFAF),
+                            fontSize: 11,
+                            fontFamily: 'Pretendard',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 15, // Adjust the vertical padding
+                          ),
+                          border: InputBorder.none,
+                        ),
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 11,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(width: 16),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -269,7 +321,7 @@ class _AddVitalScreenState extends State<AddVitalScreen> {
                   ),
                   SizedBox(height: 20,),
                   Container(
-                    width: 131,
+                    width: 120,
                     height: 25,
                     decoration: ShapeDecoration(
                       color: Color(0xFFF7F7F7),
