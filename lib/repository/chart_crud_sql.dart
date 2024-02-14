@@ -255,7 +255,7 @@ class QueueProvider {
 }
 
 class PatientVitalProvider {
-  Future<int> insertQueue(PatientVital patientVital) async {
+  Future<int> insertPatientVital(PatientVital patientVital) async {
     final db = await SqlDataBase.instance.database;
     return await db.insert(PatientVital.tableName, patientVital.toJson());
   }
@@ -276,25 +276,24 @@ class PatientVitalProvider {
     return result.map((json) => PatientVital.fromJson(json)).first;
   }
 
-  // Future<int> updatePatientVital(PatientVital patientVital) async {
-  //   final db = await SqlDataBase.instance.database;
-  //   return await db.update(
-  //     PatientVital.tableName,
-  //     patientVital.toJson(),
-  //     where: "${PatientVitalFields.patientNumber} = ?",
-  //     whereArgs: [patientVital.patientNumber],
-  //   );
-  // }
+  Future<int> updatePatientVital(PatientVital patientVital) async {
+    final db = await SqlDataBase.instance.database;
+    return await db.update(
+      PatientVital.tableName,
+      patientVital.toJson(),
+      where: "${PatientVitalFields.patientNumber} = ?",
+      whereArgs: [patientVital.patientNumber],
+    );
+  }
 
-
-  // Future<int> deletePatientVital(int patientNumber) async {
-  //   final db = await SqlDataBase.instance.database;
-  //   return await db.delete(
-  //     PatientVital.tableName,
-  //     where: "${PatientVitalFields.patientNumber} = ?",
-  //     whereArgs: [patientNumber],
-  //   );
-  // }
+  Future<int> deletePatientVital(int patientNumber) async {
+    final db = await SqlDataBase.instance.database;
+    return await db.delete(
+      PatientVital.tableName,
+      where: "${PatientVitalFields.patientNumber} = ?",
+      whereArgs: [patientNumber],
+    );
+  }
 }
 
 

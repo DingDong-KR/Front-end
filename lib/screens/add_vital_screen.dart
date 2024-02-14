@@ -1,36 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:my_desktop_app/models/patients.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
+import 'package:flutter/painting.dart'; // Add this import
+
+import '../models/patient_vital.dart';
+
 
 class AddVitalScreen extends StatefulWidget {
-  const AddVitalScreen({super.key});
+  const AddVitalScreen({Key? key}) : super(key: key);
 
   @override
   State<AddVitalScreen> createState() => _AddVitalScreenState();
 }
 
 class _AddVitalScreenState extends State<AddVitalScreen> {
+  int _selectedIndex = 0; // Define _selectedIndex
   final TextEditingController BTController = TextEditingController();
   final TextEditingController BPController = TextEditingController();
   final TextEditingController BSController = TextEditingController();
 
-  // // 환자 바이탈 저장하기 위한 함수
-  // Future<void> savePatientVital() async {
-  //   // 입력된 값들을 이용하여 PatientVital 객체 생성
-  //   final PatientVital newPatientVital = PatientVital(
-  //     bt: BTController.text,
-  //     bp: BPController.text,
-  //     bs: BSController.text,
-  //   );
-  //
-  //   // 데이터베이스에 환자 정보 추가
-  //   final PatientVitalProvider patientVitalProvider = PatientVitalProvider();
-  //   await patientVitalProvider.insertPatientVital(newPatientVital);
-  // }
+  // 환자 바이탈 저장하기 위한 함수
+  Future<void> savePatientVital() async {
+    // 입력된 값들을 이용하여 PatientVital 객체 생성
+    final PatientVital newPatientVital = PatientVital(
+      chartNumber: 0, // 적절한 값으로 변경해야 함
+      patientNumber: 0, // 적절한 값으로 변경해야 함
+      bt: double.tryParse(BTController.text),
+      sbp: int.tryParse(BPController.text), // 적절한 필드명으로 변경해야 함
+      dbp: 0, // 적절한 필드명으로 변경해야 함
+      bloodSugar: int.tryParse(BSController.text), // 적절한 필드명으로 변경해야 함
+    );
 
-  // // 환자 바이탈 불러오기 위한 함수
+    // 데이터베이스에 환자 정보 추가
+    final PatientVitalProvider patientVitalProvider = PatientVitalProvider();
+    await patientVitalProvider.insertPatientVital(newPatientVital);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -416,74 +421,84 @@ class _AddVitalScreenState extends State<AddVitalScreen> {
     );
   }
 
-  // Widget _buildPatientVital(int index, PatientVItal? item) { //TODO: 아이템 빌딩 메서드 데이터 모델에 맞춰 만들기
-  //   Color backgroundColor =
-  //   index % 2 == 0 ? Colors.white : Color(0xFFE2F1F6); // Alternating colors
-  //   if (_selectedIndex == index) {
-  //     backgroundColor = Color(0xFF00C9FF); // Change to darker blue when clicked
-  //   }
-  //   return GestureDetector(
-  //     onTap: () {
-  //       setState(() {
-  //         _selectedIndex = index; // Update selected index
-  //       });
-  //     },
-  //     child: Container(
-  //       width: 223,
-  //       height: 15,
-  //       decoration: BoxDecoration(
-  //         color: backgroundColor,
-  //         borderRadius: BorderRadius.circular(7.50),
-  //       ),
-  //       child: Row(
-  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //         crossAxisAlignment: CrossAxisAlignment.center,
-  //         children: [
-  //           Text(
-  //             item?.time != null
-  //                 ? DateFormat('yy.MM.dd').format(item!.time!)
-  //                 : '', // Format date as yy.MM.dd
-  //             style: TextStyle(
-  //               color: Color(0xFF404855),
-  //               fontSize: 11,
-  //               fontFamily: 'Pretendard',
-  //               fontWeight: FontWeight.w400,
-  //               height: 0.14,
-  //             ),
-  //           ),
-  //           Text(
-  //             item?.diagnosis ?? '',
-  //             style: TextStyle(
-  //               color: Color(0xFF404855),
-  //               fontSize: 11,
-  //               fontFamily: 'Pretendard',
-  //               fontWeight: FontWeight.w400,
-  //               height: 0.14,
-  //             ),
-  //           ),
-  //           Text(
-  //             item?.acupunctureTreatment ?? '',
-  //             style: TextStyle(
-  //               color: Color(0xFF404855),
-  //               fontSize: 11,
-  //               fontFamily: 'Pretendard',
-  //               fontWeight: FontWeight.w400,
-  //               height: 0.14,
-  //             ),
-  //           ),
-  //           Text(
-  //             item?.medicine ?? '',
-  //             style: TextStyle(
-  //               color: Color(0xFF404855),
-  //               fontSize: 11,
-  //               fontFamily: 'Pretendard',
-  //               fontWeight: FontWeight.w400,
-  //               height: 0.14,
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // } /
+  Widget _buildPatientVital(int index, PatientVital? item) {
+    Color backgroundColor =
+    index % 2 == 0 ? Colors.white : Color(0xFFE2F1F6); // 번갈아가면서 색상 변경
+    if (_selectedIndex == index) {
+      backgroundColor = Color(0xFF00C9FF); // 클릭되었을 때 더 어두운 파란색으로 변경
+    }
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedIndex = index; // 선택된 인덱스 업데이트
+        });
+      },
+      child: Container(
+        width: 455,
+        height: 25,
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(7.50),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              flex: 1,
+              child: Text(
+                item?.chartNumber.toString() ?? '', // visitDate 대신 chartNumber 사용
+                style: TextStyle(
+                  color: Color(0xFF404855),
+                  fontSize: 11,
+                  fontFamily: 'Pretendard',
+                  fontWeight: FontWeight.w400,
+                  height: 0.14,
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Text(
+                item?.bt?.toString() ?? 'N/A',
+                style: TextStyle(
+                  color: Color(0xFF404855),
+                  fontSize: 11,
+                  fontFamily: 'Pretendard',
+                  fontWeight: FontWeight.w400,
+                  height: 0.14,
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Text(
+                item?.sbp?.toString() ?? 'N/A', // bp 대신 sbp 사용
+                style: TextStyle(
+                  color: Color(0xFF404855),
+                  fontSize: 11,
+                  fontFamily: 'Pretendard',
+                  fontWeight: FontWeight.w400,
+                  height: 0.14,
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Text(
+                item?.bloodSugar?.toString() ?? 'N/A',
+                style: TextStyle(
+                  color: Color(0xFF404855),
+                  fontSize: 11,
+                  fontFamily: 'Pretendard',
+                  fontWeight: FontWeight.w400,
+                  height: 0.14,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
