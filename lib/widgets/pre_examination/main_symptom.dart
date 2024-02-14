@@ -4,8 +4,8 @@ class MainSymptom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 754,
-      height: 393.50,
+      width: 629,
+      height: 312,
       decoration: ShapeDecoration(
         color: Colors.white,
         shape: RoundedRectangleBorder(

@@ -21,7 +21,7 @@ class _PatientHistoryState extends State<PatientHistory> {
       children: [
         Container(
           width: 247,
-          height: 790,
+          height: 574,
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(color: Colors.white),
           child: Column(

@@ -6,8 +6,8 @@ class Diagnosis extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 506,
-      height: 168,
+      width: 421,
+      height: 115,
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
       decoration: const BoxDecoration(color: Colors.white),
       child: Column(
