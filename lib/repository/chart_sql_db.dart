@@ -46,28 +46,28 @@ class SqlDataBase {
 
 
     // 앱 내부 저장소에 DB가 존재하는 지확인하고 없으면 ASSETS/DB/chart.db를 복사해서 집어넣음
-    // var exists = await databaseExists(path);
+    var exists = await databaseExists(path);
 
-    // if (!exists) {
-    //   print("Creating new copy from asset");
+    if (!exists) {
+      print("Creating new copy from asset");
 
-    //   // Make sure the parent directory exists
-    //   try {
-    //     await Directory(dirname(path)).create(recursive: true);
-    //   } catch (_) {}
+      // Make sure the parent directory exists
+      try {
+        await Directory(dirname(path)).create(recursive: true);
+      } catch (_) {}
 
-    //   // ByteData data = await rootBundle.load(join("assets", "chart.db"));
-    //   // List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+      // ByteData data = await rootBundle.load(join("assets", "chart.db"));
+      // List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
-    //   // File file = File("assets/db/chart.db");
-    //   // List<int> bytes = await file.readAsBytes();
-    //   // await File(path).writeAsBytes(bytes, flush: true);
+      // File file = File("assets/db/chart.db");
+      // List<int> bytes = await file.readAsBytes();
+      // await File(path).writeAsBytes(bytes, flush: true);
 
-    //   ByteData data = await rootBundle.load('assets/db/chart.db');
-    //   List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
-    //   await File(path).writeAsBytes(bytes, flush: true);
+      ByteData data = await rootBundle.load('assets/db/chart.db');
+      List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+      await File(path).writeAsBytes(bytes, flush: true);
 
-    // }
+    }
     _database = await openDatabase(path,
         version: 2, onCreate: _dataBaseCreate); /*onCreate의 경우 db가 없으면 생성하라는뜻*/
   }
