@@ -1,4 +1,5 @@
-import 'dart:ffi';
+
+import 'dart:collection';
 
 import '../models/patient_private_info.dart';
 import '../models/pre_examination.dart';
@@ -6,6 +7,8 @@ import '../models/acupuncture.dart';
 import '../models/disease.dart';
 import '../models/medical_image.dart';
 import '../models/medical_record.dart';
+import '../models/queue.dart';
+import '../models/patient_vital.dart';
 
 import '../models/prescription.dart';
 import '../models/user.dart';
@@ -156,10 +159,6 @@ class PreExaminationProvider {
       userId: preExamination.userId,
       patientNumber: preExamination.patientNumber,
       measurementDate: DateTime.now(), // 현재 날짜를 사용
-      bt: preExamination.bt,
-      bp_h: preExamination.bp_h,
-      bp_l: preExamination.bp_l,
-      bloodSugar: preExamination.bloodSugar,
       mainSymptoms: preExamination.mainSymptoms,
       rosKeywords: preExamination.rosKeywords,
       rosDescriptives: preExamination.rosDescriptives,
@@ -167,8 +166,6 @@ class PreExaminationProvider {
       ros_detail: preExamination.ros_detail,
       additionalNotes: preExamination.additionalNotes,
       consentToCollectPersonalInformation: preExamination.consentToCollectPersonalInformation,
-      queue: preExamination.queue,
-      state: preExamination.state
     );
 
     return await db.insert(PreExamination.tableName, modifiedPreExamination.toJson());
@@ -213,6 +210,94 @@ class PreExaminationProvider {
   }
 */
 }
+
+class QueueProvider {
+  Future<int> insertQueue(Queue queue) async {
+    final db = await SqlDataBase.instance.database;
+    return await db.insert(Queue.tableName, queue.toJson());
+  }
+
+  Future<List<Queue>> getQueues() async {
+    final db = await SqlDataBase.instance.database;
+    final result = await db.query(Queue.tableName);
+    return result.map((json) => Queue.fromJson(json)).toList();
+  }
+
+  Future<Queue> getQueue(int patientNumber) async {
+    final db = await SqlDataBase.instance.database;
+    final result = await db.query(
+      Queue.tableName,
+      where: "${QueueFields.patientNumber} = ?",
+      whereArgs: [patientNumber],
+    );
+    return result.map((json) => Queue.fromJson(json)).first;
+  }
+
+  Future<int> updateQueue(Queue queue) async {
+    final db = await SqlDataBase.instance.database;
+    return await db.update(
+      Queue.tableName,
+      queue.toJson(),
+      where: "${QueueFields.patientNumber} = ?",
+      whereArgs: [queue.patientNumber],
+    );
+  }
+
+
+  Future<int> deleteQueue(int patientNumber) async {
+    final db = await SqlDataBase.instance.database;
+    return await db.delete(
+      Queue.tableName,
+      where: "${QueueFields.patientNumber} = ?",
+      whereArgs: [patientNumber],
+    );
+  }
+}
+
+class PatientVitalProvider {
+  Future<int> insertQueue(PatientVital patientVital) async {
+    final db = await SqlDataBase.instance.database;
+    return await db.insert(PatientVital.tableName, patientVital.toJson());
+  }
+
+  Future<List<PatientVital>> getPatientVitals() async {
+    final db = await SqlDataBase.instance.database;
+    final result = await db.query(PatientVital.tableName);
+    return result.map((json) => PatientVital.fromJson(json)).toList();
+  }
+
+  Future<PatientVital> getPatientVital(int patientNumber) async {
+    final db = await SqlDataBase.instance.database;
+    final result = await db.query(
+      PatientVital.tableName,
+      where: "${PatientVitalFields.patientNumber} = ?",
+      whereArgs: [patientNumber],
+    );
+    return result.map((json) => PatientVital.fromJson(json)).first;
+  }
+
+  // Future<int> updatePatientVital(PatientVital patientVital) async {
+  //   final db = await SqlDataBase.instance.database;
+  //   return await db.update(
+  //     PatientVital.tableName,
+  //     patientVital.toJson(),
+  //     where: "${PatientVitalFields.patientNumber} = ?",
+  //     whereArgs: [patientVital.patientNumber],
+  //   );
+  // }
+
+
+  // Future<int> deletePatientVital(int patientNumber) async {
+  //   final db = await SqlDataBase.instance.database;
+  //   return await db.delete(
+  //     PatientVital.tableName,
+  //     where: "${PatientVitalFields.patientNumber} = ?",
+  //     whereArgs: [patientNumber],
+  //   );
+  // }
+}
+
+
 class MedicalRecordProvider {
   Future<int> insertMedicalRecord(MedicalRecord medicalRecord) async {
     final db = await SqlDataBase.instance.database;
