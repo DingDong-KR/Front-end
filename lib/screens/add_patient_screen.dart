@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:my_desktop_app/models/patients.dart';
+import 'package:my_desktop_app/models/patient_private_info.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
 
 class AddPatientScreen extends StatefulWidget {
@@ -24,11 +24,11 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
   // 환자 정보를 저장하기 위한 함수
   Future<void> savePatient() async {
     // 입력된 값들을 이용하여 Patient 객체 생성
-    final Patient newPatient = Patient(
+    final PatientPrivateInfo newPatient = PatientPrivateInfo(
       name: nameController.text,
       gender: selectedGender,
       age: age,
-      socialSecurityNumber: int.parse(ssn),
+      socialSecurityNumber: ssn,
       address: addressController.text,
       //lastVisitDate: DateTime.parse(lastVisitDateController.text),
       //queue: int.parse(queueController.text),
