@@ -7,8 +7,8 @@ class ImageSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 245,
-      height: 309,
+      width: 205,
+      height: 258,
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 14),
       decoration: const BoxDecoration(color: Colors.white),
       child: Column(

@@ -5,8 +5,8 @@ class NusrsingNote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-          width: 375.50,
-          height: 393.50,
+          width: 313,
+          height: 259,
           decoration: BoxDecoration(color: Colors.white),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start, // Row 내 자식들을 시작점에 맞추기

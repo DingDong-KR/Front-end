@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_desktop_app/screens_main/home_screen.dart';
 import '../widgets/main_menu.dart';
 import '../widgets/patients_list.dart';
 import '../widgets/top_bar.dart';
@@ -43,7 +44,7 @@ class _MainScreenState extends State<MainScreen> {
                             switch (settings.name) {
                               case '/':
                                 builder = (context) =>
-                                    Container(); // TODO: Replace with default screen
+                                    HomeScreen(user: widget.user); //default screen
                                 break;
                             }
                             return MaterialPageRoute(
