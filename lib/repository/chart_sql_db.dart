@@ -47,7 +47,6 @@ class SqlDataBase {
     var path = join(databasesPath, "chart.db");
     print('데이터베이스의 위치: $path');
 
-
     //앱 내부 저장소에 DB가 존재하는 지확인하고 없으면 ASSETS/DB/chart.db를 복사해서 집어넣음
     var exists = await databaseExists(path);
 
@@ -60,14 +59,13 @@ class SqlDataBase {
       } catch (_) {}
 
       ByteData data = await rootBundle.load('assets/db/chart.db');
-      List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+      List<int> bytes =
+          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       await File(path).writeAsBytes(bytes, flush: true);
-
     }
     _database = await openDatabase(path,
         version: 2, onCreate: _dataBaseCreate); /*onCreate의 경우 db가 없으면 생성하라는뜻*/
   }
-
 
   // DB를 볼수 있는 곳에 위치 시키려 했으나, FLUTTER가 앱 전용 저장소 를 제외하고는 사용 불가 함
   // //해당 앱의 문서 디렉토리에 db 복사본을 저장 -> path_provider 필요
@@ -79,7 +77,6 @@ class SqlDataBase {
 
   //   String currentTime = DateFormat('yyyy_MM_dd_HH_mm_ss').format(DateTime.now());
   //   String dstPath = join('../DB/', 'chart_$currentTime.db');
-
 
   //   File srcFile = File(srcPath);
   //   await srcFile.copy(dstPath);
@@ -108,13 +105,12 @@ class SqlDataBase {
     // await new File(path).writeAsBytes(bytes);
 
     ByteData data = await rootBundle.load('assets/db/chart.db');
-    List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    List<int> bytes =
+        data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
     await File(path).writeAsBytes(bytes, flush: true);
-
 
     print('Overwritten db from assets');
   }
-
 
   // 일단 작성했으나 필요는 없음
   void _dataBaseCreate(Database db, int version) async {
@@ -126,18 +122,15 @@ class SqlDataBase {
         ${UserFields.password} TEXT NOT NULL,
         UNIQUE(${UserFields.userId})
       )
-      '''
-    );
+      ''');
     await db.execute('''
       CREATE TABLE ${UserAffiliation.tableName}(
         ${UserAffiliationFields.userAffiliationsId} INTEGER PRIMARY KEY AUTOINCREMENT,
         ${UserAffiliationFields.userId} TEXT,
         ${UserAffiliationFields.affiliation} TEXT NOT NULL
       )
-      '''
-    );
-    await db.execute(
-        '''
+      ''');
+    await db.execute('''
         CREATE TABLE ${PatientPrivateInfo.tableName}(
           ${PatientPrivateInfoFields.patientNumber} INTEGER PRIMARY KEY AUTOINCREMENT,
           ${PatientPrivateInfoFields.name} TEXT NOT NULL,
@@ -146,8 +139,7 @@ class SqlDataBase {
           ${PatientPrivateInfoFields.address} TEXT NOT NULL,
           ${PatientPrivateInfoFields.socialSecurityNumber} TEXT NOT NULL UNIQUE
         )
-        '''
-    );
+        ''');
     await db.execute('''
     CREATE TABLE ${PreExamination.tableName}(
       ${PreExaminationFields.chartNumber} INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -165,8 +157,7 @@ class SqlDataBase {
       
       FOREIGN KEY (${PreExaminationFields.patientNumber}) REFERENCES ${PatientPrivateInfo.tableName}(${PatientPrivateInfoFields.patientNumber}) ON DELETE CASCADE
     )
-    '''
-    );
+    ''');
     await db.execute('''
       CREATE TABLE ${PatientVital.tableName}(
         ${PatientVitalFields.chartNumber} INTEGER PRIMARY KEY,
@@ -176,24 +167,21 @@ class SqlDataBase {
         ${PatientVitalFields.sbp} INTEGER,
         ${PatientVitalFields.bloodSugar} INTEGER
       )
-      '''
-    );
+      ''');
     await db.execute('''
       CREATE TABLE ${Queue.tableName}(
         ${QueueFields.patientNumber} INTEGER PRIMARY KEY,
-        ${QueueFields.queueTicket} INTEGER,
+        ${QueueFields.queueTicket} INTEGER AUTOINCREMENT,
         ${QueueFields.status} TEXT,
       )
-      '''
-    );
+      ''');
     await db.execute('''
     CREATE TABLE ${MedicalRecord.tableName}(
       ${MedicalRecordFields.chartNumber} INTEGER PRIMARY KEY,
       ${MedicalRecordFields.userId} TEXT NOT NULL,
       ${MedicalRecordFields.medicalRecord} TEXT NOT NULL
     )
-    '''
-    );
+    ''');
     await db.execute('''
     CREATE TABLE ${MedicalImage.tableName}(
       ${MedicalImageFields.imageIndex} INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -201,8 +189,7 @@ class SqlDataBase {
       ${MedicalImageFields.treatmentArea} TEXT NOT NULL,
       ${MedicalImageFields.medicalImagePath} TEXT NOT NULL
     )
-    '''
-    );
+    ''');
     await db.execute('''
     CREATE TABLE ${Disease.tableName}(
       ${DiseaseFields.diseaseIndex} INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -211,8 +198,7 @@ class SqlDataBase {
       ${DiseaseFields.diseaseCode} TEXT NOT NULL,
       ${DiseaseFields.diseaseName} TEXT NOT NULL
     )
-    '''
-    );
+    ''');
     await db.execute('''
     CREATE TABLE ${Acupuncture.tableName}(
       ${AcupunctureFields.acupunctureIndex} INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -223,8 +209,7 @@ class SqlDataBase {
       ${AcupunctureFields.treatmentPos3} TEXT,
       ${AcupunctureFields.treatmentPos4} TEXT
     )
-    '''
-    );
+    ''');
     await db.execute('''
     CREATE TABLE ${Prescription.tableName}(
       ${PrescriptionFields.prescriptionIndex} INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -235,8 +220,7 @@ class SqlDataBase {
       ${PrescriptionFields.durationOfMedication} INTEGER NOT NULL,
       ${PrescriptionFields.totalAmount} INTEGER NOT NULL
     )
-    '''
-    );
+    ''');
     await db.execute('''
       CREATE TABLE ${DiseaseList.tableName}(
         ${DiseaseListFields.diseaseListIndex} INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -245,17 +229,10 @@ class SqlDataBase {
         ${DiseaseListFields.englishName} TEXT,
         ${DiseaseListFields.completeness} TEXT
       )
-      '''
-    );
+      ''');
   }
-
-
 
   void closeDataBase() async {
     if (_database != null) await _database!.close();
   }
-
-
-
 }
-
