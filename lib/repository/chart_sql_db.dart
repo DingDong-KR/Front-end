@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:my_desktop_app/models/ros.dart';
+
 import '../models/patient_vital.dart';
 import '../models/queue.dart';
 
@@ -151,13 +153,24 @@ class SqlDataBase {
       ${PreExaminationFields.rosDescriptives[0]} TEXT,
       ${PreExaminationFields.rosDescriptives[1]} TEXT,
       ${PreExaminationFields.bodyType} INTEGER,
-      ${PreExaminationFields.ros_detail} TEXT,
       ${PreExaminationFields.additionalNotes} TEXT,
       ${PreExaminationFields.consentToCollectPersonalInformation} INTEGER,
       
       FOREIGN KEY (${PreExaminationFields.patientNumber}) REFERENCES ${PatientPrivateInfo.tableName}(${PatientPrivateInfoFields.patientNumber}) ON DELETE CASCADE
     )
     ''');
+    await db.execute('''
+      CREATE TABLE ${ROS.tableName}(
+        ${ROSFields.chartNumber} INTEGER PRIMARY KEY,
+        ${ROSFields.getHotEasily} INTEGER,
+        ${ROSFields.handFootWarm} INTEGER,
+        ${ROSFields.coldShower} INTEGER,
+        ${ROSFields.sleepTemperaturePreference} INTEGER,
+        ${ROSFields.flushSummer} INTEGER,
+        ${ROSFields.flush} INTEGER,
+        ${ROSFields.flushCircumstance} TEXT
+      )
+      ''');
     await db.execute('''
       CREATE TABLE ${PatientVital.tableName}(
         ${PatientVitalFields.chartNumber} INTEGER PRIMARY KEY,

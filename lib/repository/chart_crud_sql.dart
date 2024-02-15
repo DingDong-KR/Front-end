@@ -9,7 +9,7 @@ import '../models/medical_image.dart';
 import '../models/medical_record.dart';
 import '../models/queue.dart';
 import '../models/patient_vital.dart';
-
+import '../models/ros.dart';
 import '../models/prescription.dart';
 import '../models/user.dart';
 import '../models/disease_list.dart';
@@ -163,7 +163,6 @@ class PreExaminationProvider {
       rosKeywords: preExamination.rosKeywords,
       rosDescriptives: preExamination.rosDescriptives,
       bodyType: preExamination.bodyType,
-      ros_detail: preExamination.ros_detail,
       additionalNotes: preExamination.additionalNotes,
       consentToCollectPersonalInformation: preExamination.consentToCollectPersonalInformation,
     );
@@ -296,7 +295,31 @@ class PatientVitalProvider {
   }
 }
 
+class ROSProvider {
+  // Patient 생성
+  Future<int> insertROS(ROS ros) async {
+    final db = await SqlDataBase.instance.database;
+    return await db.insert(ROS.tableName, ros.toJson());
+  }
 
+  // Patient 조회
+  Future<List<ROS>> getPatients() async {
+    final db = await SqlDataBase.instance.database;
+    final result = await db.query(ROS.tableName);
+    return result.map((json) => ROS.fromJson(json)).toList();
+  }
+
+  // Patient 상세 조회
+  Future<ROS> getPatient(int chartNumber) async {
+    final db = await SqlDataBase.instance.database;
+    final result = await db.query(
+      ROS.tableName,
+      where: "${ROSFields.chartNumber} = ?",
+      whereArgs: [chartNumber],
+    );
+    return result.map((json) => ROS.fromJson(json)).first;
+  }
+}
 class MedicalRecordProvider {
   Future<int> insertMedicalRecord(MedicalRecord medicalRecord) async {
     final db = await SqlDataBase.instance.database;
