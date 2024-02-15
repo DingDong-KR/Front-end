@@ -10,7 +10,6 @@ class PreExaminationFields {
     'rosDescriptive2',
   ]; // ros 부분에서의 주관식
   static final String bodyType = 'bodyType';
-  static final String ros_detail = 'ros_detail'; // ros 상세 정보 3 차원 배열 사용 구분은 ^(가장 내부) -> ;(중간) -> |(바깥쪽) -> [[[a1,a2],[b1,b2]],[['c1', 'c2'], ['d1', 'd2']]] -> 'a1^a2;b1^b2|c1^c2;d1^d2'
   static final String additionalNotes = 'additionalNotes'; // 추가 정보 -> 간호 노트
   static final String consentToCollectPersonalInformation = 'consentToCollectPersonalInformation'; // 향후 사용 할 수 있는 개인정보 동의서
 }
@@ -25,7 +24,6 @@ class PreExamination {
   final String? rosKeywords;
   final List<String>? rosDescriptives;
   final int? bodyType;
-  final List<List<List<String>>>? ros_detail;
   final String? additionalNotes;
   final bool? consentToCollectPersonalInformation;
 
@@ -38,7 +36,6 @@ class PreExamination {
     this.rosKeywords,
     this.rosDescriptives,
     this.bodyType,
-    this.ros_detail,
     this.additionalNotes,
     this.consentToCollectPersonalInformation,
 
@@ -55,7 +52,6 @@ class PreExamination {
       for (int i = 0; i < PreExaminationFields.rosDescriptives.length; i++)
         PreExaminationFields.rosDescriptives[i]: rosDescriptives?[i],
       PreExaminationFields.bodyType: bodyType,
-      PreExaminationFields.ros_detail: ros_detail?.map((detailList2) => detailList2.map((detailList1) => detailList1.join('^')).join(';')).join('|'),
       PreExaminationFields.additionalNotes: additionalNotes,
       PreExaminationFields.consentToCollectPersonalInformation: consentToCollectPersonalInformation == null ? null : (consentToCollectPersonalInformation! ? 1 : 0),
     };
@@ -74,7 +70,6 @@ class PreExamination {
             (i) => json[PreExaminationFields.rosDescriptives[i]] as String,
       ),
       bodyType: json[PreExaminationFields.bodyType] as int,
-      ros_detail: json[PreExaminationFields.ros_detail] == null ? null : (json[PreExaminationFields.ros_detail] as String).split('|').map((detailList2) => detailList2.split(';').map((detailList1) => detailList1.split('^')).toList()).toList(),
       additionalNotes: json[PreExaminationFields.additionalNotes] as String,
       consentToCollectPersonalInformation: json[PreExaminationFields.consentToCollectPersonalInformation] == null ? null : json[PreExaminationFields.consentToCollectPersonalInformation] == 1,
     );
