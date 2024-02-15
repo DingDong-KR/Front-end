@@ -8,7 +8,7 @@ import '../models/medical_image.dart';
 import '../models/medical_record.dart';
 import '../models/patient_queue.dart';
 import '../models/patient_vital.dart';
-
+import '../models/ros.dart';
 import '../models/prescription.dart';
 import '../models/user.dart';
 import '../models/disease_list.dart';
@@ -162,7 +162,6 @@ class PreExaminationProvider {
       rosKeywords: preExamination.rosKeywords,
       rosDescriptives: preExamination.rosDescriptives,
       bodyType: preExamination.bodyType,
-      ros_detail: preExamination.ros_detail,
       additionalNotes: preExamination.additionalNotes,
       consentToCollectPersonalInformation:
           preExamination.consentToCollectPersonalInformation,
@@ -213,43 +212,46 @@ class PreExaminationProvider {
 */
 }
 
-class QueueProvider {
-  Future<int> insertQueue(PatientQueue queue) async {
+class PatientQueueProvider {
+  Future<int> insertPatientQueue(PatientQueue patientQueue) async {
     final db = await SqlDataBase.instance.database;
-    return await db.insert(PatientQueue.tableName, queue.toJson());
+    return await db.insert(PatientQueue.tableName, patientQueue.toJson());
   }
 
-  Future<List<PatientQueue>> getQueues() async {
+  Future<List<PatientQueue>> getPatientQueues() async {
     final db = await SqlDataBase.instance.database;
     final result = await db.query(PatientQueue.tableName);
     return result.map((json) => PatientQueue.fromJson(json)).toList();
   }
 
-  Future<PatientQueue> getQueue(int patientNumber) async {
+
+  Future<PatientQueue> getPatientQueue(int patientNumber) async {
     final db = await SqlDataBase.instance.database;
     final result = await db.query(
       PatientQueue.tableName,
-      where: "${QueueFields.patientNumber} = ?",
+      where: "${PatientQueueFields.patientNumber} = ?",
       whereArgs: [patientNumber],
     );
     return result.map((json) => PatientQueue.fromJson(json)).first;
   }
 
-  Future<int> updateQueue(PatientQueue queue) async {
+
+  Future<int> updatePatientQueue(PatientQueue patientQueue) async {
     final db = await SqlDataBase.instance.database;
     return await db.update(
       PatientQueue.tableName,
-      queue.toJson(),
-      where: "${QueueFields.patientNumber} = ?",
-      whereArgs: [queue.patientNumber],
+      patientQueue.toJson(),
+      where: "${PatientQueueFields.patientNumber} = ?",
+      whereArgs: [patientQueue.patientNumber],
     );
   }
 
-  Future<int> deleteQueue(int patientNumber) async {
+
+  Future<int> deletePatientQueue(int patientNumber) async {
     final db = await SqlDataBase.instance.database;
     return await db.delete(
       PatientQueue.tableName,
-      where: "${QueueFields.patientNumber} = ?",
+      where: "${PatientQueueFields.patientNumber} = ?",
       whereArgs: [patientNumber],
     );
   }
@@ -294,6 +296,32 @@ class PatientVitalProvider {
       where: "${PatientVitalFields.patientNumber} = ?",
       whereArgs: [patientNumber],
     );
+  }
+}
+
+class ROSProvider {
+  // Patient 생성
+  Future<int> insertROS(ROS ros) async {
+    final db = await SqlDataBase.instance.database;
+    return await db.insert(ROS.tableName, ros.toJson());
+  }
+
+  // Patient 조회
+  Future<List<ROS>> getPatients() async {
+    final db = await SqlDataBase.instance.database;
+    final result = await db.query(ROS.tableName);
+    return result.map((json) => ROS.fromJson(json)).toList();
+  }
+
+  // Patient 상세 조회
+  Future<ROS> getPatient(int chartNumber) async {
+    final db = await SqlDataBase.instance.database;
+    final result = await db.query(
+      ROS.tableName,
+      where: "${ROSFields.chartNumber} = ?",
+      whereArgs: [chartNumber],
+    );
+    return result.map((json) => ROS.fromJson(json)).first;
   }
 }
 

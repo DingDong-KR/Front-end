@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../screens/ros/add_ros_screen.dart';
+
 class Ros extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -25,9 +27,35 @@ class Ros extends StatelessWidget {
               ),
             ),
             Spacer(),
-            SvgPicture.asset('assets/icons/icon_document.svg'),
-            SizedBox(width: 5),
-            SvgPicture.asset('assets/icons/icon_right_arrow.svg'),
+            GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+                        child: Dialog(
+                          elevation: 0,
+                          backgroundColor: Colors.transparent,
+                          child: AddRosScreen(),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+              child:  Container(
+                child: Row(
+                  children: [
+                    SvgPicture.asset('assets/icons/icon_document.svg'),
+                    SizedBox(width: 5),
+                    SvgPicture.asset('assets/icons/icon_right_arrow.svg'),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),

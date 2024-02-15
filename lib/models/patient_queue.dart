@@ -1,11 +1,12 @@
-class QueueFields {
-  static const String patientNumber = 'patientNumber';
-  static const String queueTicket = 'queue_ticket';
-  static const String status = 'status';
+class PatientQueueFields {
+  static const String patientNumber = 'patientNumber'; 
+  static const String queueTicket = 'queue_ticket';   
+  static const String status = 'status';                        
 }
 
+
 class PatientQueue {
-  static String tableName = 'queue';
+  static String tableName = 'patientQueue';
 
   final int patientNumber;
   final int? queueTicket;
@@ -19,17 +20,17 @@ class PatientQueue {
 
   Map<String, dynamic> toJson() {
     return {
-      QueueFields.patientNumber: patientNumber,
-      QueueFields.queueTicket: queueTicket,
-      QueueFields.status: status,
+      PatientQueueFields.patientNumber: patientNumber,
+      PatientQueueFields.queueTicket: queueTicket,
+      PatientQueueFields.status: status,
     };
   }
 
   factory PatientQueue.fromJson(Map<String, dynamic> json) {
     return PatientQueue(
-      patientNumber: json[QueueFields.patientNumber] as int,
-      queueTicket: json[QueueFields.queueTicket] as int,
-      status: json[QueueFields.status] as String,
+      patientNumber: json[PatientQueueFields.patientNumber] as int,
+      queueTicket: json[PatientQueueFields.queueTicket] as int,
+      status: json[PatientQueueFields.status] as String,
     );
   }
 }
