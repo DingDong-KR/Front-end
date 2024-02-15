@@ -34,7 +34,7 @@ class PatientSimpleInfo extends StatelessWidget {
                           child: Dialog(
                             elevation: 0,
                             backgroundColor: Colors.transparent,
-                            child: AddVitalScreen(),
+                            child: AddVitalScreen(chartNumber: 999,patientNumber: 3),// TODO: 차트번호와 환자 번호 전달
                           ),
                         ),
                       );

@@ -8,7 +8,10 @@ import '../models/patient_vital.dart';
 
 
 class AddVitalScreen extends StatefulWidget {
-  const AddVitalScreen({Key? key}) : super(key: key);
+  final int chartNumber;
+  final int patientNumber; // 추가: patientNumber 변수 추가
+
+  const AddVitalScreen({Key? key, required this.chartNumber, required this.patientNumber}) : super(key: key);
 
   @override
   State<AddVitalScreen> createState() => _AddVitalScreenState();
@@ -25,20 +28,20 @@ class _AddVitalScreenState extends State<AddVitalScreen> {
   Future<void> savePatientVital() async {
     // 입력된 값들을 이용하여 PatientVital 객체 생성
     final PatientVital newPatientVital = PatientVital(
-      chartNumber: 0, // 적절한 값으로 변경해야 함
-      patientNumber: 0, // 적절한 값으로 변경해야 함
+      chartNumber: widget.chartNumber,
+      patientNumber: widget.patientNumber, // patientNumber 추가
       bt: double.tryParse(BTController.text),
-      sbp: int.tryParse(SBPController.text), // 적절한 필드명으로 변경해야 함
-      dbp: int.tryParse(DBPController.text), // 적절한 필드명으로 변경해야 함
-      bloodSugar: int.tryParse(BSController.text), // 적절한 필드명으로 변경해야 함
+      sbp: int.tryParse(SBPController.text),
+      dbp: int.tryParse(DBPController.text),
+      bloodSugar: int.tryParse(BSController.text),
     );
-
     // 데이터베이스에 환자 정보 추가
     final PatientVitalProvider patientVitalProvider = PatientVitalProvider();
     await patientVitalProvider.insertPatientVital(newPatientVital);
   }
 
-  @override
+
+    @override
   Widget build(BuildContext context) {
     return Container(
       width: 600,
@@ -179,6 +182,7 @@ class _AddVitalScreenState extends State<AddVitalScreen> {
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10.0),
                       child: TextField(
+                        controller: BTController,
                         decoration: InputDecoration(
                           hintText: 'Body Temperature',
                           hintStyle: TextStyle(
@@ -230,6 +234,7 @@ class _AddVitalScreenState extends State<AddVitalScreen> {
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10.0),
                       child: TextField(
+                        controller: SBPController,
                         decoration: InputDecoration(
                           hintText: 'BP in systole',
                           hintStyle: TextStyle(
@@ -281,6 +286,7 @@ class _AddVitalScreenState extends State<AddVitalScreen> {
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10.0),
                       child: TextField(
+                        controller: DBPController,
                         decoration: InputDecoration(
                           hintText: 'BP in diastole',
                           hintStyle: TextStyle(
@@ -332,6 +338,7 @@ class _AddVitalScreenState extends State<AddVitalScreen> {
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10.0),
                       child: TextField(
+                        controller: BSController,
                         decoration: InputDecoration(
                           hintText: 'Blood Sugar',
                           hintStyle: TextStyle(
@@ -499,7 +506,7 @@ class _AddVitalScreenState extends State<AddVitalScreen> {
             Expanded(
               flex: 1,
               child: Text(
-                item?.chartNumber.toString() ?? '', // visitDate 대신 chartNumber 사용
+                item?.chartNumber.toString() ?? '', //TODO: visitDate 대신 chartNumber 사용
                 style: TextStyle(
                   color: Color(0xFF404855),
                   fontSize: 11,
