@@ -13,8 +13,8 @@ class ROS {
   static String tableName = 'ROS';
 
   final int chartNumber;
-  final int? getHotEasily;
-  final int? handFootWarm;
+  final String? getHotEasily;
+  final String? handFootWarm;
   final int? coldShower;
   final int? sleepTemperaturePreference;
   final int? flushSummer;
@@ -49,8 +49,8 @@ class ROS {
   factory ROS.fromJson(Map<String, dynamic> json) {
     return ROS(
       chartNumber: json[ROSFields.chartNumber] as int,
-      getHotEasily: json[ROSFields.getHotEasily] as int,
-      handFootWarm: json[ROSFields.handFootWarm] as int,
+      getHotEasily: json[ROSFields.getHotEasily] as String,
+      handFootWarm: json[ROSFields.handFootWarm] as String,
       coldShower: json[ROSFields.coldShower] as int,
       sleepTemperaturePreference: json[ROSFields.sleepTemperaturePreference] as int,
       flushSummer: json[ROSFields.flushSummer] as int,

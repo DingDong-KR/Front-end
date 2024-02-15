@@ -162,8 +162,8 @@ class SqlDataBase {
     await db.execute('''
       CREATE TABLE ${ROS.tableName}(
         ${ROSFields.chartNumber} INTEGER PRIMARY KEY,
-        ${ROSFields.getHotEasily} INTEGER,
-        ${ROSFields.handFootWarm} INTEGER,
+        ${ROSFields.getHotEasily} TEXT,
+        ${ROSFields.handFootWarm} TEXT,
         ${ROSFields.coldShower} INTEGER,
         ${ROSFields.sleepTemperaturePreference} INTEGER,
         ${ROSFields.flushSummer} INTEGER,
