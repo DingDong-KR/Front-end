@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_desktop_app/models/patient_private_info.dart';
+import 'package:my_desktop_app/models/queue.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
+import 'package:my_desktop_app/widgets/patients_list.dart';
+import 'package:path/path.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class AddPatientScreen extends StatefulWidget {
   const AddPatientScreen({super.key});
@@ -37,6 +41,32 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
     // 데이터베이스에 환자 정보 추가
     final PatientProvider patientProvider = PatientProvider();
     await patientProvider.insertPatient(newPatient);
+  }
+
+  int maxPatientNumber = 0;
+  List<PatientPrivateInfo> patients = [];
+
+  // 환자 정보 불러오기 위한 함수
+  Future<void> loadPatient() async {
+    final PatientProvider patientProvider = PatientProvider();
+    patients = await patientProvider.getPatients();
+    int numPatient = patients.length;
+    maxPatientNumber = patients[numPatient - 1].patientNumber! + 1;
+
+    print('length: $numPatient, maxPatNum: $maxPatientNumber');
+  }
+
+  // 대기열 (Queue)에 추가하기 위한 함수
+  Future<void> addQueue() async {
+    print('addQ patNum: $maxPatientNumber');
+    Queue newQueue = Queue(
+      patientNumber: maxPatientNumber,
+      status: '대기중',
+    );
+
+    // 데이터베이스에 queue 추가
+    final QueueProvider queueProvider = QueueProvider();
+    await queueProvider.insertQueue(newQueue);
   }
 
   @override
@@ -115,7 +145,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                     ), //닫기 버튼
                     const SizedBox(width: 10),
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         ssn = ssnFrontController.text + ssnBackController.text;
 
                         // 완료 버튼이 눌렸을 때 실행되는 로직
@@ -126,6 +156,10 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
 
                         // db에 저장시킴
                         savePatient();
+                        await loadPatient();
+
+                        addQueue();
+
                         Navigator.pop(context); // 현재 화면을 닫는 동작을 수행
                       },
                       child: Container(

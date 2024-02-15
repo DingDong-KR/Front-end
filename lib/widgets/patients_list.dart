@@ -17,6 +17,8 @@ class _PatientsListState extends State<PatientsList>
   bool isSwitchOn = false;
   int? _selectedItemIndex; // 현재 선택된 아이템의 인덱스
 
+  bool _isLoading = true;
+
   List<PatientPrivateInfo> patients = [];
 
   // 환자 정보 불러오기 위한 함수
@@ -24,10 +26,9 @@ class _PatientsListState extends State<PatientsList>
     final PatientProvider patientProvider = PatientProvider();
     patients = await patientProvider.getPatients();
 
-    // 환자 정보 출력
-    for (var patient in patients) {
-      print('${patient.patientNumber}, ${patient.name}, ${patient.age}');
-    }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -48,6 +49,12 @@ class _PatientsListState extends State<PatientsList>
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
     return Container(
       width: 195,
       decoration: const BoxDecoration(color: Colors.white),
@@ -164,7 +171,6 @@ class _PatientsListState extends State<PatientsList>
                   onTap: () {
                     setState(() {
                       _selectedItemIndex = index;
-                      print(patients[1].name);
                     });
                   },
                   child: AnimatedContainer(
@@ -274,7 +280,7 @@ class _PatientsListState extends State<PatientsList>
                           child: Row(
                             children: [
                               Text(
-                                '${patients[index].gender},${patients[index].age}',
+                                '${patients[index].gender}, ${patients[index].age}세',
                                 style: TextStyle(
                                   color: isClicked
                                       ? const Color(
