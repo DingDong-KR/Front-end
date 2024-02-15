@@ -170,9 +170,9 @@ class SqlDataBase {
       ''');
     await db.execute('''
       CREATE TABLE ${Queue.tableName}(
-        ${QueueFields.patientNumber} INTEGER PRIMARY KEY,
-        ${QueueFields.queueTicket} INTEGER AUTOINCREMENT,
-        ${QueueFields.status} TEXT,
+        ${QueueFields.queueTicket} INTEGER PRIMARY KEY AUTOINCREMENT,
+        ${QueueFields.patientNumber} INTEGER,
+        ${QueueFields.status} TEXT
       )
       ''');
     await db.execute('''
