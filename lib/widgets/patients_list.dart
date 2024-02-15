@@ -28,7 +28,7 @@ class _PatientsListState extends State<PatientsList>
   List<PatientPrivateInfo> patients = [];
 
   // 환자 정보 불러오기 위한 함수
-  Future<void> loadPatient() async {
+  Future<void> loadPatients() async {
     final PatientProvider patientProvider = PatientProvider();
     patients = await patientProvider.getPatients();
 
@@ -37,28 +37,16 @@ class _PatientsListState extends State<PatientsList>
     });
   }
 
-  List<PatientQueue> queues = [];
+  List<PatientQueue> patientQueues = [];
 
-  Future<void> loadQueues() async {
-    final QueueProvider queueProvider = QueueProvider();
-    queues = await queueProvider.getQueues();
-
-    for (var q in queues) {
-      print(q.toJson());
-    }
+  // 환자 상태를 불러오기 위한 함수
+  Future<void> loadPatientQueues() async {
+    final PatientQueueProvider patientQueueProvider = PatientQueueProvider();
+    patientQueues = await patientQueueProvider.getPatientQueues();
 
     setState(() {
       _isLoadingQueue = false;
     });
-  int patientNumber = 0;
-  List<PatientQueue> patientQueues = [];
-
-  // 환자 상태를 불러오기 위한 함수
-  Future<void> loadPatientQueue() async {
-    final PatientQueueProvider patientQueueProvider = PatientQueueProvider();
-    patientQueues = await patientQueueProvider.getPatientQueues() as List<PatientQueue>;
-
-    print(patientQueues);
   }
 
   @override
@@ -74,20 +62,20 @@ class _PatientsListState extends State<PatientsList>
       end: const Offset(1, 0),
     ).animate(_controller);
 
-    loadPatient();
-    loadQueues();
+    loadPatients();
+    loadPatientQueues();
 
     // 1초마다 화면을 업데이트하는 타이머 설정
     Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       if (mounted) {
         // 화면이 소멸되면 타이머를 중단하기 위해 체크
         setState(() {
-          loadPatient();
-          loadQueues();
+          loadPatients();
+          loadPatientQueues();
         });
       }
     });
-    loadPatientQueue();
+    loadPatientQueues();
   }
 
   @override
@@ -214,9 +202,6 @@ class _PatientsListState extends State<PatientsList>
                   onTap: () {
                     setState(() {
                       _selectedItemIndex = index;
-                      print(index);
-                      loadPatient();
-                      loadQueues();
                     });
                   },
                   child: AnimatedContainer(
@@ -277,10 +262,10 @@ class _PatientsListState extends State<PatientsList>
                               ),
                               const Spacer(),
                               Text(
-                                '${queues[index].status}',
+                                '${patientQueues[index].status}',
                                 // 's',
                                 style: TextStyle(
-                                  color: (queues[index].status == '진료중')
+                                  color: (patientQueues[index].status == '진료중')
                                       ? const Color(0xFF12E158)
                                       : const Color(0xFFFFBE17),
                                   // color: Color(0xFF12E158),
@@ -300,9 +285,10 @@ class _PatientsListState extends State<PatientsList>
                                   width: 5,
                                   height: 5,
                                   decoration: ShapeDecoration(
-                                    color: (queues[index].status == '진료중')
-                                        ? const Color(0xFF12E158)
-                                        : const Color(0xFFFFBE17),
+                                    color:
+                                        (patientQueues[index].status == '진료중')
+                                            ? const Color(0xFF12E158)
+                                            : const Color(0xFFFFBE17),
                                     // color: Color(0xFF12E158),
                                     shape: const OvalBorder(),
                                   ),
