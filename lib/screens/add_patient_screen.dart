@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_desktop_app/models/patient_private_info.dart';
-import 'package:my_desktop_app/models/queue.dart';
+import '../models/patient_queue.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
 import 'package:my_desktop_app/widgets/patients_list.dart';
 import 'package:path/path.dart';
@@ -57,16 +57,16 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
   }
 
   // 대기열 (Queue)에 추가하기 위한 함수
-  Future<void> addQueue() async {
+  Future<void> addPatientQueue() async {
     print('addQ patNum: $maxPatientNumber');
-    Queue newQueue = Queue(
+    PatientQueue newPatientQueue = PatientQueue(
       patientNumber: maxPatientNumber,
       status: '대기중',
     );
 
     // 데이터베이스에 queue 추가
-    final QueueProvider queueProvider = QueueProvider();
-    await queueProvider.insertQueue(newQueue);
+    final PatientQueueProvider queueProvider = PatientQueueProvider();
+    await queueProvider.insertPatientQueue(newPatientQueue);
   }
 
   @override
@@ -158,7 +158,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                         savePatient();
                         await loadPatient();
 
-                        addQueue();
+                        addPatientQueue();
 
                         Navigator.pop(context); // 현재 화면을 닫는 동작을 수행
                       },

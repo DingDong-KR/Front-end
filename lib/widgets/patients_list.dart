@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:my_desktop_app/models/patient_private_info.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
+import '../models/patient_queue.dart';
 import '../models/patients_item.dart';
 
 class PatientsList extends StatefulWidget {
@@ -34,14 +35,14 @@ class _PatientsListState extends State<PatientsList>
   }
 
   int patientNumber = 0;
-  List<Queue> queues = [];
+  List<PatientQueue> patientQueues = [];
 
   // 환자 상태를 불러오기 위한 함수
-  Future<void> loadQueue() async {
-    final QueueProvider queueProvider = QueueProvider();
-    queues = await queueProvider.getQueues() as List<Queue>;
+  Future<void> loadPatientQueue() async {
+    final PatientQueueProvider patientQueueProvider = PatientQueueProvider();
+    patientQueues = await patientQueueProvider.getPatientQueues() as List<PatientQueue>;
 
-    print(queues);
+    print(patientQueues);
   }
 
   @override
@@ -58,7 +59,7 @@ class _PatientsListState extends State<PatientsList>
     ).animate(_controller);
 
     loadPatient();
-    loadQueue();
+    loadPatientQueue();
   }
 
   @override
