@@ -90,6 +90,7 @@ flutter:
     - assets/icons/icon_document.svg
     - assets/icons/icon_pencil.svg
     - assets/images/image_dingdong.svg
+    - assets/icons/icon_right_down_arrow.svg
     
 
   # An image asset can refer to one or more resolution-specific "variants", see
