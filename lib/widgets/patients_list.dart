@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:my_desktop_app/models/patient_private_info.dart';
+import 'package:my_desktop_app/models/patient_queue.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
 import '../models/patient_queue.dart';
 import '../models/patients_item.dart';
@@ -20,7 +22,8 @@ class _PatientsListState extends State<PatientsList>
   bool isSwitchOn = false;
   int? _selectedItemIndex; // 현재 선택된 아이템의 인덱스
 
-  bool _isLoading = true;
+  bool _isLoadingPatient = true;
+  bool _isLoadingQueue = true;
 
   List<PatientPrivateInfo> patients = [];
 
@@ -30,10 +33,23 @@ class _PatientsListState extends State<PatientsList>
     patients = await patientProvider.getPatients();
 
     setState(() {
-      _isLoading = false;
+      _isLoadingPatient = false;
     });
   }
 
+  List<PatientQueue> queues = [];
+
+  Future<void> loadQueues() async {
+    final QueueProvider queueProvider = QueueProvider();
+    queues = await queueProvider.getQueues();
+
+    for (var q in queues) {
+      print(q.toJson());
+    }
+
+    setState(() {
+      _isLoadingQueue = false;
+    });
   int patientNumber = 0;
   List<PatientQueue> patientQueues = [];
 
@@ -59,12 +75,24 @@ class _PatientsListState extends State<PatientsList>
     ).animate(_controller);
 
     loadPatient();
+    loadQueues();
+
+    // 1초마다 화면을 업데이트하는 타이머 설정
+    Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      if (mounted) {
+        // 화면이 소멸되면 타이머를 중단하기 위해 체크
+        setState(() {
+          loadPatient();
+          loadQueues();
+        });
+      }
+    });
     loadPatientQueue();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
+    if (_isLoadingPatient || _isLoadingQueue) {
       return const Center(
         child: CircularProgressIndicator(),
       );
@@ -186,6 +214,9 @@ class _PatientsListState extends State<PatientsList>
                   onTap: () {
                     setState(() {
                       _selectedItemIndex = index;
+                      print(index);
+                      loadPatient();
+                      loadQueues();
                     });
                   },
                   child: AnimatedContainer(
@@ -246,9 +277,13 @@ class _PatientsListState extends State<PatientsList>
                               ),
                               const Spacer(),
                               Text(
-                                patients[index].name,
-                                style: const TextStyle(
-                                  color: Color(0xFF11E058),
+                                '${queues[index].status}',
+                                // 's',
+                                style: TextStyle(
+                                  color: (queues[index].status == '진료중')
+                                      ? const Color(0xFF12E158)
+                                      : const Color(0xFFFFBE17),
+                                  // color: Color(0xFF12E158),
                                   fontSize: 12,
                                   fontFamily: 'Pretendard',
                                   fontWeight: FontWeight.w700,
@@ -264,9 +299,12 @@ class _PatientsListState extends State<PatientsList>
                                 child: Container(
                                   width: 5,
                                   height: 5,
-                                  decoration: const ShapeDecoration(
-                                    color: Color(0xFF11E058),
-                                    shape: OvalBorder(),
+                                  decoration: ShapeDecoration(
+                                    color: (queues[index].status == '진료중')
+                                        ? const Color(0xFF12E158)
+                                        : const Color(0xFFFFBE17),
+                                    // color: Color(0xFF12E158),
+                                    shape: const OvalBorder(),
                                   ),
                                 ),
                               ),

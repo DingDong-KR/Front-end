@@ -6,6 +6,7 @@ import '../models/patient_queue.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
 import 'package:my_desktop_app/widgets/patients_list.dart';
 import 'package:path/path.dart';
+import 'package:provider/provider.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class AddPatientScreen extends StatefulWidget {
@@ -50,10 +51,10 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
   Future<void> loadPatient() async {
     final PatientProvider patientProvider = PatientProvider();
     patients = await patientProvider.getPatients();
-    int numPatient = patients.length;
-    maxPatientNumber = patients[numPatient - 1].patientNumber! + 1;
+    int patientsLength = patients.length;
+    maxPatientNumber = patients[patientsLength - 1].patientNumber!;
 
-    print('length: $numPatient, maxPatNum: $maxPatientNumber');
+    print('length: $patientsLength, maxPatNum: $maxPatientNumber');
   }
 
   // 대기열 (Queue)에 추가하기 위한 함수
@@ -160,7 +161,17 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
 
                         addPatientQueue();
 
+                        // // PatientsList의 onPatientAdded 메서드를 호출 (updatePatient 실행하기위함)
+                        // PatientsList patientsList = const PatientsList();
+                        // patientsList.updatePatient();
+
                         Navigator.pop(context); // 현재 화면을 닫는 동작을 수행
+
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => const PatientsList()),
+                        // );
                       },
                       child: Container(
                         width: 56.20,

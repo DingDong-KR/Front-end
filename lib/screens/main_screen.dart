@@ -7,6 +7,7 @@ import 'package:my_desktop_app/models/user.dart';
 
 class MainScreen extends StatefulWidget {
   final User user; // Update to accept User object
+
   const MainScreen({required this.user, Key? key}) : super(key: key);
 
   @override
@@ -43,8 +44,8 @@ class _MainScreenState extends State<MainScreen> {
                             WidgetBuilder? builder;
                             switch (settings.name) {
                               case '/':
-                                builder = (context) =>
-                                    HomeScreen(user: widget.user); //default screen
+                                builder = (context) => HomeScreen(
+                                    user: widget.user); //default screen
                                 break;
                             }
                             return MaterialPageRoute(

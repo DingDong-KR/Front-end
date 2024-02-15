@@ -16,7 +16,6 @@ class PatientQueue {
     required this.patientNumber,
     this.queueTicket,
     this.status,
-
   });
 
   Map<String, dynamic> toJson() {
