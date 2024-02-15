@@ -1,6 +1,6 @@
 import 'dart:io';
 import '../models/patient_vital.dart';
-import '../models/queue.dart';
+import '../models/patient_queue.dart';
 
 import '../models/patient_private_info.dart';
 import '../models/user_affiliation.dart';
@@ -169,7 +169,7 @@ class SqlDataBase {
       )
       ''');
     await db.execute('''
-      CREATE TABLE ${Queue.tableName}(
+      CREATE TABLE ${PatientQueue.tableName}(
         ${QueueFields.queueTicket} INTEGER PRIMARY KEY AUTOINCREMENT,
         ${QueueFields.patientNumber} INTEGER,
         ${QueueFields.status} TEXT

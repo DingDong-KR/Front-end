@@ -1,4 +1,3 @@
-
 import 'dart:collection';
 
 import '../models/patient_private_info.dart';
@@ -7,7 +6,7 @@ import '../models/acupuncture.dart';
 import '../models/disease.dart';
 import '../models/medical_image.dart';
 import '../models/medical_record.dart';
-import '../models/queue.dart';
+import '../models/patient_queue.dart';
 import '../models/patient_vital.dart';
 
 import '../models/prescription.dart';
@@ -15,7 +14,6 @@ import '../models/user.dart';
 import '../models/disease_list.dart';
 import '../models/user_affiliation.dart';
 import '../repository/chart_sql_db.dart';
-
 
 class UserProvider {
   Future<int> insertUser(User user) async {
@@ -49,7 +47,6 @@ class UserProvider {
     );
   }
 
-
   Future<int> deleteUser(String userId) async {
     final db = await SqlDataBase.instance.database;
     return await db.delete(
@@ -59,6 +56,7 @@ class UserProvider {
     );
   }
 }
+
 class UserAffiliationProvider {
   Future<int> insertUserAffiliation(UserAffiliation userAffiliation) async {
     final db = await SqlDataBase.instance.database;
@@ -91,7 +89,6 @@ class UserAffiliationProvider {
     );
   }
 
-
   Future<int> deleteUserAffiliation(int userAffiliationsId) async {
     final db = await SqlDataBase.instance.database;
     return await db.delete(
@@ -101,11 +98,13 @@ class UserAffiliationProvider {
     );
   }
 }
+
 class PatientProvider {
   // Patient 생성
   Future<int> insertPatient(PatientPrivateInfo patientPrivateInfo) async {
     final db = await SqlDataBase.instance.database;
-    return await db.insert(PatientPrivateInfo.tableName, patientPrivateInfo.toJson());
+    return await db.insert(
+        PatientPrivateInfo.tableName, patientPrivateInfo.toJson());
   }
 
   // Patient 조회
@@ -165,10 +164,12 @@ class PreExaminationProvider {
       bodyType: preExamination.bodyType,
       ros_detail: preExamination.ros_detail,
       additionalNotes: preExamination.additionalNotes,
-      consentToCollectPersonalInformation: preExamination.consentToCollectPersonalInformation,
+      consentToCollectPersonalInformation:
+          preExamination.consentToCollectPersonalInformation,
     );
 
-    return await db.insert(PreExamination.tableName, modifiedPreExamination.toJson());
+    return await db.insert(
+        PreExamination.tableName, modifiedPreExamination.toJson());
   }
 
   Future<List<PreExamination>> getPreExaminations(int patientNumber) async {
@@ -180,6 +181,7 @@ class PreExaminationProvider {
     );
     return result.map((json) => PreExamination.fromJson(json)).toList();
   }
+
   Future<PreExamination> getPreExamination(int chartNumber) async {
     final db = await SqlDataBase.instance.database;
     final result = await db.query(
@@ -212,42 +214,41 @@ class PreExaminationProvider {
 }
 
 class QueueProvider {
-  Future<int> insertQueue(Queue queue) async {
+  Future<int> insertQueue(PatientQueue queue) async {
     final db = await SqlDataBase.instance.database;
-    return await db.insert(Queue.tableName, queue.toJson());
+    return await db.insert(PatientQueue.tableName, queue.toJson());
   }
 
-  Future<List<Queue>> getQueues() async {
+  Future<List<PatientQueue>> getQueues() async {
     final db = await SqlDataBase.instance.database;
-    final result = await db.query(Queue.tableName);
-    return result.map((json) => Queue.fromJson(json)).toList();
+    final result = await db.query(PatientQueue.tableName);
+    return result.map((json) => PatientQueue.fromJson(json)).toList();
   }
 
-  Future<Queue> getQueue(int patientNumber) async {
+  Future<PatientQueue> getQueue(int patientNumber) async {
     final db = await SqlDataBase.instance.database;
     final result = await db.query(
-      Queue.tableName,
+      PatientQueue.tableName,
       where: "${QueueFields.patientNumber} = ?",
       whereArgs: [patientNumber],
     );
-    return result.map((json) => Queue.fromJson(json)).first;
+    return result.map((json) => PatientQueue.fromJson(json)).first;
   }
 
-  Future<int> updateQueue(Queue queue) async {
+  Future<int> updateQueue(PatientQueue queue) async {
     final db = await SqlDataBase.instance.database;
     return await db.update(
-      Queue.tableName,
+      PatientQueue.tableName,
       queue.toJson(),
       where: "${QueueFields.patientNumber} = ?",
       whereArgs: [queue.patientNumber],
     );
   }
 
-
   Future<int> deleteQueue(int patientNumber) async {
     final db = await SqlDataBase.instance.database;
     return await db.delete(
-      Queue.tableName,
+      PatientQueue.tableName,
       where: "${QueueFields.patientNumber} = ?",
       whereArgs: [patientNumber],
     );
@@ -296,12 +297,12 @@ class PatientVitalProvider {
   }
 }
 
-
 class MedicalRecordProvider {
   Future<int> insertMedicalRecord(MedicalRecord medicalRecord) async {
     final db = await SqlDataBase.instance.database;
     return await db.insert(MedicalRecord.tableName, medicalRecord.toJson());
   }
+
 /* 단순히 진료 기록 리스트 전부 불러오는것
   Future<List<MedicalRecord>> getMedicalRecords() async {
     final db = await SqlDataBase.instance.database;
@@ -392,6 +393,7 @@ class DiseaseProvider {
     final db = await SqlDataBase.instance.database;
     return await db.insert(Disease.tableName, disease.toJson());
   }
+
   /**
       Future<List<Disease>> getDiseases() async {
       final db = await SqlDataBase.instance.database;
@@ -430,11 +432,13 @@ class DiseaseProvider {
   }
 */
 }
+
 class AcupunctureProvider {
   Future<int> insertAcupuncture(Acupuncture acupuncture) async {
     final db = await SqlDataBase.instance.database;
     return await db.insert(Acupuncture.tableName, acupuncture.toJson());
   }
+
   /**
       Future<List<Acupuncture>> getAcupunctures() async {
       final db = await SqlDataBase.instance.database;
@@ -474,13 +478,12 @@ class AcupunctureProvider {
 */
 }
 
-
-
 class PrescriptionProvider {
   Future<int> insertPrescription(Prescription prescription) async {
     final db = await SqlDataBase.instance.database;
     return await db.insert(Prescription.tableName, prescription.toJson());
   }
+
 /*
   Future<List<Prescription>> getPrescriptions() async {
     final db = await SqlDataBase.instance.database;
@@ -520,7 +523,6 @@ class PrescriptionProvider {
 */
 }
 
-
 class DiseaseListProvider {
   Future<List<DiseaseList>> getDiseaseList() async {
     final db = await SqlDataBase.instance.database;
@@ -547,5 +549,4 @@ class DiseaseListProvider {
     );
     return result.map((json) => DiseaseList.fromJson(json)).first;
   }
-
 }
