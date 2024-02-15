@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:my_desktop_app/models/patient_private_info.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
@@ -31,6 +33,17 @@ class _PatientsListState extends State<PatientsList>
     });
   }
 
+  int patientNumber = 0;
+  List<Queue> queues = [];
+
+  // 환자 상태를 불러오기 위한 함수
+  Future<void> loadQueue() async {
+    final QueueProvider queueProvider = QueueProvider();
+    queues = await queueProvider.getQueues() as List<Queue>;
+
+    print(queues);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -45,6 +58,7 @@ class _PatientsListState extends State<PatientsList>
     ).animate(_controller);
 
     loadPatient();
+    loadQueue();
   }
 
   @override
@@ -230,9 +244,9 @@ class _PatientsListState extends State<PatientsList>
                                 ),
                               ),
                               const Spacer(),
-                              const Text(
-                                '진료중',
-                                style: TextStyle(
+                              Text(
+                                patients[index].name,
+                                style: const TextStyle(
                                   color: Color(0xFF11E058),
                                   fontSize: 12,
                                   fontFamily: 'Pretendard',
