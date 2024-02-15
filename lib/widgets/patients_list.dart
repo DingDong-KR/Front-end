@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_desktop_app/models/patient_private_info.dart';
+import 'package:my_desktop_app/repository/chart_crud_sql.dart';
 import '../models/patients_item.dart';
 
 class PatientsList extends StatefulWidget {
@@ -14,6 +16,35 @@ class _PatientsListState extends State<PatientsList>
   late Animation<Offset> _offsetAnimation;
   bool isSwitchOn = false;
   int? _selectedItemIndex; // 현재 선택된 아이템의 인덱스
+
+  List<PatientPrivateInfo> patients = [];
+
+  // 환자 정보 불러오기 위한 함수
+  Future<void> loadPatient() async {
+    final PatientProvider patientProvider = PatientProvider();
+    patients = await patientProvider.getPatients();
+
+    // 환자 정보 출력
+    for (var patient in patients) {
+      print('${patient.patientNumber}, ${patient.name}, ${patient.age}');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 120),
+    );
+
+    _offsetAnimation = Tween<Offset>(
+      begin: const Offset(0, 0),
+      end: const Offset(1, 0),
+    ).animate(_controller);
+
+    loadPatient();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +156,7 @@ class _PatientsListState extends State<PatientsList>
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: patientsItems.length,
+              itemCount: patients.length,
               itemBuilder: (context, index) {
                 bool isClicked = _selectedItemIndex == index;
 
@@ -133,6 +164,7 @@ class _PatientsListState extends State<PatientsList>
                   onTap: () {
                     setState(() {
                       _selectedItemIndex = index;
+                      print(patients[1].name);
                     });
                   },
                   child: AnimatedContainer(
@@ -175,7 +207,7 @@ class _PatientsListState extends State<PatientsList>
                                 ),
                                 child: Center(
                                   child: Text(
-                                    '002',
+                                    '${patients[index].patientNumber}',
                                     style: TextStyle(
                                       color: isClicked
                                           ? const Color(
@@ -223,7 +255,7 @@ class _PatientsListState extends State<PatientsList>
                         Padding(
                           padding: const EdgeInsets.all(9.0),
                           child: Text(
-                            '이수민',
+                            patients[index].name,
                             style: TextStyle(
                               color: isClicked
                                   ? const Color(0xFF404855) // 클릭된 아이템의 텍스트 색상
@@ -242,7 +274,7 @@ class _PatientsListState extends State<PatientsList>
                           child: Row(
                             children: [
                               Text(
-                                '여,52',
+                                '${patients[index].gender},${patients[index].age}',
                                 style: TextStyle(
                                   color: isClicked
                                       ? const Color(
@@ -298,19 +330,5 @@ class _PatientsListState extends State<PatientsList>
         ],
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 120),
-    );
-
-    _offsetAnimation = Tween<Offset>(
-      begin: const Offset(0, 0),
-      end: const Offset(1, 0),
-    ).animate(_controller);
   }
 }
