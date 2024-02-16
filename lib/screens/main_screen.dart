@@ -18,12 +18,16 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
-  final SelectedPatientController selectedPatientController = Get.find<SelectedPatientController>(); // 컨트롤러 인스턴스 생성
+  late SelectedPatientController selectedPatientController; // SelectedPatientController 변수 선언
+
+  @override
+  void initState() {
+    super.initState();
+    selectedPatientController = Get.find<SelectedPatientController>(); // SelectedPatientController 초기화
+  }
 
   @override
   Widget build(BuildContext context) {
-    final int patientNumber = selectedPatientController.patientNumber.value;
-    print(patientNumber);
     return Scaffold(
       backgroundColor: const Color(0xFFE2F1F6),
       body: Row(
@@ -35,31 +39,33 @@ class _MainScreenState extends State<MainScreen> {
               children: [
                 TopBar(user: widget.user),
                 Expanded(
-                  child: Row(
-                    children: [
-                      const SizedBox(
-                        width: 213, // 너비 명시해야 Navigator 정상작동
-                        child: PatientsList(),
-                      ),
-                      Expanded(
-                        // Navigator takes the remaining space
-                        child: Navigator(
-                          key: _navigatorKey,
-                          onGenerateRoute: (settings) {
-                            WidgetBuilder? builder;
-                            switch (settings.name) {
-                              case '/':
-                                builder = (context) => HomeScreen(
-                                    user: widget.user); //default screen
-                                break;
-                            }
-                            return MaterialPageRoute(
-                                builder: builder!, settings: settings);
-                          },
+                  child: Obx(() {
+                    final int patientNumber = selectedPatientController.patientNumber.value;
+                    print(patientNumber);
+                    return Row(
+                      children: [
+                        const SizedBox(
+                          width: 213, // 너비 명시해야 Navigator 정상작동
+                          child: PatientsList(),
                         ),
-                      ),
-                    ],
-                  ),
+                        Expanded(
+                          // Navigator takes the remaining space
+                          child: Navigator(
+                            key: _navigatorKey,
+                            onGenerateRoute: (settings) {
+                              WidgetBuilder? builder;
+                              switch (settings.name) {
+                                case '/':
+                                  builder = (context) => HomeScreen(user: widget.user); //default screen
+                                  break;
+                              }
+                              return MaterialPageRoute(builder: builder!, settings: settings);
+                            },
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
                 ),
               ],
             ),
