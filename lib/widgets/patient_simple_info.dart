@@ -49,9 +49,9 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
       });
 
       print(patient!.toJson());
-    } else {
-      print('patNum is 0');
     }
+    print('patNum is 0');
+    
   }
 
   PatientVital? vital;
@@ -71,9 +71,8 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
       });
 
       print(vital!.toJson());
-    } else {
-      print('patNum is 0');
-    }
+    } 
+    print('patNum is 0');
   }
 
   @override
@@ -306,7 +305,6 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
     int month = int.parse(firstPart.substring(2, 4));
     int day = int.parse(firstPart.substring(4, 6));
 
-    print('$year, $month, $day');
 
     // 년도 구분 (1800년 이후 출생한 사람 기준)
     if (year >= 00 && year <= 21) {
