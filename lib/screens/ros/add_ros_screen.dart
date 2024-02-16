@@ -3,21 +3,22 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_desktop_app/screens/ros/ros_temperature_sensitive.dart';
 import '../../models/ros.dart';
 import '../../repository/chart_crud_sql.dart';
-// Import corrected package
-import '../../models/ros.dart';
 
-// Import corrected package
-import '../../repository/chart_crud_sql.dart';
+class AddRosScreen extends StatefulWidget {
+  const AddRosScreen({Key? key}) : super(key: key);
 
-//ROS 정보를 저장하기 위한 함수
-Future<void> saveROS(ROS newROS) async {
-  // 데이터베이스에 ROS 정보 추가
-  final ROSProvider rosProvider = ROSProvider();
-  await rosProvider.insertROS(newROS); // 데이터베이스에 접근할 때 오류 수정
+  @override
+  _AddRosScreenState createState() => _AddRosScreenState();
 }
 
-class AddRosScreen extends StatelessWidget {
-  const AddRosScreen({Key? key}) : super(key: key);
+class _AddRosScreenState extends State<AddRosScreen> {
+  late final GlobalKey<ROSTemperatureSensitiveState> _rosKey;
+
+  @override
+  void initState() {
+    super.initState();
+    _rosKey = GlobalKey<ROSTemperatureSensitiveState>();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +39,18 @@ class AddRosScreen extends StatelessWidget {
       "컨디션"
     ];
 
+    void onCompletionPressed() {
+      // Call saveROS method of ROSTemperatureSensitive
+      ROSTemperatureSensitiveState? rosState = _rosKey.currentState;
+      rosState?.saveROS();
+    }
+
     return Container(
       width: 1124,
       height: 627,
-      decoration: ShapeDecoration(
+      decoration: BoxDecoration(
         color: Color(0xFFE2F1F6),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        borderRadius: BorderRadius.circular(5),
       ),
       child: Row(
         children: [
@@ -51,10 +58,9 @@ class AddRosScreen extends StatelessWidget {
           Container(
             width: 191,
             height: 607,
-            decoration: ShapeDecoration(
+            decoration: BoxDecoration(
               color: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5)),
+              borderRadius: BorderRadius.circular(5),
             ),
             child: Column(
               children: [
@@ -70,13 +76,11 @@ class AddRosScreen extends StatelessWidget {
                 child: Container(
                   width: 903,
                   height: 46,
-                  decoration: ShapeDecoration(
+                  decoration: BoxDecoration(
                     color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(5),
-                        topRight: Radius.circular(5),
-                      ),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(5),
+                      topRight: Radius.circular(5),
                     ),
                   ),
                   child: Padding(
@@ -96,27 +100,27 @@ class AddRosScreen extends StatelessWidget {
                         Spacer(),
                         GestureDetector(
                           onTap: () {
-                            // 닫기 버튼이 눌렸을 때 실행되는 로직
-                            Navigator.pop(context); // 현재 화면을 닫는 동작을 수행합니다.
+                            // Close button logic
+                            Navigator.pop(context);
                           },
                           child: Container(
                             width: 56.20,
                             height: 24,
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 5, vertical: 3),
-                            decoration: ShapeDecoration(
-                              shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                    width: 1, color: Color(0xFF3FA7C3)),
-                                borderRadius: BorderRadius.circular(5),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 1,
+                                color: Color(0xFF3FA7C3),
                               ),
+                              borderRadius: BorderRadius.circular(5),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                const Text(
+                                Text(
                                   '닫기',
                                   style: TextStyle(
                                     color: Color(0xFF3FA7C3),
@@ -131,31 +135,31 @@ class AddRosScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                        ), //닫기 버튼
-                        const SizedBox(width: 10),
+                        ), // Close button
+                        SizedBox(width: 10),
                         GestureDetector(
                           onTap: () {
-                            // 완료 버튼이 눌렸을 때 실행되는 로직
-                            _saveROS(context);
+                            onCompletionPressed();
+                            Navigator.pop(context);
                           },
                           child: Container(
                             width: 56.20,
                             height: 24,
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 5, vertical: 3),
-                            decoration: ShapeDecoration(
-                              shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                    width: 1, color: Color(0xFF3FA7C3)),
-                                borderRadius: BorderRadius.circular(5),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 1,
+                                color: Color(0xFF3FA7C3),
                               ),
+                              borderRadius: BorderRadius.circular(5),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                const Text(
+                                Text(
                                   '완료',
                                   style: TextStyle(
                                     color: Color(0xFF3FA7C3),
@@ -170,9 +174,8 @@ class AddRosScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                        ), //완료 버튼
-                        const SizedBox(width: 15),
-
+                        ), // Complete button
+                        SizedBox(width: 15),
                       ],
                     ),
                   ),
@@ -181,18 +184,16 @@ class AddRosScreen extends StatelessWidget {
               Container(
                 width: 903,
                 height: 573,
-                decoration: ShapeDecoration(
+                decoration: BoxDecoration(
                   color: Color(0xFFD3E8F0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(5),
-                      bottomRight: Radius.circular(5),
-                    ),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(5),
+                    bottomRight: Radius.circular(5),
                   ),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: ROSTemperatureSensitive(),
+                  child: ROSTemperatureSensitive(key: _rosKey),
                 ),
               )
             ],
@@ -207,12 +208,10 @@ class AddRosScreen extends StatelessWidget {
       width: 171,
       height: 32,
       margin: EdgeInsets.symmetric(vertical: 5),
-      decoration: ShapeDecoration(
+      decoration: BoxDecoration(
         color: Colors.white,
-        shape: RoundedRectangleBorder(
-          side: BorderSide(width: 1, color: Color(0xFFD3D3D3)),
-          borderRadius: BorderRadius.circular(5),
-        ),
+        border: Border.all(width: 1, color: Color(0xFFD3D3D3)),
+        borderRadius: BorderRadius.circular(5),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -233,30 +232,14 @@ class AddRosScreen extends StatelessWidget {
             Container(
               width: 12,
               height: 12,
-              decoration: ShapeDecoration(
-                shape: OvalBorder(
-                  side: BorderSide(width: 1, color: Color(0xFFD7D7D7)),
-                ),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(width: 1, color: Color(0xFFD7D7D7)),
               ),
             )
           ],
         ),
       ),
     );
-  }
-
-  // ROS 정보를 생성하고 데이터베이스에 저장하는 함수
-  void _saveROS(BuildContext context) async {
-    // ROS 정보 생성
-    final ROSTemperatureSensitiveState rosState = context.findAncestorStateOfType<ROSTemperatureSensitiveState>()!;
-    await rosState.getROS();
-
-    ROS newROS = rosState.getROS(); // 생성된 ROS 정보를 받아옴
-    if (newROS != null) {
-      await saveROS(newROS); // 생성된 ROS 정보를 데이터베이스에 저장
-    } else {
-      // ROS 정보가 null인 경우에 대한 처리 추가
-      print('ROS 정보가 null입니다.');
-    }
   }
 }

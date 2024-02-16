@@ -306,6 +306,32 @@ class ROSProvider {
     return await db.insert(ROS.tableName, ros.toJson());
   }
 
+  Future<void> updateROS(ROS ros) async {
+    final db = await SqlDataBase.instance.database;
+    await db.update(
+      ROS.tableName, ros.toJson(),
+      where: 'chartNumber = ?', // 업데이트할 레코드를 찾기 위한 조건
+      whereArgs: [ros.chartNumber], // 찾기 위한 조건 매개변수
+    );
+  }
+
+  // 주어진 차트 번호에 해당하는 ROS 가져오기
+  Future<ROS?> getROSByChartNumber(int chartNumber) async {
+    final db = await SqlDataBase.instance.database;
+    final List<Map<String, dynamic>> result = await db.query(
+      ROS.tableName,
+      where: "${ROSFields.chartNumber} = ?",
+      whereArgs: [chartNumber],
+    );
+
+    // 결과가 존재하는지 확인하고 ROS 객체로 변환하여 반환
+    if (result.isNotEmpty) {
+      return ROS.fromJson(result.first);
+    } else {
+      return null; // ROS가 없을 경우 null 반환
+    }
+  }
+
   // Patient 조회
   Future<List<ROS>> getPatients() async {
     final db = await SqlDataBase.instance.database;

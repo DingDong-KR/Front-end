@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../models/ros.dart'; // Import corrected package
+import '../../models/ros.dart';
+import '../../repository/chart_crud_sql.dart'; // Import corrected package
 
 class ROSTemperatureSensitive extends StatefulWidget {
   @override
+  ROSTemperatureSensitive({Key? key}) : super(key: key);
   ROSTemperatureSensitiveState createState() => ROSTemperatureSensitiveState();
 }
 
@@ -22,11 +24,11 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
   int flush = 0; //얼굴이 쉽게 붉어지거나 열이 자주 달아오른다
   String flushCircumstance = ''; //언제 얼굴이 달아오르는지
 
-  // 현재 선택된 ROS 정보를 반환하는 함수
-  ROS getROS() {
-    // 여기서는 현재 선택된 ROS 정보를 반환하도록 구현
-    return ROS(
-      chartNumber: 23, //TODO: 생성자에서 받아온 차트번호 입력하기
+  // 환자 정보를 저장하기 위한 함수
+  Future<void> saveROS() async {
+    // 입력된 값들을 이용하여 Patient 객체 생성
+    final ROS newROS = ROS(
+      chartNumber: 300, //TODO: 생성자에서 받아온 차트번호 입력하기
       getHotEasily: getHotEasily,
       handFootWarm: handFootWarm,
       coldShower: coldShower,
@@ -35,6 +37,19 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
       flush: flush,
       flushCircumstance: flushCircumstance,
     );
+    final ROSProvider rosProvider = ROSProvider();
+    final existingROS = await rosProvider.getROSByChartNumber(newROS.chartNumber);
+    if (existingROS != null) {
+      // 동일한 차트 번호를 가진 레코드가 이미 있으면 업데이트
+      await rosProvider.updateROS(newROS);
+      print('ROS record updated: $newROS');
+    } else {
+      // 동일한 차트 번호를 가진 레코드가 없으면 새로운 레코드로 추가
+      await rosProvider.insertROS(newROS);
+      print('New ROS record inserted: $newROS');
+    }
+    await rosProvider.insertROS(newROS); // 데이터베이스에 접근할 때 오류 수정
+    print(newROS);
   }
 
 
@@ -101,6 +116,11 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
                           isHandSelected = selected;
                           if (selected) {
                             isNotWarmSelected = false;
+                            if(isFootSelected==false){
+                              handFootWarm = "손";
+                            } else{
+                              handFootWarm = "손발";
+                            }
                           }
                         });
                       },
@@ -114,6 +134,11 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
                           isFootSelected = selected;
                           if (selected) {
                             isNotWarmSelected = false;
+                            if(isHandSelected==false){
+                              handFootWarm = "발";
+                            } else{
+                              handFootWarm = "손발";
+                            }
                           }
                         });
                       },
@@ -128,6 +153,7 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
                           if (selected) {
                             isHandSelected = false;
                             isFootSelected = false;
+                            handFootWarm = "안 따뜻하다";
                           }
                         });
                       },
@@ -245,6 +271,11 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(8.0, 0, 8, 12),
                         child: TextFormField(
+                          onChanged: (value) {
+                            setState(() {
+                              flushCircumstance = value; // 입력된 텍스트를 flushCircumstance 변수에 할당
+                            });
+                          },
                           decoration: InputDecoration(
                             hintText: '언제?',
                             hintStyle: TextStyle(
@@ -387,4 +418,5 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
       ],
     );
   }
+
 }

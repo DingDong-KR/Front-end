@@ -33,7 +33,7 @@ class _MainScreenState extends State<MainScreen> {
                   child: Row(
                     children: [
                       const SizedBox(
-                        width: 195, // 너비 명시해야 Navigator 정상작동
+                        width: 213, // 너비 명시해야 Navigator 정상작동
                         child: PatientsList(),
                       ),
                       Expanded(
