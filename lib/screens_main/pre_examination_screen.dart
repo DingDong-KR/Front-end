@@ -11,6 +11,7 @@ class PreExaminationScreen extends StatelessWidget {
   final int chartNumber;
   const PreExaminationScreen({Key? key, required this.patientNumber, required this.chartNumber}) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
     print('Chart Number: $chartNumber'); // 이 부분에서 chartNumber를 출력합니다.
@@ -21,7 +22,9 @@ class PreExaminationScreen extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(9.0, 9.0, 9.0, 0),
-            child: PatientSimpleInfo(),
+            child: PatientSimpleInfo(
+              patientNumber: patientNumber,
+            ),
           ),
           Row(
             children: [

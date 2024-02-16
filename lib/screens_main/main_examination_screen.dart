@@ -13,7 +13,8 @@ import '../widgets/patient_simple_info.dart';
 
 class MainExaminationScreen extends StatelessWidget {
   final int patientNumber;
-  const MainExaminationScreen({Key? key, required this.patientNumber}) : super(key: key);
+  const MainExaminationScreen({Key? key, required this.patientNumber})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +23,11 @@ class MainExaminationScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-           Padding(
-            padding: EdgeInsets.fromLTRB(9.0, 9.0, 9.0, 0),
-            child: PatientSimpleInfo(),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(9.0, 9.0, 9.0, 0),
+            child: PatientSimpleInfo(
+              patientNumber: patientNumber,
+            ),
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,6 +90,4 @@ class MainExaminationScreen extends StatelessWidget {
       ),
     );
   }
-
 }
-
