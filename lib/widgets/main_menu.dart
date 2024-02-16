@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
 import '../controller/selected_patient_controller.dart';
 import '../screens/settings_screen.dart';
 import '../screens_main/archive_screen.dart';
@@ -12,6 +15,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_desktop_app/models/user.dart';
 import 'dropdown_button_widget.dart';
 import 'package:get/get.dart';
+import '../repository/chart_crud_sql.dart';
 
 class MainMenu extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey;
@@ -26,6 +30,7 @@ class MainMenu extends StatefulWidget {
 
 class _MainMenuState extends State<MainMenu> {
   int selectedMenuIndex = 100;
+  late int chartNumber;
   late SelectedPatientController selectedPatientController;
 
   @override
@@ -35,7 +40,7 @@ class _MainMenuState extends State<MainMenu> {
         Get.find<SelectedPatientController>(); // SelectedPatientController 초기화
     // patientNumber의 변경을 감지하여 navigateToScreen 실행
     ever(selectedPatientController.patientNumber, (_) {
-      navigateToScreen(selectedMenuIndex,selectedPatientController.patientNumber.value); //selectedPatientController.patientNumber.value);
+      navigateToScreen(selectedMenuIndex, selectedPatientController.patientNumber.value); //selectedPatientController.patientNumber.value);
     });
   }
 
@@ -135,9 +140,10 @@ class _MainMenuState extends State<MainMenu> {
         );
         break;
       case 2:
+        loadChartNumber(2);
         widget.navigatorKey.currentState?.pushReplacement(
           MaterialPageRoute(
-            builder: (context) => PreExaminationScreen(patientNumber: patientNumber),
+            builder: (context) => PreExaminationScreen(patientNumber: patientNumber,chartNumber:chartNumber),
           ),
         );
         break;
@@ -191,4 +197,15 @@ class _MainMenuState extends State<MainMenu> {
         break;
     }
   }
+
+  // 차트번호 불러오기 위한 함수
+  Future<int> loadChartNumber(int selectedIndex) async {
+    if (selectedIndex == 2) {
+      final PreExaminationProvider preExaminationProvider = PreExaminationProvider();
+      chartNumber = await preExaminationProvider.getLargestPreChartNumber() + 1;
+    }
+
+    return chartNumber;
+  }
+
 }
