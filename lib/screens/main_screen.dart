@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:my_desktop_app/screens_main/home_screen.dart';
+import '../controller/selected_patient_controller.dart';
 import '../widgets/main_menu.dart';
 import '../widgets/patients_list.dart';
 import '../widgets/top_bar.dart';
 import 'package:my_desktop_app/models/user.dart';
+import 'package:get/get.dart';
 
 class MainScreen extends StatefulWidget {
   final User user; // Update to accept User object
@@ -16,9 +18,12 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
+  final SelectedPatientController selectedPatientController = Get.find<SelectedPatientController>(); // 컨트롤러 인스턴스 생성
 
   @override
   Widget build(BuildContext context) {
+    final int patientNumber = selectedPatientController.patientNumber.value;
+    print(patientNumber);
     return Scaffold(
       backgroundColor: const Color(0xFFE2F1F6),
       body: Row(
