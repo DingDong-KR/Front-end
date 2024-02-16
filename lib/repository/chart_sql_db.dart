@@ -128,7 +128,7 @@ class SqlDataBase {
     await db.execute('''
       CREATE TABLE ${UserAffiliation.tableName}(
         ${UserAffiliationFields.userAffiliationsId} INTEGER PRIMARY KEY AUTOINCREMENT,
-        ${UserAffiliationFields.userId} TEXT,
+        ${UserAffiliationFields.userId} TEXT NOT NULL,
         ${UserAffiliationFields.affiliation} TEXT NOT NULL
       )
       ''');

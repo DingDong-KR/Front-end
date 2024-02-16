@@ -16,17 +16,20 @@ import '../models/user_affiliation.dart';
 import '../repository/chart_sql_db.dart';
 
 class UserProvider {
+  // User 생성
   Future<int> insertUser(User user) async {
     final db = await SqlDataBase.instance.database;
     return await db.insert(User.tableName, user.toJson());
   }
 
+  // 전체 유저 목록 불러오기
   Future<List<User>> getUsers() async {
     final db = await SqlDataBase.instance.database;
     final result = await db.query(User.tableName);
     return result.map((json) => User.fromJson(json)).toList();
   }
 
+  // id 로 유저 정보 불러오기
   Future<User> getUser(String userId) async {
     final db = await SqlDataBase.instance.database;
     final result = await db.query(
@@ -37,6 +40,7 @@ class UserProvider {
     return result.map((json) => User.fromJson(json)).first;
   }
 
+  // 유저 정보 수정 with user 객체
   Future<int> updateUser(User user) async {
     final db = await SqlDataBase.instance.database;
     return await db.update(
@@ -47,6 +51,7 @@ class UserProvider {
     );
   }
 
+  // 유저 제거
   Future<int> deleteUser(String userId) async {
     final db = await SqlDataBase.instance.database;
     return await db.delete(
@@ -58,18 +63,21 @@ class UserProvider {
 }
 
 class UserAffiliationProvider {
+  // 유저 소속정보 생성
   Future<int> insertUserAffiliation(UserAffiliation userAffiliation) async {
     final db = await SqlDataBase.instance.database;
     return await db.insert(UserAffiliation.tableName, userAffiliation.toJson());
   }
 
+  // 유저-소속 목록 불러오기
   Future<List<UserAffiliation>> getUserAffiliations() async {
     final db = await SqlDataBase.instance.database;
     final result = await db.query(UserAffiliation.tableName);
     return result.map((json) => UserAffiliation.fromJson(json)).toList();
   }
 
-  Future<List<UserAffiliation>> getUserAffiliation(String userId) async {
+  // 유저 소속 가져오기
+  Future<List<UserAffiliation>> getAffiliationUsers(String userId) async {
     final db = await SqlDataBase.instance.database;
     final result = await db.query(
       UserAffiliation.tableName,
@@ -79,6 +87,19 @@ class UserAffiliationProvider {
     return result.map((json) => UserAffiliation.fromJson(json)).toList();
   }
 
+
+  // 특정 소속 유저 목록 불러오기
+  Future<List<UserAffiliation>> getUserAffiliation(String affiliation) async {
+    final db = await SqlDataBase.instance.database;
+    final result = await db.query(
+      UserAffiliation.tableName,
+      where: "${UserAffiliationFields.affiliation} = ?",
+      whereArgs: [affiliation],
+    );
+    return result.map((json) => UserAffiliation.fromJson(json)).toList();
+  }
+
+  // 유저-소속 수정
   Future<int> updateUserAffiliation(UserAffiliation userAffiliation) async {
     final db = await SqlDataBase.instance.database;
     return await db.update(
@@ -89,6 +110,7 @@ class UserAffiliationProvider {
     );
   }
 
+  // 유저-소속 제거
   Future<int> deleteUserAffiliation(int userAffiliationsId) async {
     final db = await SqlDataBase.instance.database;
     return await db.delete(
@@ -103,11 +125,10 @@ class PatientProvider {
   // Patient 생성
   Future<int> insertPatient(PatientPrivateInfo patientPrivateInfo) async {
     final db = await SqlDataBase.instance.database;
-    return await db.insert(
-        PatientPrivateInfo.tableName, patientPrivateInfo.toJson());
+    return await db.insert(PatientPrivateInfo.tableName, patientPrivateInfo.toJson());
   }
 
-  // Patient 조회
+  // Patient 목록 조회
   Future<List<PatientPrivateInfo>> getPatients() async {
     final db = await SqlDataBase.instance.database;
     final result = await db.query(PatientPrivateInfo.tableName);
@@ -124,35 +145,15 @@ class PatientProvider {
     );
     return result.map((json) => PatientPrivateInfo.fromJson(json)).first;
   }
-/* 향후 추가 예정
-  // Patient 수정
-  Future<int> updatePatient(Patient patient) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.update(
-      Patient.tableName,
-      patient.toJson(),
-      where: "${PatientFields.patientNumber} = ?",
-      whereArgs: [patient.patientNumber],
-    );
-  }
 
-  // Patient 삭제
-  Future<int> deletePatient(int patientNumber) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.delete(
-      Patient.tableName,
-      where: "${PatientFields.patientNumber} = ?",
-      whereArgs: [patientNumber],
-    );
-  }
-*/
+// 수정, 삭제 -> user  권한 정한 후 만들 예정
 }
 
 class PreExaminationProvider {
+
+  // 예진 chart 생성
   Future<int> insertPreExamination(PreExamination preExamination) async {
     final db = await SqlDataBase.instance.database;
-
-    // 이부분 수정필요 (필수 사항, 선택사항 분리 필요)
     var modifiedPreExamination = PreExamination(
       chartNumber: preExamination.chartNumber,
       userId: preExamination.userId,
@@ -163,14 +164,13 @@ class PreExaminationProvider {
       rosDescriptives: preExamination.rosDescriptives,
       bodyType: preExamination.bodyType,
       additionalNotes: preExamination.additionalNotes,
-      consentToCollectPersonalInformation:
-          preExamination.consentToCollectPersonalInformation,
+      consentToCollectPersonalInformation: preExamination.consentToCollectPersonalInformation,
     );
 
-    return await db.insert(
-        PreExamination.tableName, modifiedPreExamination.toJson());
+    return await db.insert(PreExamination.tableName, modifiedPreExamination.toJson());
   }
 
+  // 특정 환자 예진 chart 목록 불러오기
   Future<List<PreExamination>> getPreExaminations(int patientNumber) async {
     final db = await SqlDataBase.instance.database;
     final result = await db.query(
@@ -181,6 +181,7 @@ class PreExaminationProvider {
     return result.map((json) => PreExamination.fromJson(json)).toList();
   }
 
+  // chart번호로 예진차트 가져오기
   Future<PreExamination> getPreExamination(int chartNumber) async {
     final db = await SqlDataBase.instance.database;
     final result = await db.query(
@@ -189,6 +190,19 @@ class PreExaminationProvider {
       whereArgs: [chartNumber],
     );
     return result.map((json) => PreExamination.fromJson(json)).first;
+  }
+
+  // 날짜별 내원 환자 명수 -> YYYY-MM-DD 형식으로 입력해야 함
+  Future<int> countByDate(String   targetDate) async {
+    final db = await SqlDataBase.instance.database;
+
+    final result = await db.query(
+      PreExamination.tableName,
+      where: "DATE(${PreExaminationFields.measurementDate}) = ?",
+      whereArgs: [targetDate],
+    );
+
+    return result.length;
   }
 
   Future<int> getLargestPreChartNumber() async {
@@ -200,63 +214,48 @@ class PreExaminationProvider {
     );
     return result.first['chartNumber'] as int;
   }
-/* 향후 추가 예정
-  Future<int> updatePreExamination(PreExamination preExamination) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.update(
-      PreExamination.tableName,
-      preExamination.toJson(),
-      where: "${PreExaminationFields.chartNumber} = ?",
-      whereArgs: [preExamination.chartNumber],
-    );
-  }
 
-  Future<int> deletePreExamination(int chartNumber) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.delete(
-      PreExamination.tableName,
-      where: "${PreExaminationFields.chartNumber} = ?",
-      whereArgs: [chartNumber],
-    );
-  }
-*/
+  // 수정, 삭제 -> user  권한 정한 후 만들 예정
 }
 
 class PatientQueueProvider {
+
+  // 환자 대기열 생성
   Future<int> insertPatientQueue(PatientQueue patientQueue) async {
     final db = await SqlDataBase.instance.database;
     return await db.insert(PatientQueue.tableName, patientQueue.toJson());
   }
 
+  // 전체 대기열 가져오기
   Future<List<PatientQueue>> getPatientQueues() async {
     final db = await SqlDataBase.instance.database;
     final result = await db.query(PatientQueue.tableName);
     return result.map((json) => PatientQueue.fromJson(json)).toList();
   }
 
-
-  Future<PatientQueue> getPatientQueue(int patientNumber) async {
+  // 대기열의 특정 상황만 가져오기v   
+  Future<List<PatientQueue>> getPatientQueue(String status) async {
     final db = await SqlDataBase.instance.database;
     final result = await db.query(
       PatientQueue.tableName,
-      where: "${PatientQueueFields.patientNumber} = ?",
-      whereArgs: [patientNumber],
+      where: "${PatientQueueFields.status} = ?",
+      whereArgs: [status],
     );
-    return result.map((json) => PatientQueue.fromJson(json)).first;
+    return result.map((json) => PatientQueue.fromJson(json)).toList();
   }
 
-
+  // 환자 대기열 수정
   Future<int> updatePatientQueue(PatientQueue patientQueue) async {
     final db = await SqlDataBase.instance.database;
     return await db.update(
       PatientQueue.tableName,
       patientQueue.toJson(),
-      where: "${PatientQueueFields.patientNumber} = ?",
+      where: "${PatientQueueFields.patientNumber} AND ${PatientQueueFields.queueTicket} = ?",
       whereArgs: [patientQueue.patientNumber],
     );
   }
 
-
+  // 특정 환자 대기열 삭제
   Future<int> deletePatientQueue(int patientNumber) async {
     final db = await SqlDataBase.instance.database;
     return await db.delete(
@@ -268,45 +267,34 @@ class PatientQueueProvider {
 }
 
 class PatientVitalProvider {
+  // 환자 vital 정보 추가
   Future<int> insertPatientVital(PatientVital patientVital) async {
     final db = await SqlDataBase.instance.database;
     return await db.insert(PatientVital.tableName, patientVital.toJson());
   }
 
-  Future<List<PatientVital>> getPatientVitals() async {
-    final db = await SqlDataBase.instance.database;
-    final result = await db.query(PatientVital.tableName);
-    return result.map((json) => PatientVital.fromJson(json)).toList();
-  }
-
-  Future<PatientVital> getPatientVital(int patientNumber) async {
+  // 특정 환자 vital 정보 목록
+  Future<List<PatientVital>> getPatientVitals(int patientNumber) async {
     final db = await SqlDataBase.instance.database;
     final result = await db.query(
       PatientVital.tableName,
       where: "${PatientVitalFields.patientNumber} = ?",
       whereArgs: [patientNumber],
     );
-    return result.map((json) => PatientVital.fromJson(json)).first;
+    return result.map((json) => PatientVital.fromJson(json)).toList();
   }
 
-  Future<int> updatePatientVital(PatientVital patientVital) async {
+  Future<List<PatientVital>> getPatientVital(int patientNumber) async {
     final db = await SqlDataBase.instance.database;
-    return await db.update(
-      PatientVital.tableName,
-      patientVital.toJson(),
-      where: "${PatientVitalFields.patientNumber} = ?",
-      whereArgs: [patientVital.patientNumber],
-    );
-  }
-
-  Future<int> deletePatientVital(int patientNumber) async {
-    final db = await SqlDataBase.instance.database;
-    return await db.delete(
+    final result = await db.query(
       PatientVital.tableName,
       where: "${PatientVitalFields.patientNumber} = ?",
       whereArgs: [patientNumber],
     );
+    return result.map((json) => PatientVital.fromJson(json)).toList();
   }
+
+  // 수정, 삭제 -> user  권한 정한 후 만들 예정
 }
 
 class ROSProvider {
