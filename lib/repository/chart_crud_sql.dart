@@ -284,14 +284,15 @@ class PatientVitalProvider {
     return result.map((json) => PatientVital.fromJson(json)).toList();
   }
 
-  Future<List<PatientVital>> getPatientVital(int patientNumber) async {
+  // 차트에 해당하는 환자 vital
+  Future<PatientVital> getPatientVital(int chartNumber) async {
     final db = await SqlDataBase.instance.database;
     final result = await db.query(
       PatientVital.tableName,
-      where: "${PatientVitalFields.patientNumber} = ?",
-      whereArgs: [patientNumber],
+      where: "${PatientVitalFields.chartNumber} = ?",
+      whereArgs: [chartNumber],
     );
-    return result.map((json) => PatientVital.fromJson(json)).toList();
+    return result.map((json) => PatientVital.fromJson(json)).first;
   }
 
   // 수정, 삭제 -> user  권한 정한 후 만들 예정
