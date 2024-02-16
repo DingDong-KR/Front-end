@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../models/patient_history_item.dart';
+import '../models/patients_item.dart';
 import '../widgets/main_examination/diagnosis.dart';
 import '../widgets/main_examination/image_section.dart';
 import '../widgets/main_examination/main_symptom.dart';
@@ -49,7 +48,7 @@ class MainExaminationScreen extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(9.0, 3.0, 0.0, 0),
-                    child: PatientHistory(patientsItems),
+                    child: PatientHistory(patientsItemsMain),
                   ),
                 ],
               ),
@@ -87,4 +86,6 @@ class MainExaminationScreen extends StatelessWidget {
       ),
     );
   }
+
 }
+

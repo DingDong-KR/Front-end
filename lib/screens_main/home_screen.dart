@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../screens/add_patient_screen.dart';
+import 'package:get/get.dart';
+import '../controller/dropdown_button_controller.dart';
 import 'package:my_desktop_app/models/user.dart';
+import 'package:my_desktop_app/widgets/dropdown_button_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   final User user; // 유저 정보를 저장할 변수
-  const HomeScreen({Key? key, required this.user}) : super(key: key);
+  final DropdownButtonController dropdownController = Get.find<DropdownButtonController>();
+
+  HomeScreen({Key? key, required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +56,7 @@ class HomeScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(38),
                     ),
                   ),
-                  child: Row(
+                  child: Obx(() => Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -64,7 +68,7 @@ class HomeScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              '동숲진료소',
+                              dropdownController.currentItem.value ?? '채널을 선택하세요',
                               style: TextStyle(
                                 color: Color(0xFF1E3932),
                                 fontSize: 12,
@@ -78,7 +82,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ),
+                  )),
                 ),
                 SizedBox(width: 10),
                 Text(
@@ -157,7 +161,7 @@ class HomeScreen extends StatelessWidget {
             )
           ],
         ),
-        ),
+      ),
     );
   }
 }

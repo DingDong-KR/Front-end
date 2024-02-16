@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart'; // 날짜 표기를 위한 라이브러리
-import '../../models/patient_history_item.dart';
 
 class PatientHistory extends StatefulWidget {
   final List<PatientHistoryItem> historyItems;
@@ -88,51 +87,54 @@ class _PatientHistoryState extends State<PatientHistory> {
                 height: 20,
               ),
               Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      '방문일자',
-                      style: TextStyle(
-                        color: Color(0xFF404855),
-                        fontSize: 11,
-                        fontFamily: 'Pretendard',
-                        fontWeight: FontWeight.w500,
-                        height: 0.14,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0,0,32,0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        '방문일자',
+                        style: TextStyle(
+                          color: Color(0xFF404855),
+                          fontSize: 11,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w500,
+                          height: 0.14,
+                        ),
                       ),
-                    ),
-                    Text(
-                      '진단명',
-                      style: TextStyle(
-                        color: Color(0xFF404855),
-                        fontSize: 11,
-                        fontFamily: 'Pretendard',
-                        fontWeight: FontWeight.w500,
-                        height: 0.14,
+                      Text(
+                        '진단명',
+                        style: TextStyle(
+                          color: Color(0xFF404855),
+                          fontSize: 11,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w500,
+                          height: 0.14,
+                        ),
                       ),
-                    ),
-                    Text(
-                      '침구치료',
-                      style: TextStyle(
-                        color: Color(0xFF404855),
-                        fontSize: 11,
-                        fontFamily: 'Pretendard',
-                        fontWeight: FontWeight.w500,
-                        height: 0.14,
+                      Text(
+                        '침구치료',
+                        style: TextStyle(
+                          color: Color(0xFF404855),
+                          fontSize: 11,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w500,
+                          height: 0.14,
+                        ),
                       ),
-                    ),
-                    Text(
-                      '방약',
-                      style: TextStyle(
-                        color: Color(0xFF404855),
-                        fontSize: 11,
-                        fontFamily: 'Pretendard',
-                        fontWeight: FontWeight.w500,
-                        height: 0.14,
-                      ),
-                    )
-                  ],
+                      Text(
+                        '방약',
+                        style: TextStyle(
+                          color: Color(0xFF404855),
+                          fontSize: 11,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w500,
+                          height: 0.14,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: 10),
@@ -178,55 +180,87 @@ class _PatientHistoryState extends State<PatientHistory> {
           color: backgroundColor,
           borderRadius: BorderRadius.circular(7.50),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              item?.time != null
-                  ? DateFormat('yy.MM.dd').format(item!.time!)
-                  : '', // Format date as yy.MM.dd
-              style: TextStyle(
-                color: Color(0xFF404855),
-                fontSize: 11,
-                fontFamily: 'Pretendard',
-                fontWeight: FontWeight.w400,
-                height: 0.14,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                item?.time != null
+                    ? DateFormat('yy.MM.dd').format(item!.time!)
+                    : '', // Format date as yy.MM.dd
+                style: TextStyle(
+                  color: Color(0xFF404855),
+                  fontSize: 11,
+                  fontFamily: 'Pretendard',
+                  fontWeight: FontWeight.w400,
+                  height: 0.14,
+                ),
               ),
-            ),
-            Text(
-              item?.diagnosis ?? '',
-              style: TextStyle(
-                color: Color(0xFF404855),
-                fontSize: 11,
-                fontFamily: 'Pretendard',
-                fontWeight: FontWeight.w400,
-                height: 0.14,
+              Text(
+                item?.diagnosis ?? '',
+                style: TextStyle(
+                  color: Color(0xFF404855),
+                  fontSize: 11,
+                  fontFamily: 'Pretendard',
+                  fontWeight: FontWeight.w400,
+                  height: 0.14,
+                ),
               ),
-            ),
-            Text(
-              item?.acupunctureTreatment ?? '',
-              style: TextStyle(
-                color: Color(0xFF404855),
-                fontSize: 11,
-                fontFamily: 'Pretendard',
-                fontWeight: FontWeight.w400,
-                height: 0.14,
+              Text(
+                item?.acupunctureTreatment ?? '',
+                style: TextStyle(
+                  color: Color(0xFF404855),
+                  fontSize: 11,
+                  fontFamily: 'Pretendard',
+                  fontWeight: FontWeight.w400,
+                  height: 0.14,
+                ),
               ),
-            ),
-            Text(
-              item?.medicine ?? '',
-              style: TextStyle(
-                color: Color(0xFF404855),
-                fontSize: 11,
-                fontFamily: 'Pretendard',
-                fontWeight: FontWeight.w400,
-                height: 0.14,
+              Text(
+                item?.medicine ?? '',
+                style: TextStyle(
+                  color: Color(0xFF404855),
+                  fontSize: 11,
+                  fontFamily: 'Pretendard',
+                  fontWeight: FontWeight.w400,
+                  height: 0.14,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 }
+
+class PatientHistoryItem {
+  final DateTime time;
+  final String diagnosis; // 환자 순서? 번호?
+  final String acupunctureTreatment;
+  final String medicine;
+
+  PatientHistoryItem({
+    required this.time,
+    required this.diagnosis,
+    required this.acupunctureTreatment,
+    required this.medicine,// Change to DateTime
+  });
+}
+
+final List<PatientHistoryItem> patientsItems = [
+  PatientHistoryItem(
+      time: DateTime.parse("1969-07-20 20:18:04Z"),
+      diagnosis: "손가락 골절",
+      acupunctureTreatment: "약침치료",
+      medicine: "가미소요산"
+  ),
+  PatientHistoryItem(
+      time: DateTime.parse("1978-07-20 20:18:04Z"),
+      diagnosis: "발가락 골절",
+      acupunctureTreatment: "봉침치료",
+      medicine: "가미소요산2"
+  ),
+];

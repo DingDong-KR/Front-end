@@ -27,18 +27,27 @@ class MainSymptom extends StatelessWidget {
                 height: 1,
               ),
             ),
-            SizedBox(height: 16), // 주증상과 추가 정보 사이 간격
-            Text(
-              '저녁에 열이 치솟음, 불면',
+            SizedBox(height: 1), // 주증상과 추가 정보 사이 간격
+            TextField(
+              decoration: InputDecoration(
+                  hintText: 'Please Write Main Symptom of the Patient.',
+                  hintStyle: TextStyle(
+                    color: Color(0xFFAFAFAF),
+                    fontSize: 11,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w400,
+                  ),
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 15, // Adjust the vertical padding
+                  ),
+                  border: InputBorder.none),
               style: TextStyle(
-                color: Color(0xFF404855),
+                color: Colors.black,
                 fontSize: 11,
                 fontFamily: 'Pretendard',
                 fontWeight: FontWeight.w400,
-                height: 1,
-                letterSpacing: 0.11,
               ),
-            )
+            ),
           ],
         ),
       ),

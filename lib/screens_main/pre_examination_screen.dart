@@ -3,7 +3,6 @@ import 'package:my_desktop_app/widgets/pre_examination/nursing_note.dart';
 import 'package:my_desktop_app/widgets/patient_simple_info.dart';
 import '../widgets/pre_examination/main_symptom.dart';
 import '../widgets/pre_examination/patient_history.dart';
-import '../../models/patient_history_item.dart';
 import '../widgets/pre_examination/ros.dart'; // Import PatientHistoryItem model
 
 //TODO: 환자리스트에서 선택된 환자의 환자 번호 넘기기, 고유한 차트 번호 생성하기

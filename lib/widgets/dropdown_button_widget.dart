@@ -5,14 +5,23 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../controller/dropdown_button_controller.dart';
 import '../models/user.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import '../controller/dropdown_button_controller.dart';
+import '../models/user.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import '../controller/dropdown_button_controller.dart';
+import '../models/user.dart';
 
 class DropdownButtonWidget extends StatelessWidget {
-  final User user; // User information variable
+  final User user; // User 정보 변수
   final DropdownButtonController controller =
       Get.put(DropdownButtonController());
 
-  DropdownButtonWidget(
-      {required this.user}); // Constructor to initialize 'user'
+  DropdownButtonWidget({required this.user}); // 'user'를 초기화하는 생성자
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +34,12 @@ class DropdownButtonWidget extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
+              return Center(child: Text('오류: ${snapshot.error}'));
             } else {
               List<PopupMenuEntry<String>> items =
                   (snapshot.data as List<PopupMenuEntry<String>>?) ?? [];
               if (items.isEmpty) {
-                // If no affiliations found, just show the dropdown button
+                // 소속이 없을 경우 드롭다운 버튼만 표시
                 return _buildDropdownButton();
               }
               return _buildPopupMenuButton(items);
@@ -44,20 +53,8 @@ class DropdownButtonWidget extends StatelessWidget {
   Widget _buildDropdownButton() {
     return PopupMenuButton<String>(
       offset: Offset(-80, 35),
-      shape: ShapeBorder.lerp(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(10),
-            bottomRight: Radius.circular(10),
-          ),
-        ),
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
-          ),
-        ),
-        0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
       ),
       elevation: 0,
       itemBuilder: (BuildContext context) => [],
@@ -84,20 +81,8 @@ class DropdownButtonWidget extends StatelessWidget {
   Widget _buildPopupMenuButton(List<PopupMenuEntry<String>> items) {
     return PopupMenuButton<String>(
       offset: Offset(-80, 35),
-      shape: ShapeBorder.lerp(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(10),
-            bottomRight: Radius.circular(10),
-          ),
-        ),
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
-          ),
-        ),
-        0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
       ),
       onSelected: (String? affiliation) {
         controller.changeDropdownMenu(affiliation ?? '');
@@ -125,7 +110,7 @@ class DropdownButtonWidget extends StatelessWidget {
   }
 
   Future<List<PopupMenuEntry<String>>> _getUserAffiliationEntries() async {
-    //해당 유저의 가입 동아리 찾는 메서드
+    // 해당 유저의 가입 동아리를 찾는 메서드
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, 'chart.db');
 
