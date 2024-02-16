@@ -1,64 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_desktop_app/screens/ros/ros_temperature_sensitive.dart';
+import '../../models/ros.dart';
+import '../../repository/chart_crud_sql.dart';
+// Import corrected package
+import '../../models/ros.dart';
 
-// ROS 정보를 저장하기 위한 함수
-// Future<void> saveRos() async {
-//   // 입력된 값들을 이용하여 Ros 객체 생성
-//   final RosInfo newRos = RosInfo(
-//     name: nameController.text,
-//     gender: selectedGender,
-//     age: age,
-//     socialSecurityNumber: ssn,
-//     address: addressController.text,
-//   );
-//
-//   // 데이터베이스에 환자 정보 추가
-//   final RosProvider rosProvider = RosProvider();
-//   await RosProvider.insertRos(newRos);
-// }
+// Import corrected package
+import '../../repository/chart_crud_sql.dart';
 
-Widget _buildRosItem(String text) {
-  return Container(
-    width: 171,
-    height: 32,
-    margin: EdgeInsets.symmetric(vertical: 5),
-    decoration: ShapeDecoration(
-      color: Colors.white,
-      shape: RoundedRectangleBorder(
-        side: BorderSide(width: 1, color: Color(0xFFD3D3D3)),
-        borderRadius: BorderRadius.circular(5),
-      ),
-    ),
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: Row(
-        children: [
-          Text(
-            text,
-            style: TextStyle(
-              color: Color(0xFFAFAFAF),
-              fontSize: 12,
-              fontFamily: 'Pretendard',
-              fontWeight: FontWeight.w500,
-              height: 0.12,
-              letterSpacing: 0.12,
-            ),
-          ),
-          Spacer(),
-          Container(
-            width: 12,
-            height: 12,
-            decoration: ShapeDecoration(
-              shape: OvalBorder(
-                side: BorderSide(width: 1, color: Color(0xFFD7D7D7)),
-              ),
-            ),
-          )
-        ],
-      ),
-    ),
-  );
+//ROS 정보를 저장하기 위한 함수
+Future<void> saveROS(ROS newROS) async {
+  // 데이터베이스에 ROS 정보 추가
+  final ROSProvider rosProvider = ROSProvider();
+  await rosProvider.insertROS(newROS); // 데이터베이스에 접근할 때 오류 수정
 }
 
 class AddRosScreen extends StatelessWidget {
@@ -128,7 +83,7 @@ class AddRosScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
                       children: [
-                       Text(
+                        Text(
                           'ROS',
                           style: TextStyle(
                             color: Color(0xFF3FA7C3),
@@ -142,7 +97,7 @@ class AddRosScreen extends StatelessWidget {
                         GestureDetector(
                           onTap: () {
                             // 닫기 버튼이 눌렸을 때 실행되는 로직
-                            Navigator.pop(context); // 예시로 현재 화면을 닫는 동작을 수행합니다.
+                            Navigator.pop(context); // 현재 화면을 닫는 동작을 수행합니다.
                           },
                           child: Container(
                             width: 56.20,
@@ -180,8 +135,8 @@ class AddRosScreen extends StatelessWidget {
                         const SizedBox(width: 10),
                         GestureDetector(
                           onTap: () {
-                            //TODO: db에 저장시킴 saveRos();
-                            Navigator.pop(context); // 현재 화면을 닫는 동작을 수행
+                            // 완료 버튼이 눌렸을 때 실행되는 로직
+                            _saveROS(context);
                           },
                           child: Container(
                             width: 56.20,
@@ -237,7 +192,7 @@ class AddRosScreen extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: RosTemperatureSensitive(),
+                  child: ROSTemperatureSensitive(),
                 ),
               )
             ],
@@ -245,5 +200,63 @@ class AddRosScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _buildRosItem(String text) {
+    return Container(
+      width: 171,
+      height: 32,
+      margin: EdgeInsets.symmetric(vertical: 5),
+      decoration: ShapeDecoration(
+        color: Colors.white,
+        shape: RoundedRectangleBorder(
+          side: BorderSide(width: 1, color: Color(0xFFD3D3D3)),
+          borderRadius: BorderRadius.circular(5),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Row(
+          children: [
+            Text(
+              text,
+              style: TextStyle(
+                color: Color(0xFFAFAFAF),
+                fontSize: 12,
+                fontFamily: 'Pretendard',
+                fontWeight: FontWeight.w500,
+                height: 0.12,
+                letterSpacing: 0.12,
+              ),
+            ),
+            Spacer(),
+            Container(
+              width: 12,
+              height: 12,
+              decoration: ShapeDecoration(
+                shape: OvalBorder(
+                  side: BorderSide(width: 1, color: Color(0xFFD7D7D7)),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ROS 정보를 생성하고 데이터베이스에 저장하는 함수
+  void _saveROS(BuildContext context) async {
+    // ROS 정보 생성
+    final ROSTemperatureSensitiveState rosState = context.findAncestorStateOfType<ROSTemperatureSensitiveState>()!;
+    await rosState.getROS();
+
+    ROS newROS = rosState.getROS(); // 생성된 ROS 정보를 받아옴
+    if (newROS != null) {
+      await saveROS(newROS); // 생성된 ROS 정보를 데이터베이스에 저장
+    } else {
+      // ROS 정보가 null인 경우에 대한 처리 추가
+      print('ROS 정보가 null입니다.');
+    }
   }
 }

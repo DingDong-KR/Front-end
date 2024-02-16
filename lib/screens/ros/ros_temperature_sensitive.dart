@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart'; // Import corrected package
+import 'package:flutter_svg/flutter_svg.dart';
 
-class RosTemperatureSensitive extends StatefulWidget {
+import '../../models/ros.dart'; // Import corrected package
+
+class ROSTemperatureSensitive extends StatefulWidget {
   @override
-  _RosTemperatureSensitiveState createState() => _RosTemperatureSensitiveState();
+  ROSTemperatureSensitiveState createState() => ROSTemperatureSensitiveState();
 }
 
-class _RosTemperatureSensitiveState extends State<RosTemperatureSensitive> {
+class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
   String? getHotEasily = ''; // 약간, 보통, 많이, 어마어마하게를 저장할 변수
 
   bool isHandSelected = false;
@@ -19,6 +21,21 @@ class _RosTemperatureSensitiveState extends State<RosTemperatureSensitive> {
   int flushSummer = 0; //여름에는 따뜻한 정도가 아니라 화끈거린다
   int flush = 0; //얼굴이 쉽게 붉어지거나 열이 자주 달아오른다
   String flushCircumstance = ''; //언제 얼굴이 달아오르는지
+
+  // 현재 선택된 ROS 정보를 반환하는 함수
+  ROS getROS() {
+    // 여기서는 현재 선택된 ROS 정보를 반환하도록 구현
+    return ROS(
+      chartNumber: 23, //TODO: 생성자에서 받아온 차트번호 입력하기
+      getHotEasily: getHotEasily,
+      handFootWarm: handFootWarm,
+      coldShower: coldShower,
+      sleepTemperaturePreference: sleepTemperaturePreference,
+      flushSummer: flushSummer,
+      flush: flush,
+      flushCircumstance: flushCircumstance,
+    );
+  }
 
 
   @override
