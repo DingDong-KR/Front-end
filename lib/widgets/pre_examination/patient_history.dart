@@ -5,7 +5,8 @@ import 'package:intl/intl.dart'; // 날짜 표기를 위한 라이브러리
 class PatientHistory extends StatefulWidget {
   final List<PatientHistoryItem> historyItems;
 
-  PatientHistory(this.historyItems); // Constructor to receive historyItems
+  const PatientHistory(this.historyItems,
+      {super.key}); // Constructor to receive historyItems
 
   @override
   _PatientHistoryState createState() => _PatientHistoryState();
@@ -22,7 +23,7 @@ class _PatientHistoryState extends State<PatientHistory> {
           width: 247,
           height: 574,
           padding: const EdgeInsets.all(14),
-          decoration: BoxDecoration(color: Colors.white),
+          decoration: const BoxDecoration(color: Colors.white),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -31,7 +32,7 @@ class _PatientHistoryState extends State<PatientHistory> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    child: Row(
+                    child: const Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -56,7 +57,7 @@ class _PatientHistoryState extends State<PatientHistory> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
+                        const Text(
                           '최신순',
                           style: TextStyle(
                             color: Color(0xFF404855),
@@ -83,12 +84,12 @@ class _PatientHistoryState extends State<PatientHistory> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0,0,32,0),
+                child: const Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 32, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -137,18 +138,18 @@ class _PatientHistoryState extends State<PatientHistory> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Column(
                 children: List.generate(
                   31,
-                      (index) {
+                  (index) {
                     final item = index < widget.historyItems.length
                         ? widget.historyItems[index]
                         : null;
                     return Column(
                       children: [
                         _buildHistoryItem(index, item),
-                        SizedBox(height: 1), // 1픽셀의 상하 간격 추가
+                        const SizedBox(height: 1), // 1픽셀의 상하 간격 추가
                       ],
                     );
                   },
@@ -162,10 +163,12 @@ class _PatientHistoryState extends State<PatientHistory> {
   }
 
   Widget _buildHistoryItem(int index, PatientHistoryItem? item) {
-    Color backgroundColor =
-    index % 2 == 0 ? Colors.white : Color(0xFFE2F1F6); // Alternating colors
+    Color backgroundColor = index % 2 == 0
+        ? Colors.white
+        : const Color(0xFFE2F1F6); // Alternating colors
     if (_selectedIndex == index) {
-      backgroundColor = Color(0xFF00C9FF); // Change to darker blue when clicked
+      backgroundColor =
+          const Color(0xFF00C9FF); // Change to darker blue when clicked
     }
     return GestureDetector(
       onTap: () {
@@ -188,9 +191,9 @@ class _PatientHistoryState extends State<PatientHistory> {
             children: [
               Text(
                 item?.time != null
-                    ? DateFormat('yy.MM.dd').format(item!.time!)
+                    ? DateFormat('yy.MM.dd').format(item!.time)
                     : '', // Format date as yy.MM.dd
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color(0xFF404855),
                   fontSize: 11,
                   fontFamily: 'Pretendard',
@@ -200,7 +203,7 @@ class _PatientHistoryState extends State<PatientHistory> {
               ),
               Text(
                 item?.diagnosis ?? '',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color(0xFF404855),
                   fontSize: 11,
                   fontFamily: 'Pretendard',
@@ -210,7 +213,7 @@ class _PatientHistoryState extends State<PatientHistory> {
               ),
               Text(
                 item?.acupunctureTreatment ?? '',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color(0xFF404855),
                   fontSize: 11,
                   fontFamily: 'Pretendard',
@@ -220,7 +223,7 @@ class _PatientHistoryState extends State<PatientHistory> {
               ),
               Text(
                 item?.medicine ?? '',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color(0xFF404855),
                   fontSize: 11,
                   fontFamily: 'Pretendard',
@@ -246,7 +249,7 @@ class PatientHistoryItem {
     required this.time,
     required this.diagnosis,
     required this.acupunctureTreatment,
-    required this.medicine,// Change to DateTime
+    required this.medicine, // Change to DateTime
   });
 }
 
@@ -255,12 +258,10 @@ final List<PatientHistoryItem> patientsItems = [
       time: DateTime.parse("1969-07-20 20:18:04Z"),
       diagnosis: "손가락 골절",
       acupunctureTreatment: "약침치료",
-      medicine: "가미소요산"
-  ),
+      medicine: "가미소요산"),
   PatientHistoryItem(
       time: DateTime.parse("1978-07-20 20:18:04Z"),
       diagnosis: "발가락 골절",
       acupunctureTreatment: "봉침치료",
-      medicine: "가미소요산2"
-  ),
+      medicine: "가미소요산2"),
 ];
