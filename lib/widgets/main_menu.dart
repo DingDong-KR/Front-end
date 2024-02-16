@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../controller/selected_patient_controller.dart';
 import '../screens/settings_screen.dart';
 import '../screens_main/archive_screen.dart';
 import '../screens_main/bedding_screen.dart';
@@ -12,12 +13,12 @@ import 'package:my_desktop_app/models/user.dart';
 import 'dropdown_button_widget.dart';
 import 'package:get/get.dart';
 
-
 class MainMenu extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey;
   final User user; // 유저 정보를 받을 변수
 
-  const MainMenu({Key? key, required this.navigatorKey, required this.user}) : super(key: key);
+  const MainMenu({Key? key, required this.navigatorKey, required this.user})
+      : super(key: key);
 
   @override
   _MainMenuState createState() => _MainMenuState();
@@ -25,6 +26,18 @@ class MainMenu extends StatefulWidget {
 
 class _MainMenuState extends State<MainMenu> {
   int selectedMenuIndex = 100;
+  late SelectedPatientController selectedPatientController;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedPatientController =
+        Get.find<SelectedPatientController>(); // SelectedPatientController 초기화
+    // patientNumber의 변경을 감지하여 navigateToScreen 실행
+    ever(selectedPatientController.patientNumber, (_) {
+      navigateToScreen(selectedMenuIndex,selectedPatientController.patientNumber.value); //selectedPatientController.patientNumber.value);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +56,8 @@ class _MainMenuState extends State<MainMenu> {
                       setState(() {
                         selectedMenuIndex = i;
                       });
-                      // Navigate to the corresponding screen
-                      navigateToScreen(i);
+                      // 콜백 함수에서 index와 환자 번호를 함께 전달합니다.
+                      navigateToScreen(i, selectedPatientController.patientNumber.value);
                     },
                     child: buildMenuItem(i),
                   ),
@@ -111,33 +124,34 @@ class _MainMenuState extends State<MainMenu> {
     );
   }
 
-  void navigateToScreen(int index) {
+  void navigateToScreen(int index, int patientNumber) {
     switch (index) {
       case 1:
         widget.navigatorKey.currentState?.pushReplacement(
           MaterialPageRoute(
-            builder: (context) => HomeScreen(user: widget.user), // 홈 스크린으로 이동하면서 유저 정보 전달
+            builder: (context) =>
+                HomeScreen(user: widget.user), // 홈 스크린으로 이동하면서 유저 정보 전달
           ),
         );
         break;
       case 2:
         widget.navigatorKey.currentState?.pushReplacement(
           MaterialPageRoute(
-            builder: (context) => const PreExaminationScreen(),
+            builder: (context) => PreExaminationScreen(patientNumber: patientNumber),
           ),
         );
         break;
       case 3:
         widget.navigatorKey.currentState?.pushReplacement(
           MaterialPageRoute(
-            builder: (context) => const MainExaminationScreen(),
+            builder: (context) => MainExaminationScreen(patientNumber: patientNumber),
           ),
         );
         break;
       case 4:
         widget.navigatorKey.currentState?.pushReplacement(
           MaterialPageRoute(
-            builder: (context) => BeddingScreen(),
+            builder: (context) => BeddingScreen(patientNumber: patientNumber),
           ),
         );
         break;
@@ -156,7 +170,7 @@ class _MainMenuState extends State<MainMenu> {
         );
         break;
       case 7:
-        // 설정 화면 다이어로그로 띄우기
+      // 설정 화면 다이어로그로 띄우기
         showDialog(
           context: context,
           builder: (BuildContext context) {

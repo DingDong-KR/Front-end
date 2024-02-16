@@ -12,7 +12,8 @@ import '../widgets/main_examination/treatment.dart';
 import '../widgets/patient_simple_info.dart';
 
 class MainExaminationScreen extends StatelessWidget {
-  const MainExaminationScreen({super.key});
+  final int patientNumber;
+  const MainExaminationScreen({Key? key, required this.patientNumber}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
