@@ -47,9 +47,9 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
       });
 
       print(patient!.toJson());
-    } else {
-      print('patNum is 0');
     }
+    print('patNum is 0');
+    
   }
 
   PatientVital? vital;
@@ -69,9 +69,8 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
       });
 
       print(vital!.toJson());
-    } else {
-      print('patNum is 0');
-    }
+    } 
+    print('patNum is 0');
   }
 
   @override
