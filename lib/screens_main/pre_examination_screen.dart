@@ -7,7 +7,8 @@ import '../widgets/pre_examination/ros.dart'; // Import PatientHistoryItem model
 
 //TODO: 환자리스트에서 선택된 환자의 환자 번호 넘기기, 고유한 차트 번호 생성하기
 class PreExaminationScreen extends StatelessWidget {
-  const PreExaminationScreen({super.key});
+  final int patientNumber;
+  const PreExaminationScreen({Key? key, required this.patientNumber}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class BeddingScreen extends StatelessWidget {
+  final int patientNumber;
+  const BeddingScreen({Key? key, required this.patientNumber}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
