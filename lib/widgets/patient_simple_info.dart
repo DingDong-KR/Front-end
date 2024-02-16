@@ -7,14 +7,16 @@ import 'package:my_desktop_app/repository/chart_crud_sql.dart';
 import '../screens/add_vital_screen.dart';
 
 class PatientSimpleInfo extends StatefulWidget {
-  const PatientSimpleInfo({super.key});
+  final int patientNumber;
+  const PatientSimpleInfo({super.key, required this.patientNumber});
 
   @override
   State<PatientSimpleInfo> createState() => _PatientSimpleInfoState();
 }
 
 class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
-  int patientNumber = 1;
+  bool _isLoadingPatient = true;
+  bool _isLoadingVital = true;
 
   // loadPatient로 patientPrivateInfo에서 받아오기
   String? name;
@@ -30,29 +32,63 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
 
   PatientPrivateInfo? patient;
   Future<void> loadPatient(patNum) async {
-    final PatientProvider patientProvider = PatientProvider();
-    patient = await patientProvider.getPatient(patNum);
+    if (widget.patientNumber != 0) {
+      final PatientProvider patientProvider = PatientProvider();
+      patient = await patientProvider.getPatient(patNum);
 
-    // load한거 변수에 넣어주기
-    name = patient!.name;
-    gender = patient!.gender;
-    age = patient!.age;
+      // load한거 변수에 넣어주기
+      name = patient!.name;
+      gender = patient!.gender;
+      age = patient!.age;
+
+      setState(() {
+        _isLoadingPatient = false;
+      });
+
+      print(patient!.toJson());
+    }
+
+    print('patNum is 0');
   }
 
   PatientVital? vital;
   Future<void> loadVital(patNum) async {
-    final PatientVitalProvider patientVitalProvider = PatientVitalProvider();
-    vital = await patientVitalProvider.getPatientVital(patNum);
+    if (widget.patientNumber != 0) {
+      final PatientVitalProvider patientVitalProvider = PatientVitalProvider();
+      vital = await patientVitalProvider.getPatientVital(patNum);
 
-    // load한거 변수에 넣어주기
-    bt = vital!.bt;
-    dbp = vital!.dbp;
-    sbp = vital!.sbp;
-    bloodSugar = vital!.bloodSugar;
+      // load한거 변수에 넣어주기
+      bt = vital!.bt;
+      dbp = vital!.dbp;
+      sbp = vital!.sbp;
+      bloodSugar = vital!.bloodSugar;
+
+      setState(() {
+        _isLoadingVital = false;
+      });
+
+      print(vital!.toJson());
+    }
+
+    print('patNum is 0');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    print('init state: ${widget.patientNumber}');
+    loadPatient(widget.patientNumber);
+    loadVital(widget.patientNumber);
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoadingPatient || _isLoadingVital || widget.patientNumber == 0) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
     return Container(
       width: 1100,
       height: 38,
@@ -94,7 +130,7 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
               ),
               const SizedBox(width: 5),
               Text(
-                '$patientNumber',
+                '${widget.patientNumber}',
                 style: const TextStyle(
                   color: Color(0xFF404855),
                   fontSize: 12,
@@ -224,8 +260,8 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
   Widget _buildTreatmentButton() {
     return GestureDetector(
       onTap: () {
-        loadPatient(patientNumber);
-        loadVital(patientNumber);
+        loadPatient(widget.patientNumber);
+        loadVital(widget.patientNumber);
       },
       child: Container(
         width: 74,
