@@ -40,8 +40,7 @@ class _MainMenuState extends State<MainMenu> {
         Get.find<SelectedPatientController>(); // SelectedPatientController 초기화
     // patientNumber의 변경을 감지하여 navigateToScreen 실행
     ever(selectedPatientController.patientNumber, (_) {
-      navigateToScreen(selectedMenuIndex, selectedPatientController.patientNumber.value); 
-      //selectedPatientController.patientNumber.value);
+      navigateToScreen(selectedMenuIndex, selectedPatientController.patientNumber.value);
     });
   }
 

@@ -58,28 +58,18 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   child: Obx(() => Row(
-                    mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              dropdownController.currentItem.value ?? '채널을 선택하세요',
-                              style: TextStyle(
-                                color: Color(0xFF1E3932),
-                                fontSize: 12,
-                                fontFamily: 'Pretendard',
-                                fontWeight: FontWeight.w700,
-                                height: 0.12,
-                                letterSpacing: 0.12,
-                              ),
-                            ),
-                          ],
+                      Text(
+                        dropdownController.currentItem.value ?? '채널을 선택하세요',
+                        style: TextStyle(
+                          color: Color(0xFF1E3932),
+                          fontSize: 12,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w700,
+                          height: 0.12,
+                          letterSpacing: 0.12,
                         ),
                       ),
                     ],

@@ -78,42 +78,10 @@ class DropdownButtonWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildPopupMenuButton(List<PopupMenuEntry<String>> items) {
-    return PopupMenuButton<String>(
-      offset: Offset(-80, 35),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      onSelected: (String? affiliation) {
-        controller.changeDropdownMenu(affiliation ?? '');
-      },
-      elevation: 0,
-      itemBuilder: (BuildContext context) => items,
-      child: Obx(
-        () => Container(
-          padding: EdgeInsets.only(top: 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                controller.currentItem.value ?? '채널을 선택하세요',
-                textAlign: TextAlign.right,
-              ),
-              SizedBox(width: 5),
-              SvgPicture.asset('assets/icons/icon_down_arrow.svg')
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   Future<List<PopupMenuEntry<String>>> _getUserAffiliationEntries() async {
     // 해당 유저의 가입 동아리를 찾는 메서드
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, 'chart.db');
-
     Database database = await openDatabase(
       path,
       version: 1,

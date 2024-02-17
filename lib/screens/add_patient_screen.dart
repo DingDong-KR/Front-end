@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_desktop_app/models/patient_private_info.dart';
+import '../controller/dropdown_button_controller.dart';
 import '../models/patient_queue.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
+import 'package:get/get.dart';
 
 class AddPatientScreen extends StatefulWidget {
   const AddPatientScreen({super.key});
@@ -13,6 +15,8 @@ class AddPatientScreen extends StatefulWidget {
 }
 
 class _AddPatientScreenState extends State<AddPatientScreen> {
+  String? affiliation;
+
   final TextEditingController nameController = TextEditingController();
   String selectedGender = ''; // 선택된 성별을 저장할 변수
   final TextEditingController ssnFrontController = TextEditingController();
@@ -29,15 +33,19 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
 
   // 환자 정보를 저장하기 위한 함수
   Future<void> savePatient() async {
+    affiliation = Get.find<DropdownButtonController>()
+        .currentItem
+        .value; //TODO:affiliation 이런식으로 글로벌하게 접근 가능
+
     // 입력된 값들을 이용하여 Patient 객체 생성
     final PatientPrivateInfo newPatient = PatientPrivateInfo(
-      name: nameController.text,
-      gender: selectedGender,
-      age: age,
-      socialSecurityNumber: ssn,
-      address: addressController.text,
-      birthDate: bd,
-      affiliation: af,
+        name: nameController.text,
+        gender: selectedGender,
+        age: age,
+        socialSecurityNumber: ssn,
+        address: addressController.text,
+        birthDate: bd,
+        affiliation: affiliation!!
     );
 
     // 데이터베이스에 환자 정보 추가
@@ -156,24 +164,16 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                         print(selectedGender);
                         print(ssn);
                         print(age);
-
+                        print(affiliation);
                         // db에 저장시킴
                         savePatient();
                         await loadPatient();
-
                         addPatientQueue();
-
                         // // PatientsList의 onPatientAdded 메서드를 호출 (updatePatient 실행하기위함)
                         // PatientsList patientsList = const PatientsList();
                         // patientsList.updatePatient();
 
                         Navigator.pop(context); // 현재 화면을 닫는 동작을 수행
-
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => const PatientsList()),
-                        // );
                       },
                       child: Container(
                         width: 56.20,
