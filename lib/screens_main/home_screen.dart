@@ -6,6 +6,8 @@ import '../controller/dropdown_button_controller.dart';
 import 'package:my_desktop_app/models/user.dart';
 
 
+import '../screens/add_affiliation_screen.dart';
+
 class HomeScreen extends StatelessWidget {
   final User user; // 유저 정보를 저장할 변수
   final DropdownButtonController dropdownController = Get.find<DropdownButtonController>();
