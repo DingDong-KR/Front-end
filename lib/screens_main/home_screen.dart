@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:my_desktop_app/screens/add_affiliation_screen.dart';
 import '../controller/dropdown_button_controller.dart';
 import 'package:my_desktop_app/models/user.dart';
-import 'package:my_desktop_app/widgets/dropdown_button_widget.dart';
+
 
 class HomeScreen extends StatelessWidget {
   final User user; // 유저 정보를 저장할 변수
@@ -124,24 +125,44 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 10),
-                Container(
-                  width: 251,
-                  height: 92,
-                  decoration: ShapeDecoration(
-                    color: Color(0xFF3FA7C3),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(60),
+                GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Align(
+                          alignment: Alignment.center,
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+                            child: Dialog(
+                              elevation: 0,
+                              backgroundColor: Colors.transparent,
+                              child: AddAffiliationScreen(userId: user.userId,),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: Container(
+                    width: 251,
+                    height: 92,
+                    decoration: ShapeDecoration(
+                      color: Color(0xFF3FA7C3),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(60),
+                      ),
                     ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      '채널 변경하기',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 25,
-                        fontFamily: 'Pretendard',
-                        fontWeight: FontWeight.w700,
-                        height: 0,
+                    child: Center(
+                      child: Text(
+                        '채널 추가하기',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w700,
+                          height: 0,
+                        ),
                       ),
                     ),
                   ),

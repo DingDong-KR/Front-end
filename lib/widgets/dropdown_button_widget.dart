@@ -5,23 +5,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../controller/dropdown_button_controller.dart';
 import '../models/user.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
-import '../controller/dropdown_button_controller.dart';
-import '../models/user.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
-import '../controller/dropdown_button_controller.dart';
-import '../models/user.dart';
 
 class DropdownButtonWidget extends StatelessWidget {
-  final User user; // User 정보 변수
-  final DropdownButtonController controller =
-      Get.put(DropdownButtonController());
+  final User user;
+  final DropdownButtonController controller = Get.put(DropdownButtonController());
 
-  DropdownButtonWidget({required this.user}); // 'user'를 초기화하는 생성자
+  DropdownButtonWidget({required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +25,8 @@ class DropdownButtonWidget extends StatelessWidget {
             } else if (snapshot.hasError) {
               return Center(child: Text('오류: ${snapshot.error}'));
             } else {
-              List<PopupMenuEntry<String>> items =
-                  (snapshot.data as List<PopupMenuEntry<String>>?) ?? [];
+              List<PopupMenuEntry<String>> items = (snapshot.data as List<PopupMenuEntry<String>>?) ?? [];
               if (items.isEmpty) {
-                // 소속이 없을 경우 드롭다운 버튼만 표시
                 return _buildDropdownButton();
               }
               return _buildPopupMenuButton(items);
@@ -58,22 +45,28 @@ class DropdownButtonWidget extends StatelessWidget {
       ),
       elevation: 0,
       itemBuilder: (BuildContext context) => [],
-      child: Obx(
-        () => Container(
-          padding: EdgeInsets.only(top: 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                controller.currentItem.value ?? '채널을 선택하세요',
-                textAlign: TextAlign.right,
-              ),
-              SizedBox(width: 5),
-              SvgPicture.asset('assets/icons/icon_down_arrow.svg')
-            ],
-          ),
-        ),
+      child: GetX<DropdownButtonController>(
+        builder: (_) {
+          String text = controller.currentItem.value;
+          if (text == null || text.isEmpty) {
+            text = '채널을 선택해주세요';
+          }
+          return Container(
+            padding: EdgeInsets.only(top: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  text,
+                  textAlign: TextAlign.right,
+                ),
+                SizedBox(width: 5),
+                SvgPicture.asset('assets/icons/icon_down_arrow.svg')
+              ],
+            ),
+          );
+        },
       ),
     );
   }
@@ -89,28 +82,33 @@ class DropdownButtonWidget extends StatelessWidget {
       },
       elevation: 0,
       itemBuilder: (BuildContext context) => items,
-      child: Obx(
-        () => Container(
-          padding: EdgeInsets.only(top: 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                controller.currentItem.value ?? '채널을 선택하세요',
-                textAlign: TextAlign.right,
-              ),
-              SizedBox(width: 5),
-              SvgPicture.asset('assets/icons/icon_down_arrow.svg')
-            ],
-          ),
-        ),
+      child: GetX<DropdownButtonController>(
+        builder: (_) {
+          String text = controller.currentItem.value;
+          if (text == null || text.isEmpty) {
+            text = '채널 선택하기';
+          }
+          return Container(
+            padding: EdgeInsets.only(top: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  text,
+                  textAlign: TextAlign.right,
+                ),
+                SizedBox(width: 5),
+                SvgPicture.asset('assets/icons/icon_down_arrow.svg')
+              ],
+            ),
+          );
+        },
       ),
     );
   }
 
   Future<List<PopupMenuEntry<String>>> _getUserAffiliationEntries() async {
-    // 해당 유저의 가입 동아리를 찾는 메서드
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, 'chart.db');
 
