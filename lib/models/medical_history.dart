@@ -45,7 +45,7 @@ class MedicalHistory {
       diagnosis: json[MedicalHistoryFields.diagnosis] as String,
       acupunctureTreat: json[MedicalHistoryFields.acupunctureTreat] as String,
       medicine: json[MedicalHistoryFields.medicine] as String,
-    
+
     );
   }
 }

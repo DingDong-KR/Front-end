@@ -203,7 +203,6 @@ class _MainMenuState extends State<MainMenu> {
       final PreExaminationProvider preExaminationProvider = PreExaminationProvider();
       chartNumber = await preExaminationProvider.getLargestPreChartNumber() + 1;
     }
-
     return chartNumber;
   }
 }

@@ -193,10 +193,8 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                             selectedDay < 10 ? '0$selectedDay' : '$selectedDay';
                         bd = '$selectedYear-$formattedMonth-$formattedDay';
                         print(bd);
-
                         // 나이
                         age = calculateAge(bd);
-
                         // 완료 버튼이 눌렸을 때 실행되는 로직
                         print(nameController.text);
                         print(selectedGender);

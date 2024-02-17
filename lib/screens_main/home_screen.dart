@@ -10,12 +10,14 @@ import '../screens/add_affiliation_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   final User user; // 유저 정보를 저장할 변수
-  final DropdownButtonController dropdownController = Get.find<DropdownButtonController>();
+  final DropdownButtonController dropdownController = Get.find<
+      DropdownButtonController>();
 
   HomeScreen({Key? key, required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    String lastSyncTime = ''; // Initialize with an empty string
     return Container(
       color: const Color(0xFFE2F1F6),
       child: Center(
@@ -51,7 +53,8 @@ class HomeScreen extends StatelessWidget {
                 Container(
                   width: 119,
                   height: 32.23,
-                  padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 9, vertical: 10),
                   decoration: ShapeDecoration(
                     color: Colors.white,
                     shape: RoundedRectangleBorder(
@@ -59,23 +62,24 @@ class HomeScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(38),
                     ),
                   ),
-                  child: Obx(() => Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        dropdownController.currentItem.value ?? '채널을 선택하세요',
-                        style: TextStyle(
-                          color: Color(0xFF1E3932),
-                          fontSize: 12,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w700,
-                          height: 0.12,
-                          letterSpacing: 0.12,
-                        ),
-                      ),
-                    ],
-                  )),
+                  child: Obx(() =>
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            dropdownController.currentItem.value ?? '채널을 선택하세요',
+                            style: TextStyle(
+                              color: Color(0xFF1E3932),
+                              fontSize: 12,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w700,
+                              height: 0.12,
+                              letterSpacing: 0.12,
+                            ),
+                          ),
+                        ],
+                      )),
                 ),
                 SizedBox(width: 10),
                 Text(
@@ -103,15 +107,21 @@ class HomeScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(60),
                     ),
                   ),
-                  child: Center(
-                    child: Text(
-                      '현재 채널 동기화',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 25,
-                        fontFamily: 'Pretendard',
-                        fontWeight: FontWeight.w700,
-                        height: 0,
+                  child: GestureDetector(
+                    onTap: () {
+                      lastSyncTime =
+                          syncronizeToServer(); // Update lastSyncTime with the synchronization time
+                    },
+                    child: Center(
+                      child: Text(
+                        '현재 채널 동기화',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w700,
+                          height: 0,
+                        ),
                       ),
                     ),
                   ),
@@ -163,7 +173,8 @@ class HomeScreen extends StatelessWidget {
             ),
             SizedBox(height: 20,),
             Text(
-              '최근 동기화 2020.10.09',
+              '최근 동기화 $lastSyncTime',
+              // Use lastSyncTime to display the synchronization time
               style: TextStyle(
                 color: Color(0xFF404855),
                 fontSize: 13,
@@ -177,4 +188,20 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
+
+  String syncronizeToServer() {
+    // Perform synchronization
+    bool syncResult = true; // Replace with the actual synchronization result
+    String synchronizationTime = '';
+
+    if (syncResult) {
+      // Save the current time as the synchronization time
+      DateTime now = DateTime.now();
+      synchronizationTime = '${now.year}.${now.month}.${now.day}.${now.hour}.${now.second}';
+    }
+
+    return synchronizationTime;
+  }
 }
+

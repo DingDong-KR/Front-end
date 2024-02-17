@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:my_desktop_app/models/ros.dart';
+import '../models/ros.dart';
 
 import '../models/patient_vital.dart';
 import '../models/patient_queue.dart';
@@ -62,7 +62,7 @@ class SqlDataBase {
 
       ByteData data = await rootBundle.load('assets/db/chart.db');
       List<int> bytes =
-          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+      data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       await File(path).writeAsBytes(bytes, flush: true);
     }
     _database = await openDatabase(path,
@@ -108,7 +108,7 @@ class SqlDataBase {
 
     ByteData data = await rootBundle.load('assets/db/chart.db');
     List<int> bytes =
-        data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
     await File(path).writeAsBytes(bytes, flush: true);
 
     print('Overwritten db from assets');
@@ -175,7 +175,7 @@ class SqlDataBase {
       ''');
     await db.execute('''
       CREATE TABLE ${PatientVital.tableName}(
-        ${PatientVitalFields.chartNumber} INTEGER PRIMARY KEY AUTOINCREMENT,
+        ${PatientVitalFields.chartNumber} INTEGER PRIMARY KEY,
         ${PatientVitalFields.patientNumber} INTEGER NOT NULL,
         ${PatientVitalFields.bt} REAL,
         ${PatientVitalFields.dbp} INTEGER,

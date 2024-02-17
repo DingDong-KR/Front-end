@@ -219,7 +219,7 @@ class PreExaminationProvider {
     return result.first['chartNumber'] as int;
   }
 
-  // 수정, 삭제 -> user  권한 정한 후 만들 예정
+// 수정, 삭제 -> user  권한 정한 후 만들 예정
 }
 
 class PatientQueueProvider {
@@ -299,7 +299,7 @@ class PatientVitalProvider {
     return result.map((json) => PatientVital.fromJson(json)).first;
   }
 
-  // 수정, 삭제 -> user  권한 정한 후 만들 예정
+// 수정, 삭제 -> user  권한 정한 후 만들 예정
 }
 
 class ROSProvider {
@@ -359,7 +359,7 @@ class MedicalHistoryProvider {
   // 특정 환자 진료 기록 목록 조회
   Future<List<MedicalHistory>> getMedicalHistorys(int patientNumber) async {
     final db = await SqlDataBase.instance.database;
-    
+
     final dates = await db.query(
       PreExamination.tableName,
       columns: [PreExaminationFields.chartNumber, PreExaminationFields.measurementDate],
@@ -388,21 +388,21 @@ class MedicalHistoryProvider {
     );
 
     final medicalHistorys = dates.map((date) {
-    final relatedDiagnosis = diagnosis.where((disease) => disease[DiseaseFields.chartNumber] == date[PreExaminationFields.chartNumber]).map((disease) => disease[DiseaseFields.diseaseName]).join(', ');
-    final relatedAcupunctureTreats = acupunctureTreats.where((treat) => treat[AcupunctureFields.chartNumber] == date[PreExaminationFields.chartNumber]).map((treat) => treat[AcupunctureFields.acupunctureType]).join(', ');
-    final relatedMedicines = medicines.where((medicine) => medicine[PrescriptionFields.chartNumber] == date[PreExaminationFields.chartNumber]).map((medicine) => medicine[PrescriptionFields.treatmentName]).join(', ');
+      final relatedDiagnosis = diagnosis.where((disease) => disease[DiseaseFields.chartNumber] == date[PreExaminationFields.chartNumber]).map((disease) => disease[DiseaseFields.diseaseName]).join(', ');
+      final relatedAcupunctureTreats = acupunctureTreats.where((treat) => treat[AcupunctureFields.chartNumber] == date[PreExaminationFields.chartNumber]).map((treat) => treat[AcupunctureFields.acupunctureType]).join(', ');
+      final relatedMedicines = medicines.where((medicine) => medicine[PrescriptionFields.chartNumber] == date[PreExaminationFields.chartNumber]).map((medicine) => medicine[PrescriptionFields.treatmentName]).join(', ');
 
-    return MedicalHistory(
-      patientNumber: patientNumber,
-      chartNumber: date[PreExaminationFields.chartNumber] as int,
-      visiteDate: date[PreExaminationFields.measurementDate] as String,
-      diagnosis: relatedDiagnosis,
-      acupunctureTreat: relatedAcupunctureTreats.isEmpty ? null : relatedAcupunctureTreats,
-      medicine: relatedMedicines.isEmpty ? null : relatedMedicines,
-    );
-  }).toList();
+      return MedicalHistory(
+        patientNumber: patientNumber,
+        chartNumber: date[PreExaminationFields.chartNumber] as int,
+        visiteDate: date[PreExaminationFields.measurementDate] as String,
+        diagnosis: relatedDiagnosis,
+        acupunctureTreat: relatedAcupunctureTreats.isEmpty ? null : relatedAcupunctureTreats,
+        medicine: relatedMedicines.isEmpty ? null : relatedMedicines,
+      );
+    }).toList();
 
-  return medicalHistorys;
+    return medicalHistorys;
 
   }
 
