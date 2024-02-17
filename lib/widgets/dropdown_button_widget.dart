@@ -26,48 +26,11 @@ class DropdownButtonWidget extends StatelessWidget {
               return Center(child: Text('오류: ${snapshot.error}'));
             } else {
               List<PopupMenuEntry<String>> items = (snapshot.data as List<PopupMenuEntry<String>>?) ?? [];
-              if (items.isEmpty) {
-                return _buildDropdownButton();
-              }
               return _buildPopupMenuButton(items);
             }
           },
         );
       },
-    );
-  }
-
-  Widget _buildDropdownButton() {
-    return PopupMenuButton<String>(
-      offset: Offset(-80, 35),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      elevation: 0,
-      itemBuilder: (BuildContext context) => [],
-      child: GetX<DropdownButtonController>(
-        builder: (_) {
-          String text = controller.currentItem.value;
-          if (text == null || text.isEmpty) {
-            text = '채널을 선택해주세요';
-          }
-          return Container(
-            padding: EdgeInsets.only(top: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  text,
-                  textAlign: TextAlign.right,
-                ),
-                SizedBox(width: 5),
-                SvgPicture.asset('assets/icons/icon_down_arrow.svg')
-              ],
-            ),
-          );
-        },
-      ),
     );
   }
 
@@ -111,7 +74,6 @@ class DropdownButtonWidget extends StatelessWidget {
   Future<List<PopupMenuEntry<String>>> _getUserAffiliationEntries() async {
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, 'chart.db');
-
     Database database = await openDatabase(
       path,
       version: 1,

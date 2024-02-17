@@ -6,6 +6,7 @@ class PatientPrivateInfoFields {
   static final String socialSecurityNumber = 'socialSecurityNumber'; // 환자 주민번호
   static final String birthDate = 'birthDate'; // 환자 생년월일
   static final String address = 'address'; // 환자 주소
+  static final String affiliation = 'affiliation';
    
 }
 
@@ -19,6 +20,7 @@ class PatientPrivateInfo {
   final String socialSecurityNumber;
   final String birthDate;
   final String address; // 없어서 추가했음
+  final String affiliation;
 
   PatientPrivateInfo({
     this.patientNumber,
@@ -28,6 +30,7 @@ class PatientPrivateInfo {
     required this.socialSecurityNumber,
     required this.birthDate,
     required this.address, // 추가함
+    required this.affiliation
 
   });
 
@@ -52,6 +55,7 @@ class PatientPrivateInfo {
       socialSecurityNumber: json[PatientPrivateInfoFields.socialSecurityNumber] as String,
       birthDate: json[PatientPrivateInfoFields.birthDate] as String,
       address: json[PatientPrivateInfoFields.address] as String,
+      affiliation: json[PatientPrivateInfoFields.affiliation] as String,
     );
   }
 }
