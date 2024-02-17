@@ -4,10 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_desktop_app/models/patient_private_info.dart';
 import '../models/patient_queue.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
-import 'package:my_desktop_app/widgets/patients_list.dart';
-import 'package:path/path.dart';
-import 'package:provider/provider.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class AddPatientScreen extends StatefulWidget {
   const AddPatientScreen({super.key});
@@ -22,10 +18,14 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
   final TextEditingController ssnFrontController = TextEditingController();
   final TextEditingController ssnBackController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
+  final TextEditingController bdYear = TextEditingController();
+  final TextEditingController bdMonth = TextEditingController();
+  final TextEditingController bdDay = TextEditingController();
 
   int age = 0; // 나이를 저장할 변수
   String ssn = ''; // 주민번호를 저장할 변수
-  String bD = ''; // 생년월일을 저장할 변수
+  String bd = ''; // 생년월일을 저장할 변수
+
   // 환자 정보를 저장하기 위한 함수
   Future<void> savePatient() async {
     // 입력된 값들을 이용하여 Patient 객체 생성
@@ -35,7 +35,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
       age: age,
       socialSecurityNumber: ssn,
       address: addressController.text,
-      birthDate: bD,
+      birthDate: bd,
     );
 
     // 데이터베이스에 환자 정보 추가
@@ -75,7 +75,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
       children: [
         Container(
           width: 500,
-          height: 350,
+          height: 600,
           decoration: ShapeDecoration(
             color: Colors.white,
             shape: RoundedRectangleBorder(
@@ -728,44 +728,6 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                                 height: 0.22,
                               ),
                             ),
-                            onChanged: (value) {
-                              setState(() {
-                                if (value.length == 6) {
-                                  // 현재 날짜 가져오기
-                                  DateTime today = DateTime.now();
-
-                                  // 주민등록번호에서 생년월일 추출
-                                  int birthYear =
-                                      int.parse(value.substring(0, 2));
-                                  int birthMonth =
-                                      int.parse(value.substring(2, 4));
-                                  int birthDay =
-                                      int.parse(value.substring(4, 6));
-
-                                  // 2000년 이후 출생자인 경우 2000년을 더함
-                                  if (birthYear >= 0 && birthYear <= 21) {
-                                    birthYear += 2000;
-                                  } else {
-                                    birthYear += 1900;
-                                  }
-
-                                  // 생년월일을 이용하여 생년월일 객체 생성
-                                  DateTime birthDate =
-                                      DateTime(birthYear, birthMonth, birthDay);
-
-                                  // 나이 계산
-                                  age = today.year - birthDate.year;
-
-                                  // 생일이 지났는지 체크
-                                  if (today.month < birthDate.month ||
-                                      (today.month == birthDate.month &&
-                                          today.day < birthDate.day)) {
-                                    age--;
-                                  }
-                                  print(age);
-                                }
-                              });
-                            },
                           ),
                         ),
                       ],
@@ -827,7 +789,236 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                     ),
                   ),
                 ],
-              )
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              const Row(
+                children: [
+                  SizedBox(
+                    width: 25,
+                  ),
+                  Text(
+                    '생년월일',
+                    style: TextStyle(
+                      color: Color(0xFF404855),
+                      fontSize: 12,
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w500,
+                      height: 0.15,
+                    ),
+                  ),
+                ],
+              ), //생년월일
+              const SizedBox(
+                height: 16,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    width: 25,
+                  ),
+                  Container(
+                    width: 80,
+                    height: 22,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    decoration: ShapeDecoration(
+                      color: const Color(0xFFF7F7F7),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Text(
+                        //   '641113',
+                        //   style: TextStyle(
+                        //     color: Color(0xFFAFAFAF),
+                        //     fontSize: 10,
+                        //     fontFamily: 'Noto Sans KR',
+                        //     fontWeight: FontWeight.w400,
+                        //     height: 0.22,
+                        //     letterSpacing: 1,
+                        //   ),
+                        // ),
+                        Expanded(
+                          // Expand를 사용하지 않으면 튕김. 왜지?
+                          child: TextFormField(
+                            controller: bdYear,
+                            decoration: const InputDecoration(
+                              hintText: 'yyyy',
+                              labelStyle: TextStyle(
+                                color: Color(0xFFAFAFAF),
+                                fontSize: 10,
+                                fontFamily: 'Noto Sans KR',
+                                fontWeight: FontWeight.w400,
+                                height: 0.22,
+                              ),
+                            ),
+                            onChanged: (value) {
+                              setState(() {
+                                if (value.length == 6) {
+                                  // 현재 날짜 가져오기
+                                  DateTime today = DateTime.now();
+                                  // 주민등록번호에서 생년월일 추출
+                                  int birthYear =
+                                      int.parse(value.substring(0, 2));
+                                  int birthMonth =
+                                      int.parse(value.substring(2, 4));
+                                  int birthDay =
+                                      int.parse(value.substring(4, 6));
+                                  // 2000년 이후 출생자인 경우 2000년을 더함
+                                  if (birthYear >= 0 && birthYear <= 21) {
+                                    birthYear += 2000;
+                                  } else {
+                                    birthYear += 1900;
+                                  }
+                                  // 생년월일을 이용하여 생년월일 객체 생성
+                                  DateTime birthDate =
+                                      DateTime(birthYear, birthMonth, birthDay);
+                                  // 나이 계산
+                                  age = today.year - birthDate.year;
+                                  // 생일이 지났는지 체크
+                                  if (today.month < birthDate.month ||
+                                      (today.month == birthDate.month &&
+                                          today.day < birthDate.day)) {
+                                    age--;
+                                  }
+                                  print(age);
+                                }
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Text(
+                    '년',
+                    style: TextStyle(
+                      color: Color(0xFF404855),
+                      fontSize: 14,
+                      fontFamily: 'Noto Sans KR',
+                      fontWeight: FontWeight.w400,
+                      height: 0.11,
+                      letterSpacing: 1.40,
+                    ),
+                  ),
+                  Container(
+                    width: 60,
+                    height: 22,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    decoration: ShapeDecoration(
+                      color: const Color(0xFFF7F7F7),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Text(
+                        //   '2205116',
+                        //   style: TextStyle(
+                        //     color: Color(0xFFAFAFAF),
+                        //     fontSize: 10,
+                        //     fontFamily: 'Noto Sans KR',
+                        //     fontWeight: FontWeight.w400,
+                        //     height: 0.22,
+                        //     letterSpacing: 1,
+                        //   ),
+                        // ),
+                        Expanded(
+                          // Expand를 사용하지 않으면 튕김. 왜지?
+                          child: TextFormField(
+                            controller: bdMonth,
+                            decoration: const InputDecoration(
+                              hintText: 'mm',
+                              labelStyle: TextStyle(
+                                color: Color(0xFFAFAFAF),
+                                fontSize: 10,
+                                fontFamily: 'Noto Sans KR',
+                                fontWeight: FontWeight.w400,
+                                height: 0.22,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Text(
+                    '월',
+                    style: TextStyle(
+                      color: Color(0xFF404855),
+                      fontSize: 14,
+                      fontFamily: 'Noto Sans KR',
+                      fontWeight: FontWeight.w400,
+                      height: 0.11,
+                      letterSpacing: 1.40,
+                    ),
+                  ),
+                  Container(
+                    width: 60,
+                    height: 22,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    decoration: ShapeDecoration(
+                      color: const Color(0xFFF7F7F7),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Text(
+                        //   '2205116',
+                        //   style: TextStyle(
+                        //     color: Color(0xFFAFAFAF),
+                        //     fontSize: 10,
+                        //     fontFamily: 'Noto Sans KR',
+                        //     fontWeight: FontWeight.w400,
+                        //     height: 0.22,
+                        //     letterSpacing: 1,
+                        //   ),
+                        // ),
+                        Expanded(
+                          // Expand를 사용하지 않으면 튕김. 왜지?
+                          child: TextFormField(
+                            controller: bdDay,
+                            decoration: const InputDecoration(
+                              hintText: 'dd',
+                              labelStyle: TextStyle(
+                                color: Color(0xFFAFAFAF),
+                                fontSize: 10,
+                                fontFamily: 'Noto Sans KR',
+                                fontWeight: FontWeight.w400,
+                                height: 0.22,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Text(
+                    '일',
+                    style: TextStyle(
+                      color: Color(0xFF404855),
+                      fontSize: 14,
+                      fontFamily: 'Noto Sans KR',
+                      fontWeight: FontWeight.w400,
+                      height: 0.11,
+                      letterSpacing: 1.40,
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         )
