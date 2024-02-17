@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:my_desktop_app/controller/add_vital_controller.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
 import 'package:flutter/painting.dart'; // Add this import
 
@@ -17,6 +19,8 @@ class AddVitalScreen extends StatefulWidget {
 }
 
 class _AddVitalScreenState extends State<AddVitalScreen> {
+  final AddVitalController addVitalController = Get.put(AddVitalController());
+
   int _selectedIndex = 0; // Define _selectedIndex
   final TextEditingController btController = TextEditingController();
   final TextEditingController sbpController = TextEditingController();
@@ -112,7 +116,11 @@ class _AddVitalScreenState extends State<AddVitalScreen> {
               const SizedBox(width: 10),
               GestureDetector(
                 onTap: () {
+                  // 완료 버튼 로직
                   savePatientVital();
+
+                  addVitalController.isButtonPressed.value = true;
+
                   Navigator.pop(context); // 현재 화면을 닫는 동작을 수행
                 },
                 child: Container(

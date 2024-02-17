@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:my_desktop_app/controller/add_vital_controller.dart';
 import 'package:my_desktop_app/models/patient_private_info.dart';
 import 'package:my_desktop_app/models/patient_vital.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
@@ -15,6 +17,8 @@ class PatientSimpleInfo extends StatefulWidget {
 }
 
 class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
+  final AddVitalController addVitalController = Get.find<AddVitalController>();
+
   bool _isLoadingPatient = true;
   bool _isLoadingVital = true;
 
@@ -84,7 +88,28 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
       print('init state: ${widget.patientNumber}');
       loadPatient(widget.patientNumber);
       loadVital(widget.patientNumber);
+
+      // ever를 사용하여 상태가 변경될 때마다 화면을 재빌드
+      ever(addVitalController.isButtonPressed, (_) {
+        if (addVitalController.isButtonPressed.value) {
+          print('ever');
+          updateState();
+          addVitalController.isButtonPressed.value = false;
+        }
+      });
     }
+  }
+
+  void updateState() {
+    print('updateState, mounted: $mounted');
+    setState(() {
+      // 추가적인 로직이 있다면 여기에 추가
+      print('mounted: ${widget.patientNumber}');
+      loadPatient(widget.patientNumber);
+      print('load patient: ${widget.patientNumber}');
+      loadVital(widget.patientNumber);
+      print('load vital: ${widget.patientNumber}');
+    });
   }
 
   @override
@@ -93,6 +118,7 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
       // return const Center(
       //   child: CircularProgressIndicator(),
       // );
+      print('환자를 선택해야함');
       if (widget.patientNumber == 0) {
         return Container(
           width: 1100,
@@ -127,6 +153,7 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
           ),
         );
       } else {
+        print('바이탈을 입력해야함');
         return Container(
           width: 1100,
           height: 38,
@@ -185,6 +212,7 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
         );
       }
     } else {
+      print('${widget.patientNumber}번 환자의 바이탈');
       return Container(
         width: 1100,
         height: 38,
@@ -280,6 +308,12 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
       );
     }
   }
+
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   print('disposed');
+  // }
 
   Widget _buildTextWithIcon(String text, String icon) {
     return Row(
