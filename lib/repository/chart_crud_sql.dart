@@ -147,6 +147,16 @@ class PatientProvider {
     return result.map((json) => PatientPrivateInfo.fromJson(json)).first;
   }
 
+  Future<PatientPrivateInfo> getPatientByPatientNum(int patientNumber) async {
+    final db = await SqlDataBase.instance.database;
+    final result = await db.query(
+      PatientPrivateInfo.tableName,
+      where: "${PatientPrivateInfoFields.patientNumber} = ?",
+      whereArgs: [patientNumber],
+    );
+    return result.map((json) => PatientPrivateInfo.fromJson(json)).first;
+  }
+
 // 수정, 삭제 -> user  권한 정한 후 만들 예정
 }
 
@@ -289,12 +299,22 @@ class PatientVitalProvider {
   }
 
   // 차트에 해당하는 환자 vital
-  Future<PatientVital> getPatientVital(int chartNumber) async {
+  Future<PatientVital> getPatientVitalByChartNum(int chartNumber) async {
     final db = await SqlDataBase.instance.database;
     final result = await db.query(
       PatientVital.tableName,
       where: "${PatientVitalFields.chartNumber} = ?",
       whereArgs: [chartNumber],
+    );
+    return result.map((json) => PatientVital.fromJson(json)).first;
+  }
+
+  Future<PatientVital> getPatientVitalByPatientNum(int patientNumber) async {
+    final db = await SqlDataBase.instance.database;
+    final result = await db.query(
+      PatientVital.tableName,
+      where: "${PatientVitalFields.patientNumber} = ?",
+      whereArgs: [patientNumber],
     );
     return result.map((json) => PatientVital.fromJson(json)).first;
   }
@@ -395,7 +415,7 @@ class MedicalHistoryProvider {
       return MedicalHistory(
         patientNumber: patientNumber,
         chartNumber: date[PreExaminationFields.chartNumber] as int,
-        visiteDate: date[PreExaminationFields.measurementDate] as String,
+        visitDate: date[PreExaminationFields.measurementDate] as String,
         diagnosis: relatedDiagnosis,
         acupunctureTreat: relatedAcupunctureTreats.isEmpty ? null : relatedAcupunctureTreats,
         medicine: relatedMedicines.isEmpty ? null : relatedMedicines,

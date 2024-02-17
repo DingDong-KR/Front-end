@@ -5,7 +5,7 @@ import '../widgets/main_examination/image_section.dart';
 import '../widgets/main_examination/main_symptom.dart';
 import '../widgets/main_examination/nursing_note.dart';
 import '../widgets/main_examination/order_set.dart';
-import '../widgets/main_examination/patient_history.dart';
+import '../widgets/medical_history_widget.dart';
 import '../widgets/main_examination/ros.dart';
 import '../widgets/main_examination/treat_record.dart';
 import '../widgets/main_examination/treatment.dart';
@@ -52,7 +52,7 @@ class MainExaminationScreen extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(9.0, 3.0, 0.0, 0),
-                    child: PatientHistory(patientsItemsMain),
+                    child: MedicalHistoryWidget(296,patientNumber),
                   ),
                 ],
               ),

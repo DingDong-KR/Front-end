@@ -5,5 +5,6 @@ class SelectedPatientController extends GetxController {
 
   void setPatientNumber(int number) {
     patientNumber.value = number;
+    print('컨트롤러:${patientNumber.value}');
   }
 }

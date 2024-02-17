@@ -1,27 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart'; // 날짜 표기를 위한 라이브러리
+import 'package:my_desktop_app/models/medical_history.dart';
+import 'package:my_desktop_app/repository/chart_crud_sql.dart';
+import 'package:my_desktop_app/repository/chart_sql_db.dart';
+import 'package:my_desktop_app/styles/textStyles.dart';
 
-class PatientHistory extends StatefulWidget {
-  final List<PatientHistoryItem> historyItems;
+class MedicalHistoryWidget extends StatefulWidget {
+  final double length;
+  final int patientNumber;
 
-  const PatientHistory(this.historyItems,
-      {super.key}); // Constructor to receive historyItems
+  const MedicalHistoryWidget(this.length, this.patientNumber,
+      {super.key,}); // Constructor to receive historyItems
 
   @override
-  _PatientHistoryState createState() => _PatientHistoryState();
+  _MedicalHistoryWidgetState createState() => _MedicalHistoryWidgetState();
 }
 
-class _PatientHistoryState extends State<PatientHistory> {
+class _MedicalHistoryWidgetState extends State<MedicalHistoryWidget> {
   int _selectedIndex = -1;
-
+  final MedicalHistoryProvider _medicalHistoryProvider = MedicalHistoryProvider();
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
           width: 247,
-          height: 574,
+          height: widget.length,
           padding: const EdgeInsets.all(14),
           decoration: const BoxDecoration(color: Colors.white),
           child: Column(
@@ -96,65 +101,44 @@ class _PatientHistoryState extends State<PatientHistory> {
                     children: [
                       Text(
                         '방문일자',
-                        style: TextStyle(
-                          color: Color(0xFF404855),
-                          fontSize: 11,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w500,
-                          height: 0.14,
-                        ),
+                        style: TextStyles.text11Style,
                       ),
                       Text(
                         '진단명',
-                        style: TextStyle(
-                          color: Color(0xFF404855),
-                          fontSize: 11,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w500,
-                          height: 0.14,
-                        ),
+                        style: TextStyles.text11Style,
                       ),
                       Text(
                         '침구치료',
-                        style: TextStyle(
-                          color: Color(0xFF404855),
-                          fontSize: 11,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w500,
-                          height: 0.14,
-                        ),
+                        style: TextStyles.text11Style,
                       ),
                       Text(
                         '방약',
-                        style: TextStyle(
-                          color: Color(0xFF404855),
-                          fontSize: 11,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w500,
-                          height: 0.14,
-                        ),
+                        style: TextStyles.text11Style,
                       )
                     ],
                   ),
                 ),
               ),
               const SizedBox(height: 10),
-              Column(
-                children: List.generate(
-                  31,
-                  (index) {
-                    final item = index < widget.historyItems.length
-                        ? widget.historyItems[index]
-                        : null;
-                    return Column(
-                      children: [
-                        _buildHistoryItem(index, item),
-                        const SizedBox(height: 1), // 1픽셀의 상하 간격 추가
-                      ],
-                    );
+              FutureBuilder<List<MedicalHistory>>(
+                  future: _medicalHistoryProvider.getMedicalHistorys(widget.patientNumber),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      final medicalHistorys = snapshot.data;
+                      return Column(
+                        children: medicalHistorys?.asMap()?.entries?.map((entry) {
+                          final index = entry.key;
+                          final history = entry.value;
+                          return _buildHistoryItem(index, history);
+                        })?.toList() ?? [],
+                      );
+                    }
                   },
                 ),
-              ),
             ],
           ),
         ),
@@ -162,13 +146,13 @@ class _PatientHistoryState extends State<PatientHistory> {
     );
   }
 
-  Widget _buildHistoryItem(int index, PatientHistoryItem? item) {
+  Widget _buildHistoryItem(int index, MedicalHistory item) {
     Color backgroundColor = index % 2 == 0
         ? Colors.white
         : const Color(0xFFE2F1F6); // Alternating colors
     if (_selectedIndex == index) {
       backgroundColor =
-          const Color(0xFF00C9FF); // Change to darker blue when clicked
+      const Color(0xFF00C9FF); // Change to darker blue when clicked
     }
     return GestureDetector(
       onTap: () {
@@ -189,46 +173,62 @@ class _PatientHistoryState extends State<PatientHistory> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                item?.time != null
-                    ? DateFormat('yy.MM.dd').format(item!.time)
-                    : '', // Format date as yy.MM.dd
-                style: const TextStyle(
-                  color: Color(0xFF404855),
-                  fontSize: 11,
-                  fontFamily: 'Pretendard',
-                  fontWeight: FontWeight.w400,
-                  height: 0.14,
+              Expanded(
+                child: Text(
+                  item.visitDate != null
+                      ? DateFormat('yy.MM.dd').format(DateTime.parse(item.visitDate))
+                      : '', // Format date as yy.MM.dd
+                  overflow: TextOverflow.ellipsis, // Handle overflow
+                  maxLines: 1, // Show only 1 line
+                  style: const TextStyle(
+                    color: Color(0xFF404855),
+                    fontSize: 11,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w400,
+                    height: 0.14,
+                  ),
                 ),
               ),
-              Text(
-                item?.diagnosis ?? '',
-                style: const TextStyle(
-                  color: Color(0xFF404855),
-                  fontSize: 11,
-                  fontFamily: 'Pretendard',
-                  fontWeight: FontWeight.w400,
-                  height: 0.14,
+              Expanded(
+                child: Text(
+                  item.diagnosis ?? '',
+                  overflow: TextOverflow.ellipsis, // Handle overflow
+                  maxLines: 1, // Show only 1 line
+                  style: const TextStyle(
+                    color: Color(0xFF404855),
+                    fontSize: 11,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w400,
+                    height: 0.14,
+                  ),
                 ),
               ),
-              Text(
-                item?.acupunctureTreatment ?? '',
-                style: const TextStyle(
-                  color: Color(0xFF404855),
-                  fontSize: 11,
-                  fontFamily: 'Pretendard',
-                  fontWeight: FontWeight.w400,
-                  height: 0.14,
+              Expanded(
+                child: Text(
+                  item.acupunctureTreat ?? '',
+                  overflow: TextOverflow.ellipsis, // Handle overflow
+                  maxLines: 1, // Show only 1 line
+                  style: const TextStyle(
+                    color: Color(0xFF404855),
+                    fontSize: 11,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w400,
+                    height: 0.14,
+                  ),
                 ),
               ),
-              Text(
-                item?.medicine ?? '',
-                style: const TextStyle(
-                  color: Color(0xFF404855),
-                  fontSize: 11,
-                  fontFamily: 'Pretendard',
-                  fontWeight: FontWeight.w400,
-                  height: 0.14,
+              Expanded(
+                child: Text(
+                  item.medicine ?? '',
+                  overflow: TextOverflow.ellipsis, // Handle overflow
+                  maxLines: 1, // Show only 1 line
+                  style: const TextStyle(
+                    color: Color(0xFF404855),
+                    fontSize: 11,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w400,
+                    height: 0.14,
+                  ),
                 ),
               ),
             ],
@@ -237,31 +237,5 @@ class _PatientHistoryState extends State<PatientHistory> {
       ),
     );
   }
+
 }
-
-class PatientHistoryItem {
-  final DateTime time;
-  final String diagnosis; // 환자 순서? 번호?
-  final String acupunctureTreatment;
-  final String medicine;
-
-  PatientHistoryItem({
-    required this.time,
-    required this.diagnosis,
-    required this.acupunctureTreatment,
-    required this.medicine, // Change to DateTime
-  });
-}
-
-final List<PatientHistoryItem> patientsItems = [
-  PatientHistoryItem(
-      time: DateTime.parse("1969-07-20 20:18:04Z"),
-      diagnosis: "손가락 골절",
-      acupunctureTreatment: "약침치료",
-      medicine: "가미소요산"),
-  PatientHistoryItem(
-      time: DateTime.parse("1978-07-20 20:18:04Z"),
-      diagnosis: "발가락 골절",
-      acupunctureTreatment: "봉침치료",
-      medicine: "가미소요산2"),
-];

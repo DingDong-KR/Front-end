@@ -9,6 +9,7 @@ import '../models/patient_queue.dart';
 import '../models/patients_item.dart';
 import 'package:get/get.dart';
 import 'package:my_desktop_app/controller/selected_patient_controller.dart'; // 위에서 만든 컨트롤러 import
+import 'package:my_desktop_app/controller/add_vital_button_controller.dart';
 
 class PatientsList extends StatefulWidget {
   const PatientsList({super.key});
@@ -201,7 +202,6 @@ class _PatientsListState extends State<PatientsList>
               itemCount: patients.length,
               itemBuilder: (context, index) {
                 bool isClicked = _selectedItemIndex == index;
-
                 return GestureDetector(
                   onTap: () {
                     setState(() {

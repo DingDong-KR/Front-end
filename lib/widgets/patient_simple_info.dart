@@ -5,11 +5,14 @@ import 'package:my_desktop_app/controller/add_vital_controller.dart';
 import 'package:my_desktop_app/models/patient_private_info.dart';
 import 'package:my_desktop_app/models/patient_vital.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
-
+import '../controller/add_vital_button_controller.dart';
 import '../screens/add_vital_screen.dart';
+import '../styles/textStyles.dart';
+import 'package:get/get.dart';
 
 class PatientSimpleInfo extends StatefulWidget {
   final int patientNumber;
+
   const PatientSimpleInfo({super.key, required this.patientNumber});
 
   @override
@@ -17,28 +20,29 @@ class PatientSimpleInfo extends StatefulWidget {
 }
 
 class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
-  final AddVitalController addVitalController = Get.find<AddVitalController>();
+  late AddVitalButtonController addVitalButtonController;
 
   bool _isLoadingPatient = true;
   bool _isLoadingVital = true;
 
   // loadPatient로 patientPrivateInfo에서 받아오기
-  String? name;
-  String? gender;
-  int? age;
-  String? birthDate;
+  String? name = '';
+  String? gender = '남/여';
+  int? age = 0;
+  String? birthDate = '';
 
   // loadVital로 patientVital에서 받아오기
-  double? bt;
-  int? dbp;
-  int? sbp;
-  int? bloodSugar;
+  double? bt = 0.0;
+  int? dbp = 0;
+  int? sbp = 0;
+  int? bloodSugar = 0;
 
   PatientPrivateInfo? patient;
+
   Future<void> loadPatient(patNum) async {
     if (widget.patientNumber != 0) {
       final PatientProvider patientProvider = PatientProvider();
-      patient = await patientProvider.getPatient(patNum);
+      patient = await patientProvider.getPatientByPatientNum(patNum);
 
       // load한거 변수에 넣어주기
       name = patient!.name;
@@ -52,16 +56,17 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
 
       print(patient!.toJson());
     }
-    print('patNum is 0');
   }
 
   PatientVital? vital;
+
   Future<void> loadVital(patNum) async {
     if (widget.patientNumber != 0) {
       try {
         final PatientVitalProvider patientVitalProvider =
             PatientVitalProvider();
-        vital = await patientVitalProvider.getPatientVital(patNum);
+        print(patNum);
+        vital = await patientVitalProvider.getPatientVitalByPatientNum(patNum);
 
         // load한거 변수에 넣어주기
         bt = vital!.bt;
@@ -78,14 +83,12 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
         print('new patient');
       }
     }
-    print('patNum is 0');
   }
 
   @override
   void initState() {
     super.initState();
     if (widget.patientNumber != 0) {
-      print('init state: ${widget.patientNumber}');
       loadPatient(widget.patientNumber);
       loadVital(widget.patientNumber);
 
@@ -98,6 +101,8 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
         }
       });
     }
+    addVitalButtonController =
+        Get.find<AddVitalButtonController>(); // SelectedPatientController 초기화
   }
 
   void updateState() {
@@ -114,251 +119,96 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoadingPatient || _isLoadingVital || widget.patientNumber == 0) {
-      // return const Center(
-      //   child: CircularProgressIndicator(),
-      // );
-      print('환자를 선택해야함');
-      if (widget.patientNumber == 0) {
-        return Container(
-          width: 1100,
-          height: 38,
-          padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
-          decoration: const ShapeDecoration(
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(5)),
-            ),
-          ),
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
+    return Container(
+      width: 1100,
+      height: 38,
+      padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
+      decoration: const ShapeDecoration(
+        color: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(5)),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Row(
             children: [
-              Row(
-                children: [
-                  Text(
-                    '환자를 선택해주세요.',
-                    style: TextStyle(
-                      color: Color(0xFF404855),
-                      fontSize: 12,
-                      fontFamily: 'Pretendard',
-                      fontWeight: FontWeight.w400,
-                      height: 0.12,
-                      letterSpacing: 0.12,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
-      } else {
-        print('바이탈을 입력해야함');
-        return Container(
-          width: 1100,
-          height: 38,
-          padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
-          decoration: const ShapeDecoration(
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(5)),
-            ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return Align(
-                            alignment: Alignment.center,
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
-                              child: Dialog(
-                                elevation: 0,
-                                backgroundColor: Colors.transparent,
-                                child: AddVitalScreen(
-                                    patientNumber: widget
-                                        .patientNumber), // TODO: 차트번호와 환자 번호 전달
-                              ),
-                            ),
-                          );
-                        },
+              GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Align(
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+                          child: Dialog(
+                            elevation: 0,
+                            backgroundColor: Colors.transparent,
+                            child: AddVitalScreen(
+                                patientNumber: widget
+                                    .patientNumber), // TODO: 차트번호와 환자 번호 전달
+                          ),
+                        ),
                       );
                     },
-                    child: SvgPicture.asset('assets/icons/icon_addPerson.svg'),
-                  ),
-                  const SizedBox(width: 5),
-                  const Text(
-                    '바이탈을 추가해주세요.',
-                    style: TextStyle(
-                      color: Color(0xFF404855),
-                      fontSize: 12,
-                      fontFamily: 'Pretendard',
-                      fontWeight: FontWeight.w400,
-                      height: 0.12,
-                      letterSpacing: 0.12,
-                    ),
-                  ),
-                ],
+                  );
+                },
+                child: SvgPicture.asset('assets/icons/icon_addPerson.svg'),
               ),
+              const SizedBox(width: 5),
+              Text('${widget.patientNumber}', style: TextStyles.text14Style),
+              const SizedBox(width: 5),
+              Text('$name', style: TextStyles.text14Style),
+              const SizedBox(width: 10),
+              Text('$gender', style: TextStyles.text12Style),
+              const SizedBox(width: 10),
+              Text(
+                '${age}세 ',
+                style: TextStyles.text12Style,
+              ),
+              const SizedBox(width: 3),
+              Text(
+                '$birthDate',
+                style: TextStyles.text12Style,
+              ),
+              const SizedBox(width: 10),
+              Obx(() => _buildInfoItem(
+                  'BT:',
+                  addVitalButtonController.isButtonPressed.value
+                      ? '0'
+                      : '$bt')),
+              const SizedBox(width: 10),
+              Obx(() => _buildInfoItem(
+                  'SBP:',
+                  addVitalButtonController.isButtonPressed.value
+                      ? '0'
+                      : '$sbp')),
+              const SizedBox(width: 10),
+              Obx(() => _buildInfoItem(
+                  'DBP:',
+                  addVitalButtonController.isButtonPressed.value
+                      ? '0'
+                      : '$dbp')),
+              const SizedBox(width: 10),
+              Obx(() => _buildInfoItem(
+                  '혈당:',
+                  addVitalButtonController.isButtonPressed.value
+                      ? '0'
+                      : '$bloodSugar',
+                  color: const Color(0xFFFF3120))),
             ],
           ),
-        );
-      }
-    } else {
-      print('${widget.patientNumber}번 환자의 바이탈');
-      return Container(
-        width: 1100,
-        height: 38,
-        padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
-        decoration: const ShapeDecoration(
-          color: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(5)),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return Align(
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
-                            child: Dialog(
-                              elevation: 0,
-                              backgroundColor: Colors.transparent,
-                              child: AddVitalScreen(
-                                  patientNumber: widget
-                                      .patientNumber), // TODO: 차트번호와 환자 번호 전달
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                  child: SvgPicture.asset('assets/icons/icon_addPerson.svg'),
-                ),
-                const SizedBox(width: 5),
-                Text(
-                  '${widget.patientNumber}',
-                  style: const TextStyle(
-                    color: Color(0xFF404855),
-                    fontSize: 12,
-                    fontFamily: 'Pretendard',
-                    fontWeight: FontWeight.w400,
-                    height: 0.12,
-                    letterSpacing: 0.12,
-                  ),
-                ),
-                const SizedBox(width: 5),
-                Text(
-                  '$name',
-                  style: const TextStyle(
-                    color: Color(0xFF404855),
-                    fontSize: 14,
-                    fontFamily: 'Pretendard',
-                    fontWeight: FontWeight.w700,
-                    height: 0.11,
-                    letterSpacing: 0.14,
-                  ),
-                ),
-                const SizedBox(width: 15),
-                Text(
-                  '$gender',
-                  style: const TextStyle(
-                    color: Color(0xFF404855),
-                    fontSize: 12,
-                    fontFamily: 'Pretendard',
-                    fontWeight: FontWeight.w400,
-                    height: 0.12,
-                  ),
-                ),
-                const SizedBox(width: 15),
-                _buildTextWithIcon('$age', '세'),
-                const SizedBox(width: 3),
-                _buildText('($birthDate)'),
-                const SizedBox(width: 10),
-                _buildInfoItem('BT:', '$bt'),
-                const SizedBox(width: 10),
-                _buildInfoItem('SBP:', '$sbp'),
-                const SizedBox(width: 10),
-                _buildInfoItem('DBP:', '$dbp'),
-                const SizedBox(width: 10),
-                _buildInfoItem('혈당:', '$bloodSugar',
-                    color: const Color(0xFFFF3120)),
-              ],
-            ),
-            _buildTreatmentButton(),
-          ],
-        ),
-      );
-    }
-  }
+          _buildTreatmentButton(),
+        ],
 
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   print('disposed');
-  // }
-
-  Widget _buildTextWithIcon(String text, String icon) {
-    return Row(
-      children: [
-        Text(
-          text,
-          style: const TextStyle(
-            color: Color(0xFF404855),
-            fontSize: 12,
-            fontFamily: 'Pretendard',
-            fontWeight: FontWeight.w400,
-            height: 0.12,
-            letterSpacing: 0.12,
-          ),
-        ),
-        const SizedBox(width: 3),
-        Text(
-          icon,
-          style: const TextStyle(
-            color: Color(0xFF404855),
-            fontSize: 12,
-            fontFamily: 'Pretendard',
-            fontWeight: FontWeight.w400,
-            height: 0.12,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildText(String text) {
-    return Text(
-      text,
-      style: const TextStyle(
-        color: Color(0xFF404855),
-        fontSize: 12,
-        fontFamily: 'Pretendard',
-        fontWeight: FontWeight.w400,
-        height: 0.12,
-        letterSpacing: 0.12,
       ),
     );
   }
 
-  Widget _buildInfoItem(String label, String value,
+  Widget _buildInfoItem(String label, String? value,
       {Color color = const Color(0xFF404855)}) {
     return Row(
       children: [
@@ -374,7 +224,7 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
           ),
         ),
         Text(
-          value,
+          value ?? '', // if value is null, use empty string
           style: TextStyle(
             color: color,
             fontSize: 12,

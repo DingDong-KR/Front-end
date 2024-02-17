@@ -6,7 +6,9 @@ import 'package:my_desktop_app/controller/add_vital_controller.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
 import 'package:flutter/painting.dart'; // Add this import
 
+import '../controller/add_vital_button_controller.dart';
 import '../models/patient_vital.dart';
+import 'package:get/get.dart';
 
 class AddVitalScreen extends StatefulWidget {
   final int patientNumber; // 추가: patientNumber 변수 추가
@@ -19,7 +21,7 @@ class AddVitalScreen extends StatefulWidget {
 }
 
 class _AddVitalScreenState extends State<AddVitalScreen> {
-  final AddVitalController addVitalController = Get.put(AddVitalController());
+  final AddVitalButtonController addVitalButtonController = Get.put(AddVitalButtonController()); // 컨트롤러 인스턴스 생성
 
   int _selectedIndex = 0; // Define _selectedIndex
   final TextEditingController btController = TextEditingController();
@@ -118,9 +120,7 @@ class _AddVitalScreenState extends State<AddVitalScreen> {
                 onTap: () {
                   // 완료 버튼 로직
                   savePatientVital();
-
-                  addVitalController.isButtonPressed.value = true;
-
+                  addVitalButtonController.updateButtonPressed();
                   Navigator.pop(context); // 현재 화면을 닫는 동작을 수행
                 },
                 child: Container(
