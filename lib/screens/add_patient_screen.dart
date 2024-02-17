@@ -25,6 +25,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
   int age = 0; // 나이를 저장할 변수
   String ssn = ''; // 주민번호를 저장할 변수
   String bd = ''; // 생년월일을 저장할 변수
+  String af = '';
 
   // 환자 정보를 저장하기 위한 함수
   Future<void> savePatient() async {
@@ -36,6 +37,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
       socialSecurityNumber: ssn,
       address: addressController.text,
       birthDate: bd,
+      affiliation: af,
     );
 
     // 데이터베이스에 환자 정보 추가

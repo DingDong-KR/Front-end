@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import '../models/medical_history.dart';
 import '../models/patient_private_info.dart';
 import '../models/pre_examination.dart';
 import '../models/acupuncture.dart';
@@ -135,19 +136,22 @@ class PatientProvider {
     return result.map((json) => PatientPrivateInfo.fromJson(json)).toList();
   }
 
-  // Patient 상세 조회
-  Future<PatientPrivateInfo> getPatient(int patientNumber) async {
+  // Patient 상세 조회 (주민번호 기반)
+  Future<PatientPrivateInfo> getPatient(String socialSecurityNumber) async {
     final db = await SqlDataBase.instance.database;
     final result = await db.query(
       PatientPrivateInfo.tableName,
-      where: "${PatientPrivateInfoFields.patientNumber} = ?",
-      whereArgs: [patientNumber],
+      where: "${PatientPrivateInfoFields.socialSecurityNumber} = ?",
+      whereArgs: [socialSecurityNumber],
     );
     return result.map((json) => PatientPrivateInfo.fromJson(json)).first;
   }
 
 // 수정, 삭제 -> user  권한 정한 후 만들 예정
 }
+
+
+
 
 class PreExaminationProvider {
 
@@ -348,6 +352,61 @@ class ROSProvider {
     );
     return result.map((json) => ROS.fromJson(json)).first;
   }
+}
+
+class MedicalHistoryProvider {
+
+  // 특정 환자 진료 기록 목록 조회
+  Future<List<MedicalHistory>> getMedicalHistorys(int patientNumber) async {
+    final db = await SqlDataBase.instance.database;
+    
+    final dates = await db.query(
+      PreExamination.tableName,
+      columns: [PreExaminationFields.chartNumber, PreExaminationFields.measurementDate],
+      where: "${PreExaminationFields.patientNumber} = ?",
+      whereArgs: [patientNumber],
+    );
+
+    final chartNumbers = dates.map((date) => date[PreExaminationFields.chartNumber] as int).toList();
+
+    final diagnosis = await db.query(
+      Disease.tableName,
+      columns: [DiseaseFields.chartNumber, DiseaseFields.diseaseName],
+      where: "${DiseaseFields.chartNumber} IN (${chartNumbers.join(', ')})",
+    );
+
+    final acupunctureTreats = await db.query(
+      Acupuncture.tableName,
+      columns: [AcupunctureFields.chartNumber, AcupunctureFields.acupunctureType],
+      where: "${AcupunctureFields.chartNumber} IN (${chartNumbers.join(', ')})",
+    );
+
+    final medicines = await db.query(
+      Prescription.tableName,
+      columns: [PrescriptionFields.chartNumber, PrescriptionFields.treatmentName],
+      where: "${PrescriptionFields.chartNumber} IN (${chartNumbers.join(', ')})",
+    );
+
+    final medicalHistorys = dates.map((date) {
+    final relatedDiagnosis = diagnosis.where((disease) => disease[DiseaseFields.chartNumber] == date[PreExaminationFields.chartNumber]).map((disease) => disease[DiseaseFields.diseaseName]).join(', ');
+    final relatedAcupunctureTreats = acupunctureTreats.where((treat) => treat[AcupunctureFields.chartNumber] == date[PreExaminationFields.chartNumber]).map((treat) => treat[AcupunctureFields.acupunctureType]).join(', ');
+    final relatedMedicines = medicines.where((medicine) => medicine[PrescriptionFields.chartNumber] == date[PreExaminationFields.chartNumber]).map((medicine) => medicine[PrescriptionFields.treatmentName]).join(', ');
+
+    return MedicalHistory(
+      patientNumber: patientNumber,
+      chartNumber: date[PreExaminationFields.chartNumber] as int,
+      visiteDate: date[PreExaminationFields.measurementDate] as String,
+      diagnosis: relatedDiagnosis,
+      acupunctureTreat: relatedAcupunctureTreats.isEmpty ? null : relatedAcupunctureTreats,
+      medicine: relatedMedicines.isEmpty ? null : relatedMedicines,
+    );
+  }).toList();
+
+  return medicalHistorys;
+
+  }
+
+// 수정, 삭제 -> user  권한 정한 후 만들 예정
 }
 
 class MedicalRecordProvider {

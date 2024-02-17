@@ -140,7 +140,8 @@ class SqlDataBase {
           ${PatientPrivateInfoFields.age} INTEGER NOT NULL,
           ${PatientPrivateInfoFields.address} TEXT NOT NULL,
           ${PatientPrivateInfoFields.socialSecurityNumber} TEXT NOT NULL UNIQUE,
-          ${PatientPrivateInfoFields.birthDate} TEXT NOT NULL
+          ${PatientPrivateInfoFields.birthDate} TEXT NOT NULL,
+          ${PatientPrivateInfoFields.affiliation} TEXT NOT NULL
         )
         ''');
     await db.execute('''

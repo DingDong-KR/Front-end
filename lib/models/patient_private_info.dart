@@ -1,12 +1,12 @@
 class PatientPrivateInfoFields {
-  static final String patientNumber = 'patientNumber'; // 환자 번호
-  static final String name = 'name'; // 환자 이름
-  static final String gender = 'gender'; // 환자 성별
-  static final String age = 'age'; // 환자 연령
-  static final String socialSecurityNumber = 'socialSecurityNumber'; // 환자 주민번호
-  static final String birthDate = 'birthDate'; // 환자 생년월일
-  static final String address = 'address'; // 환자 주소
-   
+  static const String patientNumber = 'patientNumber'; // 환자 번호
+  static const String name = 'name'; // 환자 이름
+  static const String gender = 'gender'; // 환자 성별
+  static const String age = 'age'; // 환자 연령
+  static const String socialSecurityNumber = 'socialSecurityNumber'; // 환자 주민번호
+  static const String birthDate = 'birthDate'; // 환자 생년월일
+  static const String address = 'address'; // 환자 주소
+  static const String affiliation = 'affiliation'; // 방문한 동아리(기관명)
 }
 
 class PatientPrivateInfo {
@@ -18,7 +18,8 @@ class PatientPrivateInfo {
   final int age;
   final String socialSecurityNumber;
   final String birthDate;
-  final String address; // 없어서 추가했음
+  final String address;
+  final String affiliation;
 
   PatientPrivateInfo({
     this.patientNumber,
@@ -27,8 +28,8 @@ class PatientPrivateInfo {
     required this.age,
     required this.socialSecurityNumber,
     required this.birthDate,
-    required this.address, // 추가함
-
+    required this.address,
+    required this.affiliation,
   });
 
   Map<String, dynamic> toJson() {
@@ -39,7 +40,8 @@ class PatientPrivateInfo {
       PatientPrivateInfoFields.age: age,
       PatientPrivateInfoFields.socialSecurityNumber: socialSecurityNumber,
       PatientPrivateInfoFields.birthDate: birthDate,
-      PatientPrivateInfoFields.address: address, // 추가함
+      PatientPrivateInfoFields.address: address,
+      PatientPrivateInfoFields.affiliation: affiliation,
     };
   }
 
@@ -52,6 +54,7 @@ class PatientPrivateInfo {
       socialSecurityNumber: json[PatientPrivateInfoFields.socialSecurityNumber] as String,
       birthDate: json[PatientPrivateInfoFields.birthDate] as String,
       address: json[PatientPrivateInfoFields.address] as String,
+      affiliation: json[PatientPrivateInfoFields.affiliation] as String,
     );
   }
 }
