@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:my_desktop_app/models/ros.dart';
+import '../models/ros.dart';
 
 import '../models/patient_vital.dart';
 import '../models/patient_queue.dart';
@@ -175,7 +175,7 @@ class SqlDataBase {
       ''');
     await db.execute('''
       CREATE TABLE ${PatientVital.tableName}(
-        ${PatientVitalFields.chartNumber} INTEGER PRIMARY KEY AUTOINCREMENT,
+        ${PatientVitalFields.chartNumber} INTEGER PRIMARY KEY,
         ${PatientVitalFields.patientNumber} INTEGER NOT NULL,
         ${PatientVitalFields.bt} REAL,
         ${PatientVitalFields.dbp} INTEGER,

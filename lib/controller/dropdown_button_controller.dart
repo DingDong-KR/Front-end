@@ -1,13 +1,12 @@
 import 'package:get/get.dart';
 
 class DropdownButtonController extends GetxController {
-  Rx<String> currentItem = Rx<String>(''); // Initialize with a non-null value
+  Rx<String?> currentItem = Rx<String?>(null);
   RxList<String> menuItems = <String>[].obs;
 
   void changeDropdownMenu(String? selectedItem){
-    currentItem.value = selectedItem ?? ''; // Handle null values
+    currentItem.value = selectedItem;
   }
-
   void updateMenuItems(List<String> items) {
     menuItems.assignAll(items);
   }
