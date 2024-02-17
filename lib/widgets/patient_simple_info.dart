@@ -175,30 +175,45 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
                 style: TextStyles.text12Style,
               ),
               const SizedBox(width: 10),
-              Obx(() => _buildInfoItem(
-                  'BT:',
-                  addVitalButtonController.isButtonPressed.value
-                      ? '0'
-                      : '$bt')),
+              GetBuilder<AddVitalButtonController>(
+                init: AddVitalButtonController(),
+                builder: (controller) {
+                  if (controller.isButtonPressed.value) {
+                    loadVital(widget.patientNumber);
+                  }
+                  return _buildInfoItem('BT:', '${controller.isButtonPressed.value ? bt : bt}');
+                },
+              ),
               const SizedBox(width: 10),
-              Obx(() => _buildInfoItem(
-                  'SBP:',
-                  addVitalButtonController.isButtonPressed.value
-                      ? '0'
-                      : '$sbp')),
+              GetBuilder<AddVitalButtonController>(
+                init: AddVitalButtonController(),
+                builder: (controller) {
+                  if (controller.isButtonPressed.value) {
+                    loadVital(widget.patientNumber);
+                  }
+                  return _buildInfoItem('SBP:', '${controller.isButtonPressed.value ? sbp : sbp}');
+                },
+              ),
               const SizedBox(width: 10),
-              Obx(() => _buildInfoItem(
-                  'DBP:',
-                  addVitalButtonController.isButtonPressed.value
-                      ? '0'
-                      : '$dbp')),
+              GetBuilder<AddVitalButtonController>(
+                init: AddVitalButtonController(),
+                builder: (controller) {
+                  if (controller.isButtonPressed.value) {
+                    loadVital(widget.patientNumber);
+                  }
+                  return _buildInfoItem('DBP:', '${controller.isButtonPressed.value ? dbp : dbp}');
+                },
+              ),
               const SizedBox(width: 10),
-              Obx(() => _buildInfoItem(
-                  '혈당:',
-                  addVitalButtonController.isButtonPressed.value
-                      ? '0'
-                      : '$bloodSugar',
-                  color: const Color(0xFFFF3120))),
+              GetBuilder<AddVitalButtonController>(
+                init: AddVitalButtonController(),
+                builder: (controller) {
+                  if (controller.isButtonPressed.value) {
+                    loadVital(widget.patientNumber);
+                  }
+                  return _buildInfoItem('혈당:', '${controller.isButtonPressed.value ? bloodSugar : bloodSugar}', color: const Color(0xFFFF3120));
+                },
+              ),
             ],
           ),
           _buildTreatmentButton(),
