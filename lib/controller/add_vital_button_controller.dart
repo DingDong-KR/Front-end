@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-class AddPatientButtonController extends GetxController {
+class AddVitalButtonController extends GetxController {
   RxBool isButtonPressed = RxBool(false);
 
   void updateButtonPressed() {

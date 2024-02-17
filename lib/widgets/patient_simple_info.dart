@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_desktop_app/models/patient_private_info.dart';
 import 'package:my_desktop_app/models/patient_vital.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
-import '../controller/add_patient_button_controller.dart';
+import '../controller/add_vital_button_controller.dart';
 import '../screens/add_vital_screen.dart';
 import '../styles/textStyles.dart';
 import 'package:get/get.dart';
@@ -18,7 +18,7 @@ class PatientSimpleInfo extends StatefulWidget {
 }
 
 class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
-  late AddPatientButtonController addPatientButtonController;
+  late AddVitalButtonController addVitalButtonController;
 
   bool _isLoadingPatient = true;
   bool _isLoadingVital = true;
@@ -90,8 +90,8 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
       loadPatient(widget.patientNumber);
       loadVital(widget.patientNumber);
     }
-    addPatientButtonController =
-        Get.find<AddPatientButtonController>(); // SelectedPatientController 초기화
+    addVitalButtonController =
+        Get.find<AddVitalButtonController>(); // SelectedPatientController 초기화
   }
 
   @override
@@ -154,25 +154,25 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
               const SizedBox(width: 10),
               Obx(() => _buildInfoItem(
                   'BT:',
-                  addPatientButtonController.isButtonPressed.value
+                  addVitalButtonController.isButtonPressed.value
                       ? '0'
                       : '$bt')),
               const SizedBox(width: 10),
               Obx(() => _buildInfoItem(
                   'SBP:',
-                  addPatientButtonController.isButtonPressed.value
+                  addVitalButtonController.isButtonPressed.value
                       ? '0'
                       : '$sbp')),
               const SizedBox(width: 10),
               Obx(() => _buildInfoItem(
                   'DBP:',
-                  addPatientButtonController.isButtonPressed.value
+                  addVitalButtonController.isButtonPressed.value
                       ? '0'
                       : '$dbp')),
               const SizedBox(width: 10),
               Obx(() => _buildInfoItem(
                   '혈당:',
-                  addPatientButtonController.isButtonPressed.value
+                  addVitalButtonController.isButtonPressed.value
                       ? '0'
                       : '$bloodSugar',
                   color: const Color(0xFFFF3120))),

@@ -9,7 +9,7 @@ import '../models/patient_queue.dart';
 import '../models/patients_item.dart';
 import 'package:get/get.dart';
 import 'package:my_desktop_app/controller/selected_patient_controller.dart'; // 위에서 만든 컨트롤러 import
-import 'package:my_desktop_app/controller/add_patient_button_controller.dart';
+import 'package:my_desktop_app/controller/add_vital_button_controller.dart';
 
 class PatientsList extends StatefulWidget {
   const PatientsList({super.key});
@@ -21,7 +21,6 @@ class PatientsList extends StatefulWidget {
 class _PatientsListState extends State<PatientsList>
     with SingleTickerProviderStateMixin {
   final SelectedPatientController selectedPatientController = Get.put(SelectedPatientController()); // 컨트롤러 인스턴스 생성
-  final AddPatientButtonController addPatientButtonController =  Get.put(AddPatientButtonController()); // 컨트롤러 인스턴스 생성
 
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
@@ -209,7 +208,6 @@ class _PatientsListState extends State<PatientsList>
                       _selectedItemIndex = index;
                       // 선택된 환자의 patientNumber를 설정
                       selectedPatientController.setPatientNumber(patients[index].patientNumber!);
-                      addPatientButtonController.updateButtonPressed();
                     });
                   },
                   child: Padding(

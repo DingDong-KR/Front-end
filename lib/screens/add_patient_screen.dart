@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_desktop_app/models/patient_private_info.dart';
-import '../controller/add_patient_button_controller.dart';
+import '../controller/add_vital_button_controller.dart';
 import '../controller/dropdown_button_controller.dart';
 import '../models/patient_queue.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';

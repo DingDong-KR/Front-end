@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
 import 'package:flutter/painting.dart'; // Add this import
 
-import '../controller/add_patient_button_controller.dart';
+import '../controller/add_vital_button_controller.dart';
 import '../models/patient_vital.dart';
 import 'package:get/get.dart';
 
@@ -19,7 +19,7 @@ class AddVitalScreen extends StatefulWidget {
 }
 
 class _AddVitalScreenState extends State<AddVitalScreen> {
-  final AddPatientButtonController addPatientButtonController = Get.put(AddPatientButtonController()); // 컨트롤러 인스턴스 생성
+  final AddVitalButtonController addVitalButtonController = Get.put(AddVitalButtonController()); // 컨트롤러 인스턴스 생성
   int _selectedIndex = 0; // Define _selectedIndex
   final TextEditingController btController = TextEditingController();
   final TextEditingController sbpController = TextEditingController();
@@ -116,7 +116,7 @@ class _AddVitalScreenState extends State<AddVitalScreen> {
               GestureDetector(
                 onTap: () {
                   savePatientVital();
-                  addPatientButtonController.updateButtonPressed();
+                  addVitalButtonController.updateButtonPressed();
                   Navigator.pop(context); // 현재 화면을 닫는 동작을 수행
                 },
                 child: Container(
