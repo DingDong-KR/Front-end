@@ -1,10 +1,9 @@
 class PatientQueueFields {
-  static const String patientNumber = 'patientNumber'; 
-  static const String chartNumber = 'chartNumber'; 
-  static const String queueTicket = 'queue_ticket';   
-  static const String status = 'status';                        
+  static const String patientNumber = 'patientNumber';
+  static const String chartNumber = 'chartNumber';
+  static const String queueTicket = 'queue_ticket';
+  static const String status = 'status';
 }
-
 
 class PatientQueue {
   static String tableName = 'patientQueue';
@@ -33,7 +32,7 @@ class PatientQueue {
   factory PatientQueue.fromJson(Map<String, dynamic> json) {
     return PatientQueue(
       patientNumber: json[PatientQueueFields.patientNumber] as int,
-      chartNumber: json[PatientQueueFields.chartNumber] as int,
+      chartNumber: json[PatientQueueFields.chartNumber] as int?,
       queueTicket: json[PatientQueueFields.queueTicket] as int,
       status: json[PatientQueueFields.status] as String,
     );

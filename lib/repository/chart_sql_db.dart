@@ -140,7 +140,8 @@ class SqlDataBase {
           ${PatientPrivateInfoFields.age} INTEGER NOT NULL,
           ${PatientPrivateInfoFields.address} TEXT NOT NULL,
           ${PatientPrivateInfoFields.socialSecurityNumber} TEXT NOT NULL UNIQUE,
-          ${PatientPrivateInfoFields.birthDate} TEXT NOT NULL
+          ${PatientPrivateInfoFields.birthDate} TEXT NOT NULL,
+          ${PatientPrivateInfoFields.affiliation} TEXT NOT NULL
         )
         ''');
     await db.execute('''
@@ -174,7 +175,7 @@ class SqlDataBase {
       ''');
     await db.execute('''
       CREATE TABLE ${PatientVital.tableName}(
-        ${PatientVitalFields.chartNumber} INTEGER PRIMARY KEY,
+        ${PatientVitalFields.chartNumber} INTEGER PRIMARY KEY AUTOINCREMENT,
         ${PatientVitalFields.patientNumber} INTEGER NOT NULL,
         ${PatientVitalFields.bt} REAL,
         ${PatientVitalFields.dbp} INTEGER,

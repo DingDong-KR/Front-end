@@ -22,13 +22,17 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
   final TextEditingController ssnFrontController = TextEditingController();
   final TextEditingController ssnBackController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
-  final TextEditingController bdYear = TextEditingController();
-  final TextEditingController bdMonth = TextEditingController();
-  final TextEditingController bdDay = TextEditingController();
+  // final TextEditingController bdYear = TextEditingController();
+  // final TextEditingController bdMonth = TextEditingController();
+  // final TextEditingController bdDay = TextEditingController();
+  int selectedYear = 1998;
+  int selectedMonth = 1;
+  int selectedDay = 1;
 
   int age = 0; // 나이를 저장할 변수
   String ssn = ''; // 주민번호를 저장할 변수
   String bd = ''; // 생년월일을 저장할 변수
+  String af = '';
 
   // 환자 정보를 저장하기 위한 함수
   Future<void> savePatient() async {
@@ -76,6 +80,30 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
     // 데이터베이스에 queue 추가
     final PatientQueueProvider queueProvider = PatientQueueProvider();
     await queueProvider.insertPatientQueue(newPatientQueue);
+  }
+
+  int calculateAge(String birthdate) {
+    try {
+      // 생년월일 문자열을 DateTime 객체로 변환
+      DateTime birthDate = DateTime.parse(birthdate);
+      // 현재 시간을 가져옴
+      DateTime currentDate = DateTime.now();
+      // 나이 계산
+      int age = currentDate.year - birthDate.year;
+
+      // 생일이 지났는지 체크
+      if (currentDate.month < birthDate.month ||
+          (currentDate.month == birthDate.month &&
+              currentDate.day < birthDate.day)) {
+        age--;
+      }
+
+      return age;
+    } catch (e) {
+      // 변환 중 에러가 발생하면 예외 처리
+      print('나이 계산 중 에러 발생: $e');
+      return -1; // 오류가 발생한 경우 -1을 반환하거나 다른 처리를 수행할 수 있습니다.
+    }
   }
 
   @override
@@ -155,7 +183,20 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                     const SizedBox(width: 10),
                     GestureDetector(
                       onTap: () async {
+                        // 주민번호 앞뒷자리 결합
                         ssn = ssnFrontController.text + ssnBackController.text;
+                        // Combine selectedYear, selectedMonth, and selectedDay with the desired format
+                        String formattedMonth = selectedMonth < 10
+                            ? '0$selectedMonth'
+                            : '$selectedMonth';
+                        String formattedDay =
+                            selectedDay < 10 ? '0$selectedDay' : '$selectedDay';
+                        bd = '$selectedYear-$formattedMonth-$formattedDay';
+                        print(bd);
+
+                        // 나이
+                        age = calculateAge(bd);
+
                         // 완료 버튼이 눌렸을 때 실행되는 로직
                         print(nameController.text);
                         print(selectedGender);
@@ -819,82 +860,20 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                   const SizedBox(
                     width: 25,
                   ),
-                  Container(
-                    width: 80,
-                    height: 22,
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    decoration: ShapeDecoration(
-                      color: const Color(0xFFF7F7F7),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5)),
+                  DropdownButton<int>(
+                    value: selectedYear,
+                    items: List.generate(
+                      125, // Adjust the range according to your needs
+                      (index) => DropdownMenuItem<int>(
+                        value: 1900 + index,
+                        child: Text((1900 + index).toString()),
+                      ),
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        // Text(
-                        //   '641113',
-                        //   style: TextStyle(
-                        //     color: Color(0xFFAFAFAF),
-                        //     fontSize: 10,
-                        //     fontFamily: 'Noto Sans KR',
-                        //     fontWeight: FontWeight.w400,
-                        //     height: 0.22,
-                        //     letterSpacing: 1,
-                        //   ),
-                        // ),
-                        Expanded(
-                          // Expand를 사용하지 않으면 튕김. 왜지?
-                          child: TextFormField(
-                            controller: bdYear,
-                            decoration: const InputDecoration(
-                              hintText: 'yyyy',
-                              labelStyle: TextStyle(
-                                color: Color(0xFFAFAFAF),
-                                fontSize: 10,
-                                fontFamily: 'Noto Sans KR',
-                                fontWeight: FontWeight.w400,
-                                height: 0.22,
-                              ),
-                            ),
-                            onChanged: (value) {
-                              setState(() {
-                                if (value.length == 6) {
-                                  // 현재 날짜 가져오기
-                                  DateTime today = DateTime.now();
-                                  // 주민등록번호에서 생년월일 추출
-                                  int birthYear =
-                                      int.parse(value.substring(0, 2));
-                                  int birthMonth =
-                                      int.parse(value.substring(2, 4));
-                                  int birthDay =
-                                      int.parse(value.substring(4, 6));
-                                  // 2000년 이후 출생자인 경우 2000년을 더함
-                                  if (birthYear >= 0 && birthYear <= 21) {
-                                    birthYear += 2000;
-                                  } else {
-                                    birthYear += 1900;
-                                  }
-                                  // 생년월일을 이용하여 생년월일 객체 생성
-                                  DateTime birthDate =
-                                      DateTime(birthYear, birthMonth, birthDay);
-                                  // 나이 계산
-                                  age = today.year - birthDate.year;
-                                  // 생일이 지났는지 체크
-                                  if (today.month < birthDate.month ||
-                                      (today.month == birthDate.month &&
-                                          today.day < birthDate.day)) {
-                                    age--;
-                                  }
-                                  print(age);
-                                }
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedYear = value!;
+                      });
+                    },
                   ),
                   const Text(
                     '년',
@@ -907,49 +886,66 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                       letterSpacing: 1.40,
                     ),
                   ),
-                  Container(
-                    width: 60,
-                    height: 22,
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    decoration: ShapeDecoration(
-                      color: const Color(0xFFF7F7F7),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5)),
+                  const SizedBox(width: 15),
+
+                  // Container(
+                  //   width: 60,
+                  //   height: 22,
+                  //   padding: const EdgeInsets.symmetric(horizontal: 10),
+                  //   decoration: ShapeDecoration(
+                  //     color: const Color(0xFFF7F7F7),
+                  //     shape: RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(5)),
+                  //   ),
+                  //   child: Row(
+                  //     mainAxisSize: MainAxisSize.min,
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     crossAxisAlignment: CrossAxisAlignment.center,
+                  //     children: [
+                  //       // Text(
+                  //       //   '2205116',
+                  //       //   style: TextStyle(
+                  //       //     color: Color(0xFFAFAFAF),
+                  //       //     fontSize: 10,
+                  //       //     fontFamily: 'Noto Sans KR',
+                  //       //     fontWeight: FontWeight.w400,
+                  //       //     height: 0.22,
+                  //       //     letterSpacing: 1,
+                  //       //   ),
+                  //       // ),
+                  //       Expanded(
+                  //         // Expand를 사용하지 않으면 튕김. 왜지?
+                  //         child: TextFormField(
+                  //           controller: bdMonth,
+                  //           decoration: const InputDecoration(
+                  //             hintText: 'mm',
+                  //             labelStyle: TextStyle(
+                  //               color: Color(0xFFAFAFAF),
+                  //               fontSize: 10,
+                  //               fontFamily: 'Noto Sans KR',
+                  //               fontWeight: FontWeight.w400,
+                  //               height: 0.22,
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  DropdownButton<int>(
+                    value: selectedMonth,
+                    items: List.generate(
+                      12,
+                      (index) => DropdownMenuItem<int>(
+                        value: index + 1,
+                        child: Text((index + 1).toString()),
+                      ),
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        // Text(
-                        //   '2205116',
-                        //   style: TextStyle(
-                        //     color: Color(0xFFAFAFAF),
-                        //     fontSize: 10,
-                        //     fontFamily: 'Noto Sans KR',
-                        //     fontWeight: FontWeight.w400,
-                        //     height: 0.22,
-                        //     letterSpacing: 1,
-                        //   ),
-                        // ),
-                        Expanded(
-                          // Expand를 사용하지 않으면 튕김. 왜지?
-                          child: TextFormField(
-                            controller: bdMonth,
-                            decoration: const InputDecoration(
-                              hintText: 'mm',
-                              labelStyle: TextStyle(
-                                color: Color(0xFFAFAFAF),
-                                fontSize: 10,
-                                fontFamily: 'Noto Sans KR',
-                                fontWeight: FontWeight.w400,
-                                height: 0.22,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedMonth = value!;
+                      });
+                    },
                   ),
                   const Text(
                     '월',
@@ -962,49 +958,65 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                       letterSpacing: 1.40,
                     ),
                   ),
-                  Container(
-                    width: 60,
-                    height: 22,
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    decoration: ShapeDecoration(
-                      color: const Color(0xFFF7F7F7),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5)),
+                  // Container(
+                  //   width: 60,
+                  //   height: 22,
+                  //   padding: const EdgeInsets.symmetric(horizontal: 10),
+                  //   decoration: ShapeDecoration(
+                  //     color: const Color(0xFFF7F7F7),
+                  //     shape: RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(5)),
+                  //   ),
+                  //   child: Row(
+                  //     mainAxisSize: MainAxisSize.min,
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     crossAxisAlignment: CrossAxisAlignment.center,
+                  //     children: [
+                  //       // Text(
+                  //       //   '2205116',
+                  //       //   style: TextStyle(
+                  //       //     color: Color(0xFFAFAFAF),
+                  //       //     fontSize: 10,
+                  //       //     fontFamily: 'Noto Sans KR',
+                  //       //     fontWeight: FontWeight.w400,
+                  //       //     height: 0.22,
+                  //       //     letterSpacing: 1,
+                  //       //   ),
+                  //       // ),
+                  //       Expanded(
+                  //         // Expand를 사용하지 않으면 튕김. 왜지?
+                  //         child: TextFormField(
+                  //           controller: bdDay,
+                  //           decoration: const InputDecoration(
+                  //             hintText: 'dd',
+                  //             labelStyle: TextStyle(
+                  //               color: Color(0xFFAFAFAF),
+                  //               fontSize: 10,
+                  //               fontFamily: 'Noto Sans KR',
+                  //               fontWeight: FontWeight.w400,
+                  //               height: 0.22,
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  const SizedBox(width: 15),
+                  DropdownButton<int>(
+                    value: selectedDay,
+                    items: List.generate(
+                      31,
+                      (index) => DropdownMenuItem<int>(
+                        value: index + 1,
+                        child: Text((index + 1).toString()),
+                      ),
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        // Text(
-                        //   '2205116',
-                        //   style: TextStyle(
-                        //     color: Color(0xFFAFAFAF),
-                        //     fontSize: 10,
-                        //     fontFamily: 'Noto Sans KR',
-                        //     fontWeight: FontWeight.w400,
-                        //     height: 0.22,
-                        //     letterSpacing: 1,
-                        //   ),
-                        // ),
-                        Expanded(
-                          // Expand를 사용하지 않으면 튕김. 왜지?
-                          child: TextFormField(
-                            controller: bdDay,
-                            decoration: const InputDecoration(
-                              hintText: 'dd',
-                              labelStyle: TextStyle(
-                                color: Color(0xFFAFAFAF),
-                                fontSize: 10,
-                                fontFamily: 'Noto Sans KR',
-                                fontWeight: FontWeight.w400,
-                                height: 0.22,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedDay = value!;
+                      });
+                    },
                   ),
                   const Text(
                     '일',
