@@ -175,7 +175,7 @@ class SqlDataBase {
       ''');
     await db.execute('''
       CREATE TABLE ${PatientVital.tableName}(
-        ${PatientVitalFields.chartNumber} INTEGER PRIMARY KEY,
+        ${PatientVitalFields.chartNumber} INTEGER PRIMARY KEY AUTOINCREMENT,
         ${PatientVitalFields.patientNumber} INTEGER NOT NULL,
         ${PatientVitalFields.bt} REAL,
         ${PatientVitalFields.dbp} INTEGER,
