@@ -5,6 +5,6 @@ class AddVitalButtonController extends GetxController {
 
   void updateButtonPressed() {
     isButtonPressed.value = !isButtonPressed.value;
-    print("얌마 ${isButtonPressed.value}");
+    update();
   }
 }
