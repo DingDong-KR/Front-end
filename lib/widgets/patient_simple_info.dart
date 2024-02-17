@@ -40,7 +40,9 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
       name = patient!.name;
       gender = patient!.gender;
       age = patient!.age;
-      birthDate = patient!.birthDate;
+
+      String ssn = patient!.socialSecurityNumber;
+      birthDate = extractBirthDate(ssn);
 
       setState(() {
         _isLoadingPatient = false;
@@ -292,5 +294,31 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
         ),
       ),
     );
+  }
+
+  String extractBirthDate(String ssn) {
+    // 주민등록번호 앞 6자리를 추출
+    String firstPart = ssn.substring(0, 6);
+
+    // 년, 월, 일 추출
+    int year = int.parse(firstPart.substring(0, 2));
+    int month = int.parse(firstPart.substring(2, 4));
+    int day = int.parse(firstPart.substring(4, 6));
+
+
+    // 년도 구분 (1800년 이후 출생한 사람 기준)
+    if (year >= 00 && year <= 21) {
+      year += 2000;
+    } else {
+      year += 1900;
+    }
+
+    // yyyy.mm.dd 형태로 반환
+    String result =
+        '$year.${month.toString().padLeft(2, '0')}.${day.toString().padLeft(2, '0')}';
+
+    print(result);
+
+    return result;
   }
 }
