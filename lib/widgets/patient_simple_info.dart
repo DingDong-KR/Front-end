@@ -58,7 +58,7 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
   Future<void> loadVital(patNum) async {
     if (widget.patientNumber != 0) {
       final PatientVitalProvider patientVitalProvider = PatientVitalProvider();
-      vital = (await patientVitalProvider.getPatientVital(patNum)) as PatientVital?;
+      vital = await patientVitalProvider.getPatientVital(patNum);
 
       // load한거 변수에 넣어주기
       bt = vital!.bt;
