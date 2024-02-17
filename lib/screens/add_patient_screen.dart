@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_desktop_app/models/patient_private_info.dart';
+import '../controller/add_patient_button_controller.dart';
 import '../controller/dropdown_button_controller.dart';
 import '../models/patient_queue.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
@@ -22,9 +23,6 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
   final TextEditingController ssnFrontController = TextEditingController();
   final TextEditingController ssnBackController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
-  // final TextEditingController bdYear = TextEditingController();
-  // final TextEditingController bdMonth = TextEditingController();
-  // final TextEditingController bdDay = TextEditingController();
   int selectedYear = 1998;
   int selectedMonth = 1;
   int selectedDay = 1;
@@ -192,16 +190,9 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                         String formattedDay =
                             selectedDay < 10 ? '0$selectedDay' : '$selectedDay';
                         bd = '$selectedYear-$formattedMonth-$formattedDay';
-                        print(bd);
                         // 나이
                         age = calculateAge(bd);
-                        // 완료 버튼이 눌렸을 때 실행되는 로직
-                        print(nameController.text);
-                        print(selectedGender);
-                        print(ssn);
-                        print(age);
-                        print(affiliation);
-                        // db에 저장시킴
+                        // 완료 버튼이 눌렸을 때 실행되는 로직, db에 저장시킴
                         savePatient();
                         await loadPatient();
                         addPatientQueue();
@@ -224,7 +215,6 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                           ),
                         ),
                         child: Row(
-                          mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -348,16 +338,6 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          // Text(
-                          //   '이름',
-                          //   style: TextStyle(
-                          //     color: Color(0xFFAFAFAF),
-                          //     fontSize: 10,
-                          //     fontFamily: 'Noto Sans KR',
-                          //     fontWeight: FontWeight.w400,
-                          //     height: 0.22,
-                          //   ),
-                          // ),
                           Expanded(
                             // Expand를 사용하지 않으면 튕김. 왜지?
                             child: TextFormField(
@@ -421,139 +401,6 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                         const Text('기타'),
                       ],
                     ),
-                    // child: Row(
-                    //   children: [
-                    //     SizedBox(
-                    //       width: 16,
-                    //       height: 16,
-                    //       child: Stack(
-                    //         children: [
-                    //           Positioned(
-                    //             left: 0,
-                    //             top: 0,
-                    //             child: Container(
-                    //               width: 16,
-                    //               height: 16,
-                    //               decoration: const ShapeDecoration(
-                    //                 color: Colors.white,
-                    //                 shape: OvalBorder(
-                    //                   side: BorderSide(
-                    //                       width: 1, color: Color(0xFF3FA7C3)),
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //     const SizedBox(
-                    //       width: 5,
-                    //     ),
-                    //     const Text(
-                    //       '남',
-                    //       style: TextStyle(
-                    //         color: Color(0xFF404855),
-                    //         fontSize: 12,
-                    //         fontFamily: 'Noto Sans KR',
-                    //         fontWeight: FontWeight.w400,
-                    //         height: 0.15,
-                    //       ),
-                    //     ),
-                    //     const SizedBox(
-                    //       width: 10,
-                    //     ),
-                    //     SizedBox(
-                    //       width: 16,
-                    //       height: 16,
-                    //       child: Stack(
-                    //         children: [
-                    //           Positioned(
-                    //             left: 0,
-                    //             top: 0,
-                    //             child: Container(
-                    //               width: 16,
-                    //               height: 16,
-                    //               decoration: const ShapeDecoration(
-                    //                 color: Colors.white,
-                    //                 shape: OvalBorder(
-                    //                   side: BorderSide(
-                    //                       width: 1, color: Color(0xFF3FA7C3)),
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //           ),
-                    //           Positioned(
-                    //             left: 3,
-                    //             top: 3,
-                    //             child: Container(
-                    //               width: 10,
-                    //               height: 10,
-                    //               decoration: const ShapeDecoration(
-                    //                 color: Color(0xFF3FA7C3),
-                    //                 shape: OvalBorder(
-                    //                   side: BorderSide(
-                    //                       width: 1, color: Color(0xFF3FA7C3)),
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //     const SizedBox(
-                    //       width: 5,
-                    //     ),
-                    //     const Text(
-                    //       '여',
-                    //       style: TextStyle(
-                    //         color: Color(0xFF404855),
-                    //         fontSize: 12,
-                    //         fontFamily: 'Noto Sans KR',
-                    //         fontWeight: FontWeight.w400,
-                    //         height: 0.15,
-                    //       ),
-                    //     ),
-                    //     const SizedBox(
-                    //       width: 10,
-                    //     ),
-                    //     SizedBox(
-                    //       width: 16,
-                    //       height: 16,
-                    //       child: Stack(
-                    //         children: [
-                    //           Positioned(
-                    //             left: 0,
-                    //             top: 0,
-                    //             child: Container(
-                    //               width: 16,
-                    //               height: 16,
-                    //               decoration: const ShapeDecoration(
-                    //                 color: Colors.white,
-                    //                 shape: OvalBorder(
-                    //                   side: BorderSide(
-                    //                       width: 1, color: Color(0xFF3FA7C3)),
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //     const SizedBox(
-                    //       width: 5,
-                    //     ),
-                    //     const Text(
-                    //       '기타',
-                    //       style: TextStyle(
-                    //         color: Color(0xFF404855),
-                    //         fontSize: 12,
-                    //         fontFamily: 'Noto Sans KR',
-                    //         fontWeight: FontWeight.w400,
-                    //         height: 0.15,
-                    //       ),
-                    //     )
-                    //   ],
-                    // ),
                   ),
                 ],
               ), //000000
@@ -742,17 +589,6 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        // Text(
-                        //   '641113',
-                        //   style: TextStyle(
-                        //     color: Color(0xFFAFAFAF),
-                        //     fontSize: 10,
-                        //     fontFamily: 'Noto Sans KR',
-                        //     fontWeight: FontWeight.w400,
-                        //     height: 0.22,
-                        //     letterSpacing: 1,
-                        //   ),
-                        // ),
                         Expanded(
                           // Expand를 사용하지 않으면 튕김. 왜지?
                           child: TextFormField(
@@ -797,17 +633,6 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        // Text(
-                        //   '2205116',
-                        //   style: TextStyle(
-                        //     color: Color(0xFFAFAFAF),
-                        //     fontSize: 10,
-                        //     fontFamily: 'Noto Sans KR',
-                        //     fontWeight: FontWeight.w400,
-                        //     height: 0.22,
-                        //     letterSpacing: 1,
-                        //   ),
-                        // ),
                         Expanded(
                           // Expand를 사용하지 않으면 튕김. 왜지?
                           child: TextFormField(
@@ -885,51 +710,6 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                     ),
                   ),
                   const SizedBox(width: 15),
-
-                  // Container(
-                  //   width: 60,
-                  //   height: 22,
-                  //   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  //   decoration: ShapeDecoration(
-                  //     color: const Color(0xFFF7F7F7),
-                  //     shape: RoundedRectangleBorder(
-                  //         borderRadius: BorderRadius.circular(5)),
-                  //   ),
-                  //   child: Row(
-                  //     mainAxisSize: MainAxisSize.min,
-                  //     mainAxisAlignment: MainAxisAlignment.center,
-                  //     crossAxisAlignment: CrossAxisAlignment.center,
-                  //     children: [
-                  //       // Text(
-                  //       //   '2205116',
-                  //       //   style: TextStyle(
-                  //       //     color: Color(0xFFAFAFAF),
-                  //       //     fontSize: 10,
-                  //       //     fontFamily: 'Noto Sans KR',
-                  //       //     fontWeight: FontWeight.w400,
-                  //       //     height: 0.22,
-                  //       //     letterSpacing: 1,
-                  //       //   ),
-                  //       // ),
-                  //       Expanded(
-                  //         // Expand를 사용하지 않으면 튕김. 왜지?
-                  //         child: TextFormField(
-                  //           controller: bdMonth,
-                  //           decoration: const InputDecoration(
-                  //             hintText: 'mm',
-                  //             labelStyle: TextStyle(
-                  //               color: Color(0xFFAFAFAF),
-                  //               fontSize: 10,
-                  //               fontFamily: 'Noto Sans KR',
-                  //               fontWeight: FontWeight.w400,
-                  //               height: 0.22,
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
                   DropdownButton<int>(
                     value: selectedMonth,
                     items: List.generate(
@@ -956,50 +736,6 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                       letterSpacing: 1.40,
                     ),
                   ),
-                  // Container(
-                  //   width: 60,
-                  //   height: 22,
-                  //   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  //   decoration: ShapeDecoration(
-                  //     color: const Color(0xFFF7F7F7),
-                  //     shape: RoundedRectangleBorder(
-                  //         borderRadius: BorderRadius.circular(5)),
-                  //   ),
-                  //   child: Row(
-                  //     mainAxisSize: MainAxisSize.min,
-                  //     mainAxisAlignment: MainAxisAlignment.center,
-                  //     crossAxisAlignment: CrossAxisAlignment.center,
-                  //     children: [
-                  //       // Text(
-                  //       //   '2205116',
-                  //       //   style: TextStyle(
-                  //       //     color: Color(0xFFAFAFAF),
-                  //       //     fontSize: 10,
-                  //       //     fontFamily: 'Noto Sans KR',
-                  //       //     fontWeight: FontWeight.w400,
-                  //       //     height: 0.22,
-                  //       //     letterSpacing: 1,
-                  //       //   ),
-                  //       // ),
-                  //       Expanded(
-                  //         // Expand를 사용하지 않으면 튕김. 왜지?
-                  //         child: TextFormField(
-                  //           controller: bdDay,
-                  //           decoration: const InputDecoration(
-                  //             hintText: 'dd',
-                  //             labelStyle: TextStyle(
-                  //               color: Color(0xFFAFAFAF),
-                  //               fontSize: 10,
-                  //               fontFamily: 'Noto Sans KR',
-                  //               fontWeight: FontWeight.w400,
-                  //               height: 0.22,
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
                   const SizedBox(width: 15),
                   DropdownButton<int>(
                     value: selectedDay,

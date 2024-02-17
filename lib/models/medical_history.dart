@@ -6,13 +6,12 @@ class MedicalHistoryFields {
   static const String acupunctureTreat = 'acupunctureTreat'; // 침구치료
   static const String medicine = 'medicine'; // 방약
 }
-
 class MedicalHistory {
   static String tableName = 'medicalHistory';
 
   final int patientNumber;
   final int chartNumber;
-  final String visiteDate;
+  final String visitDate;
   final String diagnosis;
   final String? acupunctureTreat;
   final String? medicine;
@@ -20,7 +19,7 @@ class MedicalHistory {
   MedicalHistory({
     required this.patientNumber,
     required this.chartNumber,
-    required this.visiteDate,
+    required this.visitDate,
     required this.diagnosis,
     this.acupunctureTreat,
     this.medicine,
@@ -30,7 +29,7 @@ class MedicalHistory {
     return {
       MedicalHistoryFields.patientNumber: patientNumber,
       MedicalHistoryFields.chartNumber: chartNumber,
-      MedicalHistoryFields.visiteDate: visiteDate,
+      MedicalHistoryFields.visiteDate: visitDate,
       MedicalHistoryFields.diagnosis: diagnosis,
       MedicalHistoryFields.acupunctureTreat: acupunctureTreat,
       MedicalHistoryFields.medicine: medicine,
@@ -41,11 +40,11 @@ class MedicalHistory {
     return MedicalHistory(
       patientNumber: json[MedicalHistoryFields.patientNumber] as int,
       chartNumber: json[MedicalHistoryFields.chartNumber] as int,
-      visiteDate: json[MedicalHistoryFields.visiteDate] as String,
+      visitDate: json[MedicalHistoryFields.visiteDate] as String,
       diagnosis: json[MedicalHistoryFields.diagnosis] as String,
-      acupunctureTreat: json[MedicalHistoryFields.acupunctureTreat] as String,
-      medicine: json[MedicalHistoryFields.medicine] as String,
-
+      acupunctureTreat: json[MedicalHistoryFields.acupunctureTreat] as String?,
+      medicine: json[MedicalHistoryFields.medicine] as String?,
     );
   }
 }
+

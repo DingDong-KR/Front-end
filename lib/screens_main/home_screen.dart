@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:my_desktop_app/screens/add_affiliation_screen.dart';
+import 'package:path/path.dart';
 import '../controller/dropdown_button_controller.dart';
 import 'package:my_desktop_app/models/user.dart';
 
-
-import '../screens/add_affiliation_screen.dart';
-
 class HomeScreen extends StatelessWidget {
+  RxString lastSyncTime = RxString('');
   final User user; // 유저 정보를 저장할 변수
   final DropdownButtonController dropdownController = Get.find<
       DropdownButtonController>();
@@ -17,7 +16,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String lastSyncTime = ''; // Initialize with an empty string
     return Container(
       color: const Color(0xFFE2F1F6),
       child: Center(
@@ -98,20 +96,19 @@ class HomeScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  width: 251,
-                  height: 92,
-                  decoration: ShapeDecoration(
-                    color: Color(0xFF3FA7C3),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(60),
+                GestureDetector(
+                  onTap: () {
+                    syncronizeToServer(context); // Update lastSyncTime with the synchronization time
+                  },
+                  child: Container(
+                    width: 251,
+                    height: 92,
+                    decoration: ShapeDecoration(
+                      color: Color(0xFF3FA7C3),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(60),
+                      ),
                     ),
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      lastSyncTime =
-                          syncronizeToServer(); // Update lastSyncTime with the synchronization time
-                    },
                     child: Center(
                       child: Text(
                         '현재 채널 동기화',
@@ -172,9 +169,8 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: 20,),
-            Text(
-              '최근 동기화 $lastSyncTime',
-              // Use lastSyncTime to display the synchronization time
+            Obx(() => Text(
+              '최근 동기화 ${lastSyncTime.value}',
               style: TextStyle(
                 color: Color(0xFF404855),
                 fontSize: 13,
@@ -182,26 +178,47 @@ class HomeScreen extends StatelessWidget {
                 fontWeight: FontWeight.w400,
                 height: 0,
               ),
-            )
+            ))
+
           ],
         ),
       ),
     );
   }
 
-
-  String syncronizeToServer() {
+  void syncronizeToServer(BuildContext context) {
     // Perform synchronization
     bool syncResult = true; // Replace with the actual synchronization result
     String synchronizationTime = '';
-
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        // Wait for 2 seconds before closing the dialog
+        Future.delayed(Duration(seconds: 2), () {
+          Navigator.of(context).pop();
+        });
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          child: Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            ),
+          ),
+        );
+      },
+    );
     if (syncResult) {
       // Save the current time as the synchronization time
       DateTime now = DateTime.now();
-      synchronizationTime = '${now.year}.${now.month}.${now.day}.${now.hour}.${now.second}';
+      synchronizationTime = '${now.year}-${now.month}-${now.day} ${now.hour}:${now.minute}:${now.second}';
+      // Update the UI with the new synchronization time
+      lastSyncTime.value = synchronizationTime;
+      // Stop the sync animation
+    } else {
+      // Stop the sync animation
     }
-
-    return synchronizationTime;
   }
-}
 
+}
