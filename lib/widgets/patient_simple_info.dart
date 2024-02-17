@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:my_desktop_app/controller/add_vital_controller.dart';
 import 'package:my_desktop_app/models/patient_private_info.dart';
 import 'package:my_desktop_app/models/patient_vital.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
@@ -89,9 +91,30 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
     if (widget.patientNumber != 0) {
       loadPatient(widget.patientNumber);
       loadVital(widget.patientNumber);
+
+      // ever를 사용하여 상태가 변경될 때마다 화면을 재빌드
+      ever(addVitalController.isButtonPressed, (_) {
+        if (addVitalController.isButtonPressed.value) {
+          print('ever');
+          updateState();
+          addVitalController.isButtonPressed.value = false;
+        }
+      });
     }
     addVitalButtonController =
         Get.find<AddVitalButtonController>(); // SelectedPatientController 초기화
+  }
+
+  void updateState() {
+    print('updateState, mounted: $mounted');
+    setState(() {
+      // 추가적인 로직이 있다면 여기에 추가
+      print('mounted: ${widget.patientNumber}');
+      loadPatient(widget.patientNumber);
+      print('load patient: ${widget.patientNumber}');
+      loadVital(widget.patientNumber);
+      print('load vital: ${widget.patientNumber}');
+    });
   }
 
   @override
@@ -180,6 +203,7 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
           ),
           _buildTreatmentButton(),
         ],
+
       ),
     );
   }
