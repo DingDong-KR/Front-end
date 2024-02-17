@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../controller/dropdown_button_controller.dart';
 import '../controller/selected_patient_controller.dart';
 import '../screens/settings_screen.dart';
 import '../screens_main/archive_screen.dart';
@@ -28,12 +29,14 @@ class MainMenu extends StatefulWidget {
 
 class _MainMenuState extends State<MainMenu> {
   int selectedMenuIndex = 100;
+  late String? affiliation;
   late int chartNumber;
   late SelectedPatientController selectedPatientController;
 
   @override
   void initState() {
     super.initState();
+    affiliation = Get.find<DropdownButtonController>().currentItem.value; //TODO:affiliation 이런식으로 글로벌하게 접근 가능
     selectedPatientController =
         Get.find<SelectedPatientController>(); // SelectedPatientController 초기화
     // patientNumber의 변경을 감지하여 navigateToScreen 실행
@@ -45,6 +48,7 @@ class _MainMenuState extends State<MainMenu> {
 
   @override
   Widget build(BuildContext context) {
+    print("main_menu: $affiliation");
     return Column(
       children: [
         Flexible(
