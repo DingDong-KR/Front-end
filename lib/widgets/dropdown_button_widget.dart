@@ -19,7 +19,7 @@ import '../models/user.dart';
 class DropdownButtonWidget extends StatelessWidget {
   final User user; // User 정보 변수
   final DropdownButtonController controller =
-      Get.put(DropdownButtonController());
+  Get.put(DropdownButtonController());
 
   DropdownButtonWidget({required this.user}); // 'user'를 초기화하는 생성자
 
@@ -59,7 +59,7 @@ class DropdownButtonWidget extends StatelessWidget {
       elevation: 0,
       itemBuilder: (BuildContext context) => [],
       child: Obx(
-        () => Container(
+            () => Container(
           padding: EdgeInsets.only(top: 15),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -90,7 +90,7 @@ class DropdownButtonWidget extends StatelessWidget {
       elevation: 0,
       itemBuilder: (BuildContext context) => items,
       child: Obx(
-        () => Container(
+            () => Container(
           padding: EdgeInsets.only(top: 15),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
