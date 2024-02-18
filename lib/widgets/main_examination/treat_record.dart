@@ -101,7 +101,7 @@ class _TreatRecordState extends State<TreatRecord> {
                 print(
                     '저장하는 진료기록: ${mainExaminationController.treatRecord.value}');
               },
-              maxLines: 15,
+              maxLines: 8,
               decoration: const InputDecoration(
                   hintText: '진료기록을 작성해주세요.',
                   hintStyle: TextStyle(
@@ -114,7 +114,7 @@ class _TreatRecordState extends State<TreatRecord> {
                     vertical: 15,
                   ),
                   border: InputBorder.none),
-              style: TextStyles.text11Style),
+              style: TextStyles.text11Style.copyWith(height: 1.5)),
         ],
       ),
     );
