@@ -36,9 +36,9 @@ class DropdownButtonWidget extends StatelessWidget {
 
   Widget _buildPopupMenuButton(List<PopupMenuEntry<String>> items) {
     return PopupMenuButton<String>(
-      offset: Offset(-80, 35),
+      offset: Offset(-5, 33),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(15),
       ),
       onSelected: (String? affiliation) {
         affiliationController.changeSelectedAffiliation(affiliation ?? '');
@@ -52,18 +52,47 @@ class DropdownButtonWidget extends StatelessWidget {
             text = '채널 선택하기';
           }
           return Container(
-            padding: EdgeInsets.only(top: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  text,
-                  textAlign: TextAlign.right,
-                ),
-                SizedBox(width: 5),
-                SvgPicture.asset('assets/icons/icon_down_arrow.svg')
-              ],
+            width: 124,
+            height: 32,
+            decoration: ShapeDecoration(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                side: BorderSide(width: 1, color: Color(0xFF3EA7C2)),
+                borderRadius: BorderRadius.circular(38),
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(12.0,0,0,0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    text,
+                    style: TextStyle(
+                      color: Color(0xFF3EA7C2),
+                      fontSize: 12,
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w700,
+                      height: 0.12,
+                      letterSpacing: 0.12,
+                    ),
+                  ),
+                  SizedBox(width: 4,),
+                  Container(
+                    width: 20,
+                    height: 20,
+                    decoration: ShapeDecoration(
+                      color: Color(0xFFE4F2EF),
+                      shape: OvalBorder(),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: SvgPicture.asset('assets/icons/icon_menu.svg'),
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         },
@@ -87,9 +116,23 @@ class DropdownButtonWidget extends StatelessWidget {
     return userAffiliations.map((userAffiliation) {
       return PopupMenuItem<String>(
         value: userAffiliation['affiliation'].toString(),
-        height: 30,
-        child: Center(
-          child: Text(userAffiliation['affiliation']),
+        height: 20,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              userAffiliation['affiliation'],
+              style: TextStyle(
+                color: Color(0xFF3EA7C2),
+                fontSize: 12,
+                fontFamily: 'Pretendard',
+                fontWeight: FontWeight.w700,
+                height: 0.12,
+                letterSpacing: 0.12,
+              ),
+            ),
+          ],
         ),
       );
     }).toList();

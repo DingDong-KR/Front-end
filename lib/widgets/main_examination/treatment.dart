@@ -7,7 +7,7 @@ class Treatment extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 400,
-      height: 292,
+      height: 232,
       padding: const EdgeInsets.all(15),
       decoration: const BoxDecoration(color: Colors.white),
       child: Column(

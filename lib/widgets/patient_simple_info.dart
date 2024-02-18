@@ -204,7 +204,7 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
               Obx(()=>
                   Text(
                 'Chart Number: ${chartNumberController.chartNumber.value}',
-                style: TextStyles.text14Style,
+                style: TextStyles.text12Style,
               )),
               SizedBox(width: 10),
               _buildTreatmentButton(),

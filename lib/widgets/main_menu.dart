@@ -33,6 +33,7 @@ class _MainMenuState extends State<MainMenu> {
   int chartNumber=0;
   late SelectedPatientController selectedPatientController;
   late ChartNumberController chartNumberController;
+  late AffiliationController affiliationController;
 
   @override
   void initState() {
@@ -44,6 +45,7 @@ class _MainMenuState extends State<MainMenu> {
       navigateToScreen(
           selectedMenuIndex, selectedPatientController.patientNumber.value);
     });
+    affiliationController = Get.find<AffiliationController>();
   }
 
   @override
@@ -52,24 +54,64 @@ class _MainMenuState extends State<MainMenu> {
       children: [
         Flexible(
           child: Container(
-            width: 127,
+            width: 154,
             decoration: const BoxDecoration(color: Color(0xFFE2F1F6)),
             child: Column(
               children: [
-                DropdownButtonWidget(user: widget.user),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                  child: SvgPicture.asset('assets/images/image_dingdong_menu.svg'),
+                ),
                 for (var i = 1; i < menuItems.length; i++)
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedMenuIndex = i;
-                      });
-                      // 콜백 함수에서 index와 환자 번호를 함께 전달합니다.
-                      navigateToScreen(
-                          i, selectedPatientController.patientNumber.value);
-                    },
-                    child: buildMenuItem(i),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedMenuIndex = i;
+                        });
+                        // 콜백 함수에서 index와 환자 번호를 함께 전달합니다.
+                        navigateToScreen(
+                            i, selectedPatientController.patientNumber.value);
+                      },
+                      child: buildMenuItem(i),
+                    ),
                   ),
                 const Spacer(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 30.0),
+                  child: Container(
+                      width: 119,
+                      height: 32.23,
+                      padding:
+                      const EdgeInsets.symmetric(horizontal: 9, vertical: 10),
+                      decoration: ShapeDecoration(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(width: 1, color: Color(0xFF3EA7C2)),
+                          borderRadius: BorderRadius.circular(38),
+                        ),
+                      ),
+                      child:Obx(() => Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            affiliationController.currentAffiliation.value ??
+                                '채널을 선택하세요',
+                            style: TextStyle(
+                              color: Color(0xFF3EA7C2),
+                              fontSize: 12,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w700,
+                              height: 0.12,
+                              letterSpacing: 0.12,
+                            ),
+                          ),
+                        ],
+                      )),
+                  ),
+                ),
               ],
             ),
           ),
