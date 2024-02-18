@@ -92,6 +92,9 @@ flutter:
     - assets/icons/icon_document.svg
     - assets/icons/icon_pencil.svg
     - assets/images/image_dingdong.svg
+    - assets/images/image_background_dingdong_1.svg
+    - assets/images/image_background_dingdong_2.svg
+    - assets/images/image_background_circle.svg
     - assets/icons/icon_right_down_arrow.svg
     
 

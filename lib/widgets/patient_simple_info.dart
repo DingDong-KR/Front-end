@@ -8,6 +8,7 @@ import 'package:my_desktop_app/repository/chart_crud_sql.dart';
 import '../controller/submit_button_controller.dart';
 import '../models/pre_examination.dart';
 import '../screens/add_vital_screen.dart';
+import '../screens/communication_screen.dart';
 import '../styles/textStyles.dart';
 import 'package:get/get.dart';
 
@@ -191,10 +192,11 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
           ),
           Row(
             children: [
-              Text(
+              Obx(()=>
+                  Text(
                 'Chart Number: ${chartNumberController.chartNumber.value}',
                 style: TextStyles.text14Style,
-              ),
+              )),
               SizedBox(width: 10),
               _buildTreatmentButton(),
             ],
@@ -254,7 +256,19 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
       onTap: () {
         loadPatient(widget.patientNumber);
         loadVital(widget.patientNumber);
-        //preExaminationProvider.insertPreExamination();
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return Align(
+              alignment: Alignment.center,
+              child: Dialog(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                child: CommunicationScreen(),
+              ),
+            );
+          },
+        );
       },
       child: Container(
         width: 74,
