@@ -5,7 +5,6 @@ import '../widgets/main_symptom.dart';
 import '../widgets/medical_history_widget.dart';
 import '../widgets/ros.dart'; // Import PatientHistoryItem model
 
-//TODO: 환자리스트에서 선택된 환자의 환자 번호 넘기기, 고유한 차트 번호 생성하기
 class PreExaminationScreen extends StatelessWidget {
   final int patientNumber;
   final int chartNumber;

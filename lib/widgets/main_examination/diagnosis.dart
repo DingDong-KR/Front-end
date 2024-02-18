@@ -89,6 +89,7 @@ class _DiagnosisState extends State<Diagnosis> {
   Widget _buildIndexRow(String main, String sub, String code, String name) {
     return Row(
       children: [
+        SizedBox(width: 10,),
         Text(
           '$main ',
           style: TextStyle(
@@ -99,7 +100,7 @@ class _DiagnosisState extends State<Diagnosis> {
             letterSpacing: 0.12,
           ),
         ),
-        const SizedBox(width: 30),
+        const SizedBox(width: 24),
         Text(
           '$sub ',
           style: TextStyle(

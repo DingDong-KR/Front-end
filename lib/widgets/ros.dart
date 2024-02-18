@@ -109,8 +109,6 @@ class _RosState extends State<Ros> {
                   child: Container(
                     child: Row(
                       children: [
-                        const Text('ROS 추가 -> '),
-                        const SizedBox(width: 5),
                         SvgPicture.asset('assets/icons/icon_document.svg'),
                         const SizedBox(width: 5),
                         SvgPicture.asset('assets/icons/icon_right_arrow.svg'),
