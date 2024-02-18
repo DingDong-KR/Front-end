@@ -199,7 +199,6 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                         // // PatientsList의 onPatientAdded 메서드를 호출 (updatePatient 실행하기위함)
                         // PatientsList patientsList = const PatientsList();
                         // patientsList.updatePatient();
-
                         Navigator.pop(context); // 현재 화면을 닫는 동작을 수행
                       },
                       child: Container(
