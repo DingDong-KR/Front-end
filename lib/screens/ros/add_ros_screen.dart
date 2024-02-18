@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:my_desktop_app/controller/submit_button_controller.dart';
 import 'package:my_desktop_app/screens/ros/ros_temperature_sensitive.dart';
 import '../../models/ros.dart';
 import '../../repository/chart_crud_sql.dart';
@@ -14,6 +16,8 @@ class AddRosScreen extends StatefulWidget {
 
 class _AddRosScreenState extends State<AddRosScreen> {
   late final GlobalKey<ROSTemperatureSensitiveState> _rosKey;
+  final SubmitButtonController submitButtonController =
+      Get.put(SubmitButtonController());
 
   @override
   void initState() {
@@ -141,6 +145,10 @@ class _AddRosScreenState extends State<AddRosScreen> {
                         GestureDetector(
                           onTap: () {
                             onCompletionPressed();
+
+                            submitButtonController.rosButtonPressed();
+                            print(
+                                'addrosscreen: ${submitButtonController.isRosButtonPressed.value}');
                             Navigator.pop(context);
                           },
                           child: Container(

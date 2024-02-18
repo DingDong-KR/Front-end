@@ -1,12 +1,12 @@
 class ROSFields {
-  static const String chartNumber = 'chartNumber'; 
-  static const String getHotEasily  = 'getHotEasily';   
+  static const String chartNumber = 'chartNumber';
+  static const String getHotEasily = 'getHotEasily';
   static const String handFootWarm = 'handFootWarm';
   static const String coldShower = 'coldShower';
   static const String sleepTemperaturePreference = 'sleepTemperaturePreference';
   static const String flushSummer = 'flushSummer';
   static const String flush = 'flush';
-  static const String flushCircumstance  = 'flushCircumstance';
+  static const String flushCircumstance = 'flushCircumstance';
 }
 
 class ROS {
@@ -20,7 +20,6 @@ class ROS {
   final int? flushSummer;
   final int? flush;
   final String? flushCircumstance;
-
 
   const ROS({
     required this.chartNumber,
@@ -52,11 +51,11 @@ class ROS {
       getHotEasily: json[ROSFields.getHotEasily] as String,
       handFootWarm: json[ROSFields.handFootWarm] as String,
       coldShower: json[ROSFields.coldShower] as int,
-      sleepTemperaturePreference: json[ROSFields.sleepTemperaturePreference] as int,
+      sleepTemperaturePreference:
+          json[ROSFields.sleepTemperaturePreference] as int,
       flushSummer: json[ROSFields.flushSummer] as int,
       flush: json[ROSFields.flush] as int,
-      flushCircumstance: json[ROSFields.flushCircumstance] as String,
-
+      flushCircumstance: json[ROSFields.flushCircumstance] as String?,
     );
   }
 }

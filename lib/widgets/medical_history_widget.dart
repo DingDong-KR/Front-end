@@ -13,13 +13,15 @@ class MedicalHistoryWidget extends StatefulWidget {
 
   MedicalHistoryWidget({Key? key, required this.patientNumber,required this.height, required this.width}) : super(key: key);
 
+
   @override
   _MedicalHistoryWidgetState createState() => _MedicalHistoryWidgetState();
 }
 
 class _MedicalHistoryWidgetState extends State<MedicalHistoryWidget> {
   int _selectedIndex = -1;
-  final MedicalHistoryProvider _medicalHistoryProvider = MedicalHistoryProvider();
+  final MedicalHistoryProvider _medicalHistoryProvider =
+      MedicalHistoryProvider();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -121,24 +123,26 @@ class _MedicalHistoryWidgetState extends State<MedicalHistoryWidget> {
               ),
               const SizedBox(height: 10),
               FutureBuilder<List<MedicalHistory>>(
-                  future: _medicalHistoryProvider.getMedicalHistorys(widget.patientNumber),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
-                    } else if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    } else {
-                      final medicalHistorys = snapshot.data;
-                      return Column(
-                        children: medicalHistorys?.asMap()?.entries?.map((entry) {
-                          final index = entry.key;
-                          final history = entry.value;
-                          return _buildHistoryItem(index, history);
-                        })?.toList() ?? [],
-                      );
-                    }
-                  },
-                ),
+                future: _medicalHistoryProvider
+                    .getMedicalHistorys(widget.patientNumber),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    final medicalHistorys = snapshot.data;
+                    return Column(
+                      children: medicalHistorys?.asMap().entries.map((entry) {
+                            final index = entry.key;
+                            final history = entry.value;
+                            return _buildHistoryItem(index, history);
+                          }).toList() ??
+                          [],
+                    );
+                  }
+                },
+              ),
             ],
           ),
         ),
@@ -152,7 +156,7 @@ class _MedicalHistoryWidgetState extends State<MedicalHistoryWidget> {
         : const Color(0xFFE2F1F6); // Alternating colors
     if (_selectedIndex == index) {
       backgroundColor =
-      const Color(0xFF00C9FF); // Change to darker blue when clicked
+          const Color(0xFF00C9FF); // Change to darker blue when clicked
     }
     return GestureDetector(
       onTap: () {
@@ -176,7 +180,8 @@ class _MedicalHistoryWidgetState extends State<MedicalHistoryWidget> {
               Expanded(
                 child: Text(
                   item.visitDate != null
-                      ? DateFormat('yy.MM.dd').format(DateTime.parse(item.visitDate))
+                      ? DateFormat('yy.MM.dd')
+                          .format(DateTime.parse(item.visitDate))
                       : '', // Format date as yy.MM.dd
                   overflow: TextOverflow.ellipsis, // Handle overflow
                   maxLines: 1, // Show only 1 line
@@ -185,7 +190,7 @@ class _MedicalHistoryWidgetState extends State<MedicalHistoryWidget> {
                     fontSize: 11,
                     fontFamily: 'Pretendard',
                     fontWeight: FontWeight.w400,
-                    height: 0.14,
+                    //height: 0.14,
                   ),
                 ),
               ),
@@ -199,7 +204,7 @@ class _MedicalHistoryWidgetState extends State<MedicalHistoryWidget> {
                     fontSize: 11,
                     fontFamily: 'Pretendard',
                     fontWeight: FontWeight.w400,
-                    height: 0.14,
+                    //height: 0.14,
                   ),
                 ),
               ),
@@ -213,7 +218,7 @@ class _MedicalHistoryWidgetState extends State<MedicalHistoryWidget> {
                     fontSize: 11,
                     fontFamily: 'Pretendard',
                     fontWeight: FontWeight.w400,
-                    height: 0.14,
+                    //height: 0.14,
                   ),
                 ),
               ),
@@ -227,7 +232,7 @@ class _MedicalHistoryWidgetState extends State<MedicalHistoryWidget> {
                     fontSize: 11,
                     fontFamily: 'Pretendard',
                     fontWeight: FontWeight.w400,
-                    height: 0.14,
+                    //height: 0.14,
                   ),
                 ),
               ),
@@ -237,5 +242,4 @@ class _MedicalHistoryWidgetState extends State<MedicalHistoryWidget> {
       ),
     );
   }
-
 }
