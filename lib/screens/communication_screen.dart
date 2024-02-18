@@ -83,16 +83,14 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
           Transform.scale(
             scale: 0.7,
             child: Transform.translate(
-                offset: Offset(1150, 250),
-                child: SvgPicture.asset(
-                    'assets/images/image_background_dingdong_1.svg')),
+                offset: Offset(500,250),
+                child:SvgPicture.asset('assets/images/image_background_dingdong_1.svg')),
           ),
           Transform.scale(
             scale: 0.9,
             child: Transform.translate(
-                offset: Offset(1050, 680),
-                child: SvgPicture.asset(
-                    'assets/images/image_background_dingdong_2.svg')),
+                offset: Offset(550,680),
+                child:SvgPicture.asset('assets/images/image_background_dingdong_2.svg')),
           ),
         ],
       ),

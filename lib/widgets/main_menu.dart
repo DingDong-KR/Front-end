@@ -154,7 +154,7 @@ class _MainMenuState extends State<MainMenu> {
         widget.navigatorKey.currentState?.pushReplacement(
           MaterialPageRoute(
             builder: (context) =>
-                MainExaminationScreen(patientNumber: patientNumber),
+                MainExaminationScreen(patientNumber: patientNumber,chartNumber: chartNumberController.chartNumber.value),
           ),
         );
         break;

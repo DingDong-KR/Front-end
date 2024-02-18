@@ -7,7 +7,7 @@ class OrderSet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 205,
-      height: 313,
+      height: 370,
       padding: const EdgeInsets.all(15),
       decoration: const ShapeDecoration(
         color: Colors.white,
