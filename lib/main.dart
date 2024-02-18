@@ -9,6 +9,8 @@ import 'package:my_desktop_app/screens/login_screen.dart';
 import 'package:my_desktop_app/screens/main_screen.dart';
 import 'package:provider/provider.dart';
 
+import 'controller/auth_controllder.dart';
+
 void main() {
   SqlDataBase db = SqlDataBase.instance;
   runApp(const App());
@@ -25,6 +27,7 @@ class App extends StatelessWidget {
         Get.put(SelectedPatientController()); //
         Get.put(SubmitButtonController()); //
         Get.put(ChartNumberController());
+        Get.put(AuthController());
       }),
       title: 'DingDong',
       home: const LoginScreen(),

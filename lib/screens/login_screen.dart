@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:my_desktop_app/screens/forgot_id_screen.dart';
 import 'package:my_desktop_app/screens/forgot_password_screen.dart';
 import 'package:my_desktop_app/screens/main_screen.dart';
 import 'package:my_desktop_app/screens/sign_up_screen.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart'; // Import sqflite package
-import 'package:my_desktop_app/models/user.dart'; // Import user model
+import 'package:my_desktop_app/models/user.dart';
+
+import '../controller/affiliation_controller.dart';
+import '../controller/auth_controllder.dart'; // Import user model
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -383,6 +388,8 @@ Future<void> _handleLogin(
 
   if (isAuthenticated) {
     // 로그인 성공 시 MainScreen으로 이동(유저 정보와 함께)
+    final AuthController authController= Get.find<AuthController>();
+    authController.updateUserId(userId);
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
