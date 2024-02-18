@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:my_desktop_app/controller/add_vital_controller.dart';
 import 'package:my_desktop_app/models/patient_private_info.dart';
 import 'package:my_desktop_app/models/patient_vital.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
