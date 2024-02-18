@@ -196,7 +196,7 @@ class PreExaminationProvider {
       measurementDate: DateTime.now(), // 현재 날짜를 사용
       mainSymptoms: preExamination.mainSymptoms,
       rosKeywords: preExamination.rosKeywords,
-      rosDescriptives: preExamination.rosDescriptives,
+      rosDescriptive: preExamination.rosDescriptive,
       bodyType: preExamination.bodyType,
       additionalNotes: preExamination.additionalNotes,
       consentToCollectPersonalInformation:
@@ -228,6 +228,23 @@ class PreExaminationProvider {
     );
     return result.map((json) => PreExamination.fromJson(json)).first;
   }
+
+  Future<String?> getMainSymptom(int chartNumber) async {
+    final db = await SqlDataBase.instance.database;
+    final result = await db.query(
+      PreExamination.tableName,
+      where: "${PreExaminationFields.chartNumber} = ?",
+      whereArgs: [chartNumber],
+    );
+
+    if (result.isNotEmpty) {
+      final preExamination = PreExamination.fromJson(result.first);
+      return preExamination.mainSymptoms;
+    } else {
+      return null;
+    }
+  }
+
 
   // 날짜별 내원 환자 명수 -> YYYY-MM-DD 형식으로 입력해야 함
   Future<int> countByDate(String targetDate) async {
