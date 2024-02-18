@@ -298,6 +298,21 @@ class PatientQueueProvider {
       whereArgs: [patientNumber],
     );
   }
+
+  Future<int?> getChartNumberByPatientNumber(int patientNumber) async {
+    final db = await SqlDataBase.instance.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      PatientQueue.tableName,
+      columns: ['chartNumber'],
+      where: '${PatientQueueFields.patientNumber} = ?',
+      whereArgs: [patientNumber],
+    );
+    if (maps.isNotEmpty) {
+      return maps.first['chartNumber'] as int?;
+    }
+    return null; // Return null if no chart number is found for the given patient number
+  }
+
 }
 
 class PatientVitalProvider {
@@ -342,7 +357,7 @@ class PatientVitalProvider {
   Future<int> getLargestVitalChartNumber() async {
     final db = await SqlDataBase.instance.database;
     final result = await db.query(
-      PreExamination.tableName,
+      PatientVital.tableName,
       orderBy: 'chartNumber DESC', // 가장 큰 chartNumber를 먼저 가져오기 위해 내림차순으로 정렬
       limit: 1, // 결과를 하나만 가져옴
     );

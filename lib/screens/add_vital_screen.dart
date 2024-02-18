@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:my_desktop_app/controller/chart_number_controller.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
 import 'package:flutter/painting.dart'; // Add this import
 
@@ -20,9 +21,11 @@ class AddVitalScreen extends StatefulWidget {
 }
 
 class _AddVitalScreenState extends State<AddVitalScreen> {
-  final SubmitButtonController addVitalButtonController = Get.put(SubmitButtonController()); // 컨트롤러 인스턴스 생성
+  final SubmitButtonController submitButtonController = Get.put(SubmitButtonController()); // 컨트롤러 인스턴스 생성
+  final ChartNumberController chartNumberController = Get.put(ChartNumberController()); // 컨트롤러 인스턴스 생성
 
   int _selectedIndex = 0; // Define _selectedIndex
+  int newChartNumber = 0;
   final TextEditingController btController = TextEditingController();
   final TextEditingController sbpController = TextEditingController();
   final TextEditingController dbpController = TextEditingController();
@@ -116,10 +119,15 @@ class _AddVitalScreenState extends State<AddVitalScreen> {
               ), //닫기 버튼
               const SizedBox(width: 10),
               GestureDetector(
-                onTap: () {
-                  // 완료 버튼 로직
+                onTap: () async {
+                  // 환자 바이탈 저장 (차트 번호 auto increment 발생)
                   savePatientVital();
-                  addVitalButtonController.vitalButtonPressed();
+                  submitButtonController.vitalButtonPressed();
+                  // 새로운 차트 번호 생성
+                  final PatientVitalProvider patientVitalProvider = PatientVitalProvider();
+                  newChartNumber = await patientVitalProvider.getLargestVitalChartNumber();
+                  // 차트 번호 컨트롤러에 저장
+                  chartNumberController.setChartNumber(newChartNumber);
                   Navigator.pop(context); // 현재 화면을 닫는 동작을 수행
                 },
                 child: Container(
