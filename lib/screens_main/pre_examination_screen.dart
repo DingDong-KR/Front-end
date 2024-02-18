@@ -39,7 +39,7 @@ class PreExaminationScreen extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
-                        child: Ros(),
+                        child: Ros(chartNumber: chartNumber),
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),

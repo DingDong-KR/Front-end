@@ -4,18 +4,21 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../screens/ros/add_ros_screen.dart';
 
 class Ros extends StatelessWidget {
+  final int chartNumber;
+
+  const Ros({super.key, required this.chartNumber});
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 313,
       height: 259,
-      decoration: BoxDecoration(color: Colors.white),
+      decoration: const BoxDecoration(color: Colors.white),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start, // 요소들을 위쪽부터 정렬
           children: [
-            Text(
+            const Text(
               'ROS',
               style: TextStyle(
                 color: Color(0xFF404855),
@@ -26,31 +29,31 @@ class Ros extends StatelessWidget {
                 height: 1, // 높이 설정
               ),
             ),
-            Spacer(),
+            const Spacer(),
             GestureDetector(
               onTap: () {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return const Align(
+                    return Align(
                       alignment: Alignment.center,
                       child: Padding(
-                        padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+                        padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
                         child: Dialog(
                           elevation: 0,
                           backgroundColor: Colors.transparent,
-                          child: AddRosScreen(),
+                          child: AddRosScreen(chartNumber: chartNumber),
                         ),
                       ),
                     );
                   },
                 );
               },
-              child:  Container(
+              child: Container(
                 child: Row(
                   children: [
                     SvgPicture.asset('assets/icons/icon_document.svg'),
-                    SizedBox(width: 5),
+                    const SizedBox(width: 5),
                     SvgPicture.asset('assets/icons/icon_right_arrow.svg'),
                   ],
                 ),

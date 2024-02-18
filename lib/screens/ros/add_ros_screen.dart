@@ -5,7 +5,8 @@ import '../../models/ros.dart';
 import '../../repository/chart_crud_sql.dart';
 
 class AddRosScreen extends StatefulWidget {
-  const AddRosScreen({Key? key}) : super(key: key);
+  final int chartNumber;
+  const AddRosScreen({Key? key, required this.chartNumber}) : super(key: key);
 
   @override
   _AddRosScreenState createState() => _AddRosScreenState();
@@ -49,12 +50,12 @@ class _AddRosScreenState extends State<AddRosScreen> {
       width: 1124,
       height: 627,
       decoration: BoxDecoration(
-        color: Color(0xFFE2F1F6),
+        color: const Color(0xFFE2F1F6),
         borderRadius: BorderRadius.circular(5),
       ),
       child: Row(
         children: [
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           Container(
             width: 191,
             height: 607,
@@ -64,7 +65,7 @@ class _AddRosScreenState extends State<AddRosScreen> {
             ),
             child: Column(
               children: [
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 for (String item in rosItems) _buildRosItem(item),
               ],
             ),
@@ -76,7 +77,7 @@ class _AddRosScreenState extends State<AddRosScreen> {
                 child: Container(
                   width: 903,
                   height: 46,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(5),
@@ -87,7 +88,7 @@ class _AddRosScreenState extends State<AddRosScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
                       children: [
-                        Text(
+                        const Text(
                           'ROS',
                           style: TextStyle(
                             color: Color(0xFF3FA7C3),
@@ -97,7 +98,7 @@ class _AddRosScreenState extends State<AddRosScreen> {
                             height: 0.09,
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         GestureDetector(
                           onTap: () {
                             // Close button logic
@@ -111,7 +112,7 @@ class _AddRosScreenState extends State<AddRosScreen> {
                             decoration: BoxDecoration(
                               border: Border.all(
                                 width: 1,
-                                color: Color(0xFF3FA7C3),
+                                color: const Color(0xFF3FA7C3),
                               ),
                               borderRadius: BorderRadius.circular(5),
                             ),
@@ -120,7 +121,7 @@ class _AddRosScreenState extends State<AddRosScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(
+                                const Text(
                                   '닫기',
                                   style: TextStyle(
                                     color: Color(0xFF3FA7C3),
@@ -136,7 +137,7 @@ class _AddRosScreenState extends State<AddRosScreen> {
                             ),
                           ),
                         ), // Close button
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         GestureDetector(
                           onTap: () {
                             onCompletionPressed();
@@ -150,7 +151,7 @@ class _AddRosScreenState extends State<AddRosScreen> {
                             decoration: BoxDecoration(
                               border: Border.all(
                                 width: 1,
-                                color: Color(0xFF3FA7C3),
+                                color: const Color(0xFF3FA7C3),
                               ),
                               borderRadius: BorderRadius.circular(5),
                             ),
@@ -159,7 +160,7 @@ class _AddRosScreenState extends State<AddRosScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(
+                                const Text(
                                   '완료',
                                   style: TextStyle(
                                     color: Color(0xFF3FA7C3),
@@ -170,12 +171,13 @@ class _AddRosScreenState extends State<AddRosScreen> {
                                     letterSpacing: 0.12,
                                   ),
                                 ),
-                                SvgPicture.asset('assets/icons/icon_checked.svg'),
+                                SvgPicture.asset(
+                                    'assets/icons/icon_checked.svg'),
                               ],
                             ),
                           ),
                         ), // Complete button
-                        SizedBox(width: 15),
+                        const SizedBox(width: 15),
                       ],
                     ),
                   ),
@@ -184,7 +186,7 @@ class _AddRosScreenState extends State<AddRosScreen> {
               Container(
                 width: 903,
                 height: 573,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Color(0xFFD3E8F0),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(5),
@@ -193,7 +195,8 @@ class _AddRosScreenState extends State<AddRosScreen> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: ROSTemperatureSensitive(key: _rosKey),
+                  child: ROSTemperatureSensitive(
+                      key: _rosKey, chartNumber: widget.chartNumber),
                 ),
               )
             ],
@@ -207,10 +210,10 @@ class _AddRosScreenState extends State<AddRosScreen> {
     return Container(
       width: 171,
       height: 32,
-      margin: EdgeInsets.symmetric(vertical: 5),
+      margin: const EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(width: 1, color: Color(0xFFD3D3D3)),
+        border: Border.all(width: 1, color: const Color(0xFFD3D3D3)),
         borderRadius: BorderRadius.circular(5),
       ),
       child: Padding(
@@ -219,7 +222,7 @@ class _AddRosScreenState extends State<AddRosScreen> {
           children: [
             Text(
               text,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xFFAFAFAF),
                 fontSize: 12,
                 fontFamily: 'Pretendard',
@@ -228,13 +231,13 @@ class _AddRosScreenState extends State<AddRosScreen> {
                 letterSpacing: 0.12,
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Container(
               width: 12,
               height: 12,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(width: 1, color: Color(0xFFD7D7D7)),
+                border: Border.all(width: 1, color: const Color(0xFFD7D7D7)),
               ),
             )
           ],

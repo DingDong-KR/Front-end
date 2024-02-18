@@ -5,8 +5,12 @@ import '../../models/ros.dart';
 import '../../repository/chart_crud_sql.dart'; // Import corrected package
 
 class ROSTemperatureSensitive extends StatefulWidget {
+  final int chartNumber;
+
+  const ROSTemperatureSensitive({Key? key, required this.chartNumber})
+      : super(key: key);
+
   @override
-  ROSTemperatureSensitive({Key? key}) : super(key: key);
   ROSTemperatureSensitiveState createState() => ROSTemperatureSensitiveState();
 }
 
@@ -18,7 +22,8 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
   bool isNotWarmSelected = false;
   String handFootWarm = ''; // 손,발,손발,안따뜻하다를 저장할 변수
 
-  int coldShower = 0; //봄가을에도 찬물샤워하는 것을 좋아한다 0: 아니오 1: 예 2: 잘 모르겠다
+  // 0: 아니오, 1: 예, 2: 잘 모르겠다
+  int coldShower = 0; //봄가을에도 찬물샤워하는 것을 좋아한다
   int sleepTemperaturePreference = 0; //서늘하게 자야 편하다
   int flushSummer = 0; //여름에는 따뜻한 정도가 아니라 화끈거린다
   int flush = 0; //얼굴이 쉽게 붉어지거나 열이 자주 달아오른다
@@ -28,7 +33,7 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
   Future<void> saveROS() async {
     // 입력된 값들을 이용하여 Patient 객체 생성
     final ROS newROS = ROS(
-      chartNumber: 300, //TODO: 생성자에서 받아온 차트번호 입력하기
+      chartNumber: widget.chartNumber, //TODO: 생성자에서 받아온 차트번호 입력하기
       getHotEasily: getHotEasily,
       handFootWarm: handFootWarm,
       coldShower: coldShower,
@@ -38,7 +43,8 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
       flushCircumstance: flushCircumstance,
     );
     final ROSProvider rosProvider = ROSProvider();
-    final existingROS = await rosProvider.getROSByChartNumber(newROS.chartNumber);
+    final existingROS =
+        await rosProvider.getROSByChartNumber(newROS.chartNumber);
     if (existingROS != null) {
       // 동일한 차트 번호를 가진 레코드가 이미 있으면 업데이트
       await rosProvider.updateROS(newROS);
@@ -48,10 +54,9 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
       await rosProvider.insertROS(newROS);
       print('New ROS record inserted: $newROS');
     }
-    await rosProvider.insertROS(newROS); // 데이터베이스에 접근할 때 오류 수정
-    print(newROS);
+    // await rosProvider.insertROS(newROS); // 데이터베이스에 접근할 때 오류 수정
+    // print(newROS);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -62,14 +67,15 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
           height: 541,
           decoration: ShapeDecoration(
             color: Colors.white,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           ),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(32.0, 32, 0, 0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   '1. 더위를 탄다.',
                   style: TextStyle(
                     color: Color(0xFF404855),
@@ -79,23 +85,23 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
                     height: 0.11,
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 Row(
                   children: [
-                    SizedBox(width: 25),
+                    const SizedBox(width: 25),
                     _buildGetHotEasilyRadioButton('약간'),
-                    SizedBox(width: 75),
+                    const SizedBox(width: 75),
                     _buildGetHotEasilyRadioButton('보통'),
-                    SizedBox(width: 75),
+                    const SizedBox(width: 75),
                     _buildGetHotEasilyRadioButton('많이'),
-                    SizedBox(width: 60),
+                    const SizedBox(width: 60),
                     _buildGetHotEasilyRadioButton('어마어마하게'),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 50,
                 ),
-                Text(
+                const Text(
                   '2. 손, 발이 따뜻한 편이다.(중복가능)',
                   style: TextStyle(
                     color: Color(0xFF404855),
@@ -107,7 +113,7 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
                 ),
                 Row(
                   children: [
-                    SizedBox(width: 30),
+                    const SizedBox(width: 30),
                     _buildWarmnessSelectionOption(
                       text: '손',
                       isSelected: isHandSelected,
@@ -116,16 +122,16 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
                           isHandSelected = selected;
                           if (selected) {
                             isNotWarmSelected = false;
-                            if(isFootSelected==false){
+                            if (isFootSelected == false) {
                               handFootWarm = "손";
-                            } else{
+                            } else {
                               handFootWarm = "손발";
                             }
                           }
                         });
                       },
                     ),
-                    SizedBox(width: 82),
+                    const SizedBox(width: 82),
                     _buildWarmnessSelectionOption(
                       text: '발',
                       isSelected: isFootSelected,
@@ -134,16 +140,16 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
                           isFootSelected = selected;
                           if (selected) {
                             isNotWarmSelected = false;
-                            if(isHandSelected==false){
+                            if (isHandSelected == false) {
                               handFootWarm = "발";
-                            } else{
+                            } else {
                               handFootWarm = "손발";
                             }
                           }
                         });
                       },
                     ),
-                    SizedBox(width: 60),
+                    const SizedBox(width: 60),
                     _buildWarmnessSelectionOption(
                       text: '안 따뜻하다',
                       isSelected: isNotWarmSelected,
@@ -160,10 +166,10 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 50,
                 ),
-                Row(
+                const Row(
                   children: [
                     Text(
                       '3. 해당하는 항목을 모두 클릭하세요.',
@@ -186,10 +192,10 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
-                Row(
+                const Row(
                   children: [
                     SizedBox(
                       width: 30,
@@ -217,17 +223,18 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
                               coldShower = newValue!;
                             });
                           }),
-                          Text('봄 가을에도 찬물샤워를 하는 것을 좋아한다.')
+                          const Text('봄 가을에도 찬물샤워를 하는 것을 좋아한다.')
                         ],
                       ),
                       Row(
                         children: [
-                          _buildRadioButton(sleepTemperaturePreference, (newValue) {
+                          _buildRadioButton(sleepTemperaturePreference,
+                              (newValue) {
                             setState(() {
                               sleepTemperaturePreference = newValue!;
                             });
                           }),
-                          Text('따뜻한 잠자리보다는 차라리 서늘하게 자야 몸이 더 편하고 컨디션이 좋다.')
+                          const Text('따뜻한 잠자리보다는 차라리 서늘하게 자야 몸이 더 편하고 컨디션이 좋다.')
                         ],
                       ),
                       Row(
@@ -237,7 +244,7 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
                               flush = newValue!;
                             });
                           }),
-                          Text('(여름에는) 손발이 따뜻한 정도가 아니라 열이 나고 화끈거린다.')
+                          const Text('(여름에는) 손발이 따뜻한 정도가 아니라 열이 나고 화끈거린다.')
                         ],
                       ),
                       Row(
@@ -247,7 +254,7 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
                               flushSummer = newValue!;
                             });
                           }),
-                          Text('얼굴이 쉽게 붉어지거나 상체로 열이 자주 달아오른다.')
+                          const Text('얼굴이 쉽게 붉어지거나 상체로 열이 자주 달아오른다.')
                         ],
                       ),
                     ],
@@ -257,12 +264,13 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.fromLTRB(100, 0, 8, 8),
-                      child: SvgPicture.asset('assets/icons/icon_right_down_arrow.svg'),
+                      child: SvgPicture.asset(
+                          'assets/icons/icon_right_down_arrow.svg'),
                     ),
                     Container(
                       width: 272,
                       height: 22,
-                      decoration: ShapeDecoration(
+                      decoration: const ShapeDecoration(
                         color: Colors.white,
                         shape: RoundedRectangleBorder(
                           side: BorderSide(width: 1, color: Color(0xFF3FA7C3)),
@@ -273,10 +281,11 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
                         child: TextFormField(
                           onChanged: (value) {
                             setState(() {
-                              flushCircumstance = value; // 입력된 텍스트를 flushCircumstance 변수에 할당
+                              flushCircumstance =
+                                  value; // 입력된 텍스트를 flushCircumstance 변수에 할당
                             });
                           },
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: '언제?',
                             hintStyle: TextStyle(
                               color: Color(0xFFAFAFAF),
@@ -288,7 +297,7 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
                             ),
                             border: InputBorder.none,
                           ),
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                             fontSize: 10,
                             fontFamily: 'Pretendard',
@@ -298,7 +307,6 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
                           ),
                         ),
                       ),
-
                     )
                   ],
                 )
@@ -319,33 +327,34 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
       },
       child: Column(
         children: [
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Container(
             width: 20,
             height: 20,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(width: 1, color: Color(0xFF3FA7C3)),
-              color: getHotEasily == text ? Color(0xFF3FA7C3) : Colors.white,
+              border: Border.all(width: 1, color: const Color(0xFF3FA7C3)),
+              color:
+                  getHotEasily == text ? const Color(0xFF3FA7C3) : Colors.white,
             ),
             child: getHotEasily == text
                 ? Center(
-              child: AnimatedContainer(
-                duration: Duration(milliseconds: 300),
-                width: 10,
-                height: 10,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                ),
-              ),
-            )
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      width: 10,
+                      height: 10,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                      ),
+                    ),
+                  )
                 : null,
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           Text(
             text,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color(0xFF404855),
               fontSize: 14,
               fontFamily: 'Pretendard',
@@ -369,19 +378,19 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
       },
       child: Column(
         children: [
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           Container(
             width: 20,
             height: 20,
             decoration: BoxDecoration(
-              color: isSelected ? Color(0xFF3FA7C3) : Colors.white,
-              border: Border.all(width: 1, color: Color(0xFF3FA7C3)),
+              color: isSelected ? const Color(0xFF3FA7C3) : Colors.white,
+              border: Border.all(width: 1, color: const Color(0xFF3FA7C3)),
             ),
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           Text(
             text,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color(0xFF404855),
               fontSize: 14,
               fontFamily: 'Pretendard',
@@ -401,22 +410,21 @@ class ROSTemperatureSensitiveState extends State<ROSTemperatureSensitive> {
           value: 1,
           groupValue: value,
           onChanged: onChanged,
-          activeColor: Color(0xFF3FA7C3),
+          activeColor: const Color(0xFF3FA7C3),
         ),
         Radio(
           value: 0,
           groupValue: value,
           onChanged: onChanged,
-          activeColor: Color(0xFF3FA7C3),
+          activeColor: const Color(0xFF3FA7C3),
         ),
         Radio(
           value: 2,
           groupValue: value,
           onChanged: onChanged,
-          activeColor: Color(0xFF3FA7C3),
+          activeColor: const Color(0xFF3FA7C3),
         ),
       ],
     );
   }
-
 }
