@@ -312,6 +312,18 @@ class PatientQueueProvider {
     );
   }
 
+  // 환자 queue state (대기열) 수정
+  Future<void> updatePatientQueueStatus(
+      int patientNumber, String newStatus) async {
+    final db = await SqlDataBase.instance.database;
+    await db.update(
+      PatientQueue.tableName,
+      {PatientQueueFields.status: newStatus},
+      where: '${PatientQueueFields.patientNumber} = ?',
+      whereArgs: [patientNumber],
+    );
+  }
+
   // 특정 환자 대기열 삭제
   Future<int> deletePatientQueue(int patientNumber) async {
     final db = await SqlDataBase.instance.database;
