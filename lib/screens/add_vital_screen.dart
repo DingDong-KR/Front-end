@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:my_desktop_app/controller/chart_number_controller.dart';
+import 'package:my_desktop_app/models/patient_queue.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
 import 'package:flutter/painting.dart'; // Add this import
 
@@ -21,8 +22,10 @@ class AddVitalScreen extends StatefulWidget {
 }
 
 class _AddVitalScreenState extends State<AddVitalScreen> {
-  final SubmitButtonController submitButtonController = Get.put(SubmitButtonController()); // 컨트롤러 인스턴스 생성
-  final ChartNumberController chartNumberController = Get.put(ChartNumberController()); // 컨트롤러 인스턴스 생성
+  final SubmitButtonController submitButtonController =
+      Get.put(SubmitButtonController()); // 컨트롤러 인스턴스 생성
+  final ChartNumberController chartNumberController =
+      Get.put(ChartNumberController()); // 컨트롤러 인스턴스 생성
 
   int _selectedIndex = 0; // Define _selectedIndex
   int newChartNumber = 0;
@@ -124,10 +127,20 @@ class _AddVitalScreenState extends State<AddVitalScreen> {
                   savePatientVital();
                   submitButtonController.vitalButtonPressed();
                   // 새로운 차트 번호 생성
-                  final PatientVitalProvider patientVitalProvider = PatientVitalProvider();
-                  newChartNumber = await patientVitalProvider.getLargestVitalChartNumber();
+                  final PatientVitalProvider patientVitalProvider =
+                      PatientVitalProvider();
+                  newChartNumber =
+                      await patientVitalProvider.getLargestVitalChartNumber();
                   // 차트 번호 컨트롤러에 저장
                   chartNumberController.setChartNumber(newChartNumber);
+
+                  // patientQueue 테이블의 chartNumber 업데이트
+                  final PatientQueueProvider patientQueueProvider =
+                      PatientQueueProvider();
+
+                  patientQueueProvider.updatePatientQueueChartNum(
+                      widget.patientNumber, newChartNumber);
+
                   Navigator.pop(context); // 현재 화면을 닫는 동작을 수행
                 },
                 child: Container(

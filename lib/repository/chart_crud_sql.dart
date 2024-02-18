@@ -88,7 +88,6 @@ class UserAffiliationProvider {
     return result.map((json) => UserAffiliation.fromJson(json)).toList();
   }
 
-
   // 특정 소속 유저 목록 불러오기
   Future<List<UserAffiliation>> getUserAffiliation(String affiliation) async {
     final db = await SqlDataBase.instance.database;
@@ -126,7 +125,8 @@ class PatientProvider {
   // Patient 생성
   Future<int> insertPatient(PatientPrivateInfo patientPrivateInfo) async {
     final db = await SqlDataBase.instance.database;
-    return await db.insert(PatientPrivateInfo.tableName, patientPrivateInfo.toJson());
+    return await db.insert(
+        PatientPrivateInfo.tableName, patientPrivateInfo.toJson());
   }
 
   // Patient 목록 조회
@@ -136,7 +136,8 @@ class PatientProvider {
     return result.map((json) => PatientPrivateInfo.fromJson(json)).toList();
   }
 
-  Future<List<PatientPrivateInfo>> getPatientsByAffiliation(String affiliation) async {
+  Future<List<PatientPrivateInfo>> getPatientsByAffiliation(
+      String affiliation) async {
     final db = await SqlDataBase.instance.database;
     final result = await db.query(
       PatientPrivateInfo.tableName,
@@ -170,11 +171,7 @@ class PatientProvider {
 // 수정, 삭제 -> user  권한 정한 후 만들 예정
 }
 
-
-
-
 class PreExaminationProvider {
-
   // 예진 chart 생성
   Future<int> insertPreExamination(PreExamination preExamination) async {
     final db = await SqlDataBase.instance.database;
@@ -188,10 +185,12 @@ class PreExaminationProvider {
       rosDescriptives: preExamination.rosDescriptives,
       bodyType: preExamination.bodyType,
       additionalNotes: preExamination.additionalNotes,
-      consentToCollectPersonalInformation: preExamination.consentToCollectPersonalInformation,
+      consentToCollectPersonalInformation:
+          preExamination.consentToCollectPersonalInformation,
     );
 
-    return await db.insert(PreExamination.tableName, modifiedPreExamination.toJson());
+    return await db.insert(
+        PreExamination.tableName, modifiedPreExamination.toJson());
   }
 
   // 특정 환자 예진 chart 목록 불러오기
@@ -217,7 +216,7 @@ class PreExaminationProvider {
   }
 
   // 날짜별 내원 환자 명수 -> YYYY-MM-DD 형식으로 입력해야 함
-  Future<int> countByDate(String   targetDate) async {
+  Future<int> countByDate(String targetDate) async {
     final db = await SqlDataBase.instance.database;
 
     final result = await db.query(
@@ -243,7 +242,6 @@ class PreExaminationProvider {
 }
 
 class PatientQueueProvider {
-
   // 환자 대기열 생성
   Future<int> insertPatientQueue(PatientQueue patientQueue) async {
     final db = await SqlDataBase.instance.database;
@@ -257,7 +255,8 @@ class PatientQueueProvider {
     return result.map((json) => PatientQueue.fromJson(json)).toList();
   }
 
-  Future<List<PatientQueue>> getPatientQueuesByAffiliation(String affiliation) async {
+  Future<List<PatientQueue>> getPatientQueuesByAffiliation(
+      String affiliation) async {
     final db = await SqlDataBase.instance.database;
     final result = await db.rawQuery('''
     SELECT * FROM ${PatientQueue.tableName} AS pq
@@ -267,7 +266,18 @@ class PatientQueueProvider {
     return result.map((json) => PatientQueue.fromJson(json)).toList();
   }
 
-  // 대기열의 특정 상황만 가져오기v   
+  // patient number로 큐에 있는 특정 사람 가져오기
+  Future<PatientQueue> getPatientQueueByPatientNum(int patientNumber) async {
+    final db = await SqlDataBase.instance.database;
+    final result = await db.query(
+      PatientQueue.tableName,
+      where: "${PatientQueueFields.patientNumber} = ?",
+      whereArgs: [patientNumber],
+    );
+    return result.map((json) => PatientQueue.fromJson(json)).first;
+  }
+
+  // 대기열의 특정 상황만 가져오기v
   Future<List<PatientQueue>> getPatientQueue(String status) async {
     final db = await SqlDataBase.instance.database;
     final result = await db.query(
@@ -279,13 +289,26 @@ class PatientQueueProvider {
   }
 
   // 환자 대기열 수정
-  Future<int> updatePatientQueue(PatientQueue patientQueue) async {
+  Future<int> updatePatientQueueState(PatientQueue patientQueue) async {
     final db = await SqlDataBase.instance.database;
     return await db.update(
       PatientQueue.tableName,
       patientQueue.toJson(),
-      where: "${PatientQueueFields.patientNumber} AND ${PatientQueueFields.queueTicket} = ?",
+      where:
+          "${PatientQueueFields.patientNumber} AND ${PatientQueueFields.queueTicket} = ?",
       whereArgs: [patientQueue.patientNumber],
+    );
+  }
+
+  // 환자 chart number 수정
+  Future<void> updatePatientQueueChartNum(
+      int patientNumber, int newChartNumber) async {
+    final db = await SqlDataBase.instance.database;
+    await db.update(
+      PatientQueue.tableName,
+      {PatientQueueFields.chartNumber: newChartNumber},
+      where: '${PatientQueueFields.patientNumber} = ?',
+      whereArgs: [patientNumber],
     );
   }
 
@@ -312,7 +335,6 @@ class PatientQueueProvider {
     }
     return null; // Return null if no chart number is found for the given patient number
   }
-
 }
 
 class PatientVitalProvider {
@@ -420,19 +442,23 @@ class ROSProvider {
 }
 
 class MedicalHistoryProvider {
-
   // 특정 환자 진료 기록 목록 조회
   Future<List<MedicalHistory>> getMedicalHistorys(int patientNumber) async {
     final db = await SqlDataBase.instance.database;
 
     final dates = await db.query(
       PreExamination.tableName,
-      columns: [PreExaminationFields.chartNumber, PreExaminationFields.measurementDate],
+      columns: [
+        PreExaminationFields.chartNumber,
+        PreExaminationFields.measurementDate
+      ],
       where: "${PreExaminationFields.patientNumber} = ?",
       whereArgs: [patientNumber],
     );
 
-    final chartNumbers = dates.map((date) => date[PreExaminationFields.chartNumber] as int).toList();
+    final chartNumbers = dates
+        .map((date) => date[PreExaminationFields.chartNumber] as int)
+        .toList();
 
     final diagnosis = await db.query(
       Disease.tableName,
@@ -442,33 +468,55 @@ class MedicalHistoryProvider {
 
     final acupunctureTreats = await db.query(
       Acupuncture.tableName,
-      columns: [AcupunctureFields.chartNumber, AcupunctureFields.acupunctureType],
+      columns: [
+        AcupunctureFields.chartNumber,
+        AcupunctureFields.acupunctureType
+      ],
       where: "${AcupunctureFields.chartNumber} IN (${chartNumbers.join(', ')})",
     );
 
     final medicines = await db.query(
       Prescription.tableName,
-      columns: [PrescriptionFields.chartNumber, PrescriptionFields.treatmentName],
-      where: "${PrescriptionFields.chartNumber} IN (${chartNumbers.join(', ')})",
+      columns: [
+        PrescriptionFields.chartNumber,
+        PrescriptionFields.treatmentName
+      ],
+      where:
+          "${PrescriptionFields.chartNumber} IN (${chartNumbers.join(', ')})",
     );
 
     final medicalHistorys = dates.map((date) {
-      final relatedDiagnosis = diagnosis.where((disease) => disease[DiseaseFields.chartNumber] == date[PreExaminationFields.chartNumber]).map((disease) => disease[DiseaseFields.diseaseName]).join(', ');
-      final relatedAcupunctureTreats = acupunctureTreats.where((treat) => treat[AcupunctureFields.chartNumber] == date[PreExaminationFields.chartNumber]).map((treat) => treat[AcupunctureFields.acupunctureType]).join(', ');
-      final relatedMedicines = medicines.where((medicine) => medicine[PrescriptionFields.chartNumber] == date[PreExaminationFields.chartNumber]).map((medicine) => medicine[PrescriptionFields.treatmentName]).join(', ');
+      final relatedDiagnosis = diagnosis
+          .where((disease) =>
+              disease[DiseaseFields.chartNumber] ==
+              date[PreExaminationFields.chartNumber])
+          .map((disease) => disease[DiseaseFields.diseaseName])
+          .join(', ');
+      final relatedAcupunctureTreats = acupunctureTreats
+          .where((treat) =>
+              treat[AcupunctureFields.chartNumber] ==
+              date[PreExaminationFields.chartNumber])
+          .map((treat) => treat[AcupunctureFields.acupunctureType])
+          .join(', ');
+      final relatedMedicines = medicines
+          .where((medicine) =>
+              medicine[PrescriptionFields.chartNumber] ==
+              date[PreExaminationFields.chartNumber])
+          .map((medicine) => medicine[PrescriptionFields.treatmentName])
+          .join(', ');
 
       return MedicalHistory(
         patientNumber: patientNumber,
         chartNumber: date[PreExaminationFields.chartNumber] as int,
         visitDate: date[PreExaminationFields.measurementDate] as String,
         diagnosis: relatedDiagnosis,
-        acupunctureTreat: relatedAcupunctureTreats.isEmpty ? null : relatedAcupunctureTreats,
+        acupunctureTreat:
+            relatedAcupunctureTreats.isEmpty ? null : relatedAcupunctureTreats,
         medicine: relatedMedicines.isEmpty ? null : relatedMedicines,
       );
     }).toList();
 
     return medicalHistorys;
-
   }
 
 // 수정, 삭제 -> user  권한 정한 후 만들 예정
