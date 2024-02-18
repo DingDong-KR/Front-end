@@ -5,5 +5,6 @@ class AuthController extends GetxController {
 
   void updateUserId(String newUserId) {
     userId.value = newUserId;
+    update();
   }
 }

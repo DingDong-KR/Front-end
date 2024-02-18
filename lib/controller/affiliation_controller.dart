@@ -6,9 +6,11 @@ class AffiliationController extends GetxController {
 
   void changeSelectedAffiliation(String? selectedItem){
     currentAffiliation.value = selectedItem ?? ''; // Handle null values
+    update();
   }
 
   void updateMenuItems(List<String> items) {
     affiliations.assignAll(items);
+    update();
   }
 }

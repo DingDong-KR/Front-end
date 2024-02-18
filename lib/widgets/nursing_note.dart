@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class NusrsingNote extends StatelessWidget {
+class NursingNote extends StatelessWidget {
+  final int chartNumber;
+  final double height;
+  final double width;
+  NursingNote({Key? key, required this.chartNumber,required this.height, required this.width}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
-          width: 313,
-          height: 259,
+          width: width,
+          height: height,
           decoration: BoxDecoration(color: Colors.white),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start, // Row 내 자식들을 시작점에 맞추기

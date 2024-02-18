@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../screens/ros/add_ros_screen.dart';
+import '../screens/ros/add_ros_screen.dart';
 
 class Ros extends StatelessWidget {
   final int chartNumber;
+  final double height;
+  final double width;
 
-  const Ros({super.key, required this.chartNumber});
+  const Ros({super.key, required this.chartNumber, required this.width, required this.height});
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 313,
-      height: 259,
+      width: width,
+      height: height,
       decoration: const BoxDecoration(color: Colors.white),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
