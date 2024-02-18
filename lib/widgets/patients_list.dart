@@ -1,15 +1,12 @@
 import 'dart:async';
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:my_desktop_app/models/patient_private_info.dart';
 import 'package:my_desktop_app/models/patient_queue.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
-import '../models/patient_queue.dart';
-import '../models/patients_item.dart';
 import 'package:get/get.dart';
 import 'package:my_desktop_app/controller/selected_patient_controller.dart'; // 위에서 만든 컨트롤러 import
 import 'package:my_desktop_app/controller/add_vital_button_controller.dart';
+import 'package:my_desktop_app/controller/dropdown_button_controller.dart';
 
 class PatientsList extends StatefulWidget {
   const PatientsList({super.key});
@@ -20,8 +17,9 @@ class PatientsList extends StatefulWidget {
 
 class _PatientsListState extends State<PatientsList>
     with SingleTickerProviderStateMixin {
+  DropdownButtonController dropDownButtonController= Get.find<DropdownButtonController>();
+  String affiliation = 'default';
   final SelectedPatientController selectedPatientController = Get.put(SelectedPatientController()); // 컨트롤러 인스턴스 생성
-
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
   bool isSwitchOn = false;
@@ -33,10 +31,9 @@ class _PatientsListState extends State<PatientsList>
   List<PatientPrivateInfo> patients = [];
 
   // 환자 정보 불러오기 위한 함수
-  Future<void> loadPatients() async {
+  Future<void> loadPatients(String affiliation) async {
     final PatientProvider patientProvider = PatientProvider();
-    patients = await patientProvider.getPatients();
-
+    patients = await patientProvider.getPatientsByAffiliation(affiliation);
     setState(() {
       _isLoadingPatient = false;
     });
@@ -45,10 +42,9 @@ class _PatientsListState extends State<PatientsList>
   List<PatientQueue> patientQueues = [];
 
   // 환자 상태를 불러오기 위한 함수
-  Future<void> loadPatientQueues() async {
+  Future<void> loadPatientQueues(String affiliation) async {
     final PatientQueueProvider patientQueueProvider = PatientQueueProvider();
-    patientQueues = await patientQueueProvider.getPatientQueues();
-
+    patientQueues = await patientQueueProvider.getPatientQueuesByAffiliation(affiliation);
     setState(() {
       _isLoadingQueue = false;
     });
@@ -67,20 +63,28 @@ class _PatientsListState extends State<PatientsList>
       end: const Offset(1, 0),
     ).animate(_controller);
 
-    loadPatients();
-    loadPatientQueues();
+    loadPatients(affiliation);
+    loadPatientQueues(affiliation);
 
-    // 1초마다 화면을 업데이트하는 타이머 설정
+    ever(dropDownButtonController.currentItem, (String? newItem) { //선택한 채널이 변경되면 affiliation 업데이트 하고 새로고침
+      // Update the affiliation variable with the new value
+      affiliation = newItem ?? '';
+      // Call loadPatients and loadPatientQueues whenever the affiliation changes
+      loadPatients(affiliation);
+      loadPatientQueues(affiliation);
+    });
+
+    // 1초마다 화면을 업데이트하는 타이머 설정 TODO:GetX로 비동기처리하기
     Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       if (mounted) {
         // 화면이 소멸되면 타이머를 중단하기 위해 체크
         setState(() {
-          loadPatients();
-          loadPatientQueues();
+          loadPatients(affiliation);
+          loadPatientQueues(affiliation);
         });
       }
     });
-    loadPatientQueues();
+    loadPatientQueues(affiliation);
   }
 
   @override
@@ -90,6 +94,7 @@ class _PatientsListState extends State<PatientsList>
         child: CircularProgressIndicator(),
       );
     }
+    print('affiliation:${affiliation}');
 
     return Container(
       width: 213,

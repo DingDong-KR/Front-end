@@ -136,6 +136,16 @@ class PatientProvider {
     return result.map((json) => PatientPrivateInfo.fromJson(json)).toList();
   }
 
+  Future<List<PatientPrivateInfo>> getPatientsByAffiliation(String affiliation) async {
+    final db = await SqlDataBase.instance.database;
+    final result = await db.query(
+      PatientPrivateInfo.tableName,
+      where: 'affiliation = ?',
+      whereArgs: [affiliation],
+    );
+    return result.map((json) => PatientPrivateInfo.fromJson(json)).toList();
+  }
+
   // Patient 상세 조회 (주민번호 기반)
   Future<PatientPrivateInfo> getPatient(String socialSecurityNumber) async {
     final db = await SqlDataBase.instance.database;
@@ -244,6 +254,16 @@ class PatientQueueProvider {
   Future<List<PatientQueue>> getPatientQueues() async {
     final db = await SqlDataBase.instance.database;
     final result = await db.query(PatientQueue.tableName);
+    return result.map((json) => PatientQueue.fromJson(json)).toList();
+  }
+
+  Future<List<PatientQueue>> getPatientQueuesByAffiliation(String affiliation) async {
+    final db = await SqlDataBase.instance.database;
+    final result = await db.rawQuery('''
+    SELECT * FROM ${PatientQueue.tableName} AS pq
+    JOIN ${PatientPrivateInfo.tableName} AS ppi ON pq.patientNumber = ppi.patientNumber
+    WHERE ppi.affiliation = ?
+  ''', [affiliation]);
     return result.map((json) => PatientQueue.fromJson(json)).toList();
   }
 

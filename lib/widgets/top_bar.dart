@@ -6,7 +6,6 @@ import 'package:my_desktop_app/models/user.dart';
 import 'package:my_desktop_app/screens/add_patient_screen.dart';
 import 'package:my_desktop_app/controller/dropdown_button_controller.dart';
 import 'package:get/get.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class TopBar extends StatefulWidget implements PreferredSizeWidget {
   final User user;
