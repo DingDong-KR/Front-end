@@ -12,7 +12,7 @@ class Ros extends StatefulWidget {
   final double height;
   final double width;
 
-  const Ros({super.key, required this.chartNumber});
+  const Ros({super.key, required this.chartNumber, required this.width, required this.height});
 
   @override
   State<Ros> createState() => _RosState();
@@ -64,8 +64,8 @@ class _RosState extends State<Ros> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width,
-      height: height,
+      width: widget.width,
+      height: widget.height,
       decoration: const BoxDecoration(color: Colors.white),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
