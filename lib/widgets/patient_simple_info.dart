@@ -260,6 +260,7 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
       onTap: () {
         loadPatient(widget.patientNumber);
         loadVital(widget.patientNumber);
+        savePreExamination(chartNumberController.chartNumber.value);
         showDialog(
           context: context,
           builder: (BuildContext context) {
