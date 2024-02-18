@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:my_desktop_app/controller/add_vital_button_controller.dart';
-import 'package:my_desktop_app/controller/dropdown_button_controller.dart';
+import 'package:my_desktop_app/controller/submit_button_controller.dart';
+import 'package:my_desktop_app/controller/affiliation_controller.dart';
 import 'package:my_desktop_app/controller/selected_patient_controller.dart'; // SelectedPatientController import 추가
 import 'package:my_desktop_app/repository/chart_sql_db.dart';
 import 'package:my_desktop_app/screens/login_screen.dart';
@@ -20,9 +20,9 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       initialBinding: BindingsBuilder(() {
-        Get.put(DropdownButtonController()); // 드롭다운 메뉴 상태관리를 위한 클래스
-        Get.put(SelectedPatientController()); // SelectedPatientController 등록
-        Get.put(AddVitalButtonController()); //
+        Get.put(AffiliationController()); //
+        Get.put(SelectedPatientController()); //
+        Get.put(SubmitButtonController()); //
       }),
       title: 'DingDong',
       home: const LoginScreen(),

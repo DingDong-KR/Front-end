@@ -5,8 +5,8 @@ import 'package:my_desktop_app/models/patient_queue.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
 import 'package:get/get.dart';
 import 'package:my_desktop_app/controller/selected_patient_controller.dart'; // 위에서 만든 컨트롤러 import
-import 'package:my_desktop_app/controller/add_vital_button_controller.dart';
-import 'package:my_desktop_app/controller/dropdown_button_controller.dart';
+import 'package:my_desktop_app/controller/submit_button_controller.dart';
+import 'package:my_desktop_app/controller/affiliation_controller.dart';
 
 class PatientsList extends StatefulWidget {
   const PatientsList({super.key});
@@ -17,7 +17,7 @@ class PatientsList extends StatefulWidget {
 
 class _PatientsListState extends State<PatientsList>
     with SingleTickerProviderStateMixin {
-  DropdownButtonController dropDownButtonController= Get.find<DropdownButtonController>();
+  AffiliationController affiliationController= Get.find<AffiliationController>();
   String affiliation = 'default';
   final SelectedPatientController selectedPatientController = Get.put(SelectedPatientController()); // 컨트롤러 인스턴스 생성
   late AnimationController _controller;
@@ -66,7 +66,7 @@ class _PatientsListState extends State<PatientsList>
     loadPatients(affiliation);
     loadPatientQueues(affiliation);
 
-    ever(dropDownButtonController.currentItem, (String? newItem) { //선택한 채널이 변경되면 affiliation 업데이트 하고 새로고침
+    ever(affiliationController.currentAffiliation, (String? newItem) { //선택한 채널이 변경되면 affiliation 업데이트 하고 새로고침
       // Update the affiliation variable with the new value
       affiliation = newItem ?? '';
       // Call loadPatients and loadPatientQueues whenever the affiliation changes
@@ -94,8 +94,6 @@ class _PatientsListState extends State<PatientsList>
         child: CircularProgressIndicator(),
       );
     }
-    print('affiliation:${affiliation}');
-
     return Container(
       width: 213,
       decoration: const BoxDecoration(color: Colors.white),

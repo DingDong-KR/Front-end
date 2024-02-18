@@ -3,14 +3,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:my_desktop_app/screens/add_affiliation_screen.dart';
 import 'package:path/path.dart';
-import '../controller/dropdown_button_controller.dart';
+import '../controller/affiliation_controller.dart';
 import 'package:my_desktop_app/models/user.dart';
 
 class HomeScreen extends StatelessWidget {
   RxString lastSyncTime = RxString('');
   final User user; // 유저 정보를 저장할 변수
-  final DropdownButtonController dropdownController = Get.find<
-      DropdownButtonController>();
+  final AffiliationController affiliationController = Get.find<
+      AffiliationController>();
 
   HomeScreen({Key? key, required this.user}) : super(key: key);
 
@@ -66,7 +66,7 @@ class HomeScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            dropdownController.currentItem.value ?? '채널을 선택하세요',
+                            affiliationController.currentAffiliation.value ?? '채널을 선택하세요',
                             style: TextStyle(
                               color: Color(0xFF1E3932),
                               fontSize: 12,

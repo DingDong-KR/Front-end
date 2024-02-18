@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class MainSymptom extends StatelessWidget {
+  final int chartNumber;
+  MainSymptom({Key? key, required this.chartNumber}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,6 +32,7 @@ class MainSymptom extends StatelessWidget {
             ),
             SizedBox(height: 1), // 주증상과 추가 정보 사이 간격
             TextField(
+              maxLines: 15, // Set maxLines to null for multiline input
               decoration: InputDecoration(
                   hintText: 'Please Write Main Symptom of the Patient.',
                   hintStyle: TextStyle(
@@ -40,7 +44,8 @@ class MainSymptom extends StatelessWidget {
                   contentPadding: EdgeInsets.symmetric(
                     vertical: 15, // Adjust the vertical padding
                   ),
-                  border: InputBorder.none),
+                  border: InputBorder.none
+              ),
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 11,

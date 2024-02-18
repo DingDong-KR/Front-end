@@ -339,6 +339,16 @@ class PatientVitalProvider {
     return result.map((json) => PatientVital.fromJson(json)).first;
   }
 
+  Future<int> getLargestVitalChartNumber() async {
+    final db = await SqlDataBase.instance.database;
+    final result = await db.query(
+      PreExamination.tableName,
+      orderBy: 'chartNumber DESC', // 가장 큰 chartNumber를 먼저 가져오기 위해 내림차순으로 정렬
+      limit: 1, // 결과를 하나만 가져옴
+    );
+    return result.first['chartNumber'] as int;
+  }
+
 // 수정, 삭제 -> user  권한 정한 후 만들 예정
 }
 

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_desktop_app/models/patient_private_info.dart';
-import '../controller/add_vital_button_controller.dart';
-import '../controller/dropdown_button_controller.dart';
+import '../controller/submit_button_controller.dart';
+import '../controller/affiliation_controller.dart';
 import '../models/patient_queue.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
 import 'package:get/get.dart';
@@ -34,8 +34,8 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
 
   // 환자 정보를 저장하기 위한 함수
   Future<void> savePatient() async {
-    affiliation = Get.find<DropdownButtonController>()
-        .currentItem
+    affiliation = Get.find<AffiliationController>()
+        .currentAffiliation
         .value; //TODO:affiliation 이런식으로 글로벌하게 접근 가능
 
     // 입력된 값들을 이용하여 Patient 객체 생성

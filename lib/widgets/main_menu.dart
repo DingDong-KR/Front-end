@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../controller/dropdown_button_controller.dart';
+import '../controller/affiliation_controller.dart';
 import '../controller/selected_patient_controller.dart';
 import '../screens/settings_screen.dart';
 import '../screens_main/archive_screen.dart';
@@ -29,7 +29,7 @@ class MainMenu extends StatefulWidget {
 
 class _MainMenuState extends State<MainMenu> {
   int selectedMenuIndex = 100;
-  int? chartNumber;
+  int chartNumber=0;
   late SelectedPatientController selectedPatientController;
 
   @override
@@ -204,9 +204,9 @@ class _MainMenuState extends State<MainMenu> {
   // 차트번호 불러오기 위한 함수
   Future<int?> loadChartNumber(int selectedIndex) async {
     if (selectedIndex == 2) {
-      final PreExaminationProvider preExaminationProvider =
-          PreExaminationProvider();
-      chartNumber = await preExaminationProvider.getLargestPreChartNumber() + 1;
+      final PatientVitalProvider patientVitalProvider =
+      PatientVitalProvider();
+      chartNumber = await patientVitalProvider.getLargestVitalChartNumber() + 1;
     }
     return chartNumber;
   }

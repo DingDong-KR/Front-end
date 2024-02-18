@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:my_desktop_app/models/patient_private_info.dart';
 import 'package:my_desktop_app/models/patient_vital.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
-import '../controller/add_vital_button_controller.dart';
+import '../controller/submit_button_controller.dart';
 import '../screens/add_vital_screen.dart';
 import '../styles/textStyles.dart';
 import 'package:get/get.dart';
@@ -19,7 +19,7 @@ class PatientSimpleInfo extends StatefulWidget {
 }
 
 class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
-  late AddVitalButtonController addVitalButtonController;
+  late SubmitButtonController submitButtonController;
 
   bool _isLoadingPatient = true;
   bool _isLoadingVital = true;
@@ -100,8 +100,8 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
       //   }
       // });
     }
-    addVitalButtonController =
-        Get.find<AddVitalButtonController>(); // SelectedPatientController 초기화
+    submitButtonController =
+        Get.find<SubmitButtonController>(); // SelectedPatientController 초기화
   }
 
   // void updateState() {
@@ -174,13 +174,13 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
                 style: TextStyles.text12Style,
               ),
               const SizedBox(width: 10),
-              GetBuilder<AddVitalButtonController>(
-                init: AddVitalButtonController(),
+              GetBuilder<SubmitButtonController>(
+                init: SubmitButtonController(),
                 builder: (controller) {
-                  if (controller.isButtonPressed.value) {
+                  if (controller.isVitalButtonPressed.value) {
                     loadVital(widget.patientNumber);
                   }
-                  controller.isButtonPressed.value = false;
+                  controller.isVitalButtonPressed.value = false;
 
                   return _buildSimpleInfo(bt!, sbp!, dbp!, bloodSugar!);
                 },

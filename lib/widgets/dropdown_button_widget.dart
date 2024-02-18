@@ -3,19 +3,19 @@ import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import '../controller/dropdown_button_controller.dart';
+import '../controller/affiliation_controller.dart';
 import '../models/user.dart';
 
 class DropdownButtonWidget extends StatelessWidget {
   final User user;
-  final DropdownButtonController controller = Get.put(DropdownButtonController());
+  final AffiliationController affiliationController = Get.put(AffiliationController());
 
   DropdownButtonWidget({required this.user});
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<DropdownButtonController>(
-      init: controller,
+    return GetBuilder<AffiliationController>(
+      init: affiliationController,
       builder: (_) {
         return FutureBuilder<List<PopupMenuEntry<String>>>(
           future: _getUserAffiliationEntries(),
@@ -41,13 +41,13 @@ class DropdownButtonWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       onSelected: (String? affiliation) {
-        controller.changeDropdownMenu(affiliation ?? '');
+        affiliationController.changeSelectedAffiliation(affiliation ?? '');
       },
       elevation: 0,
       itemBuilder: (BuildContext context) => items,
-      child: GetX<DropdownButtonController>(
+      child: GetX<AffiliationController>(
         builder: (_) {
-          String text = controller.currentItem.value;
+          String text = affiliationController.currentAffiliation.value;
           if (text == null || text.isEmpty) {
             text = '채널 선택하기';
           }

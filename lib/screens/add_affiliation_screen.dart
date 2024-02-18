@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
 import 'package:flutter/painting.dart'; // Add this import
-import '../controller/dropdown_button_controller.dart';
+import '../controller/affiliation_controller.dart';
 import '../models/user_affiliation.dart';
 import 'package:get/get.dart';
 
@@ -31,7 +31,7 @@ class _AddAffiliationScreenState extends State<AddAffiliationScreen> {
     await affiliationProvider.insertUserAffiliation(newUserAffiliation);
 
     // DropdownButtonWidget을 다시 빌드하도록 DropdownButtonController의 update() 메서드를 호출
-    Get.find<DropdownButtonController>().update();
+    Get.find<AffiliationController>().update();
   }
 
   @override

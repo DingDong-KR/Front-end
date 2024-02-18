@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_desktop_app/models/user.dart';
 import 'package:my_desktop_app/screens/add_patient_screen.dart';
-import 'package:my_desktop_app/controller/dropdown_button_controller.dart';
+import 'package:my_desktop_app/controller/affiliation_controller.dart';
 import 'package:get/get.dart';
 
 class TopBar extends StatefulWidget implements PreferredSizeWidget {
@@ -42,8 +42,8 @@ class _TopBarState extends State<TopBar> {
   }
 
   Future<void> addPatientButtonClick() async {
-    affiliation = Get.find<DropdownButtonController>()
-        .currentItem
+    affiliation = Get.find<AffiliationController>()
+        .currentAffiliation
         .value; //TODO:affiliation 이런식으로 글로벌하게 접근 가능
     if (affiliation == "") {
       showDialog(
