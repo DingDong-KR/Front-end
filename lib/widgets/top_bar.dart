@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'package:intl/intl.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_desktop_app/models/user.dart';
 import 'package:my_desktop_app/screens/add_patient_screen.dart';
+import 'package:my_desktop_app/controller/dropdown_button_controller.dart';
+import 'package:get/get.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class TopBar extends StatefulWidget implements PreferredSizeWidget {
   final User user;
@@ -19,6 +21,7 @@ class TopBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _TopBarState extends State<TopBar> {
+  String? affiliation;
   late DateTime _currentTime;
 
   @override
@@ -37,6 +40,48 @@ class _TopBarState extends State<TopBar> {
         });
       }
     });
+  }
+
+  Future<void> addPatientButtonClick() async {
+    affiliation = Get.find<DropdownButtonController>()
+        .currentItem
+        .value; //TODO:affiliation 이런식으로 글로벌하게 접근 가능
+    if (affiliation == "") {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("경고"),
+            content: Text("채널을 선택하세요"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("확인"),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return const Align(
+            alignment: Alignment.center,
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+              child: Dialog(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                child: AddPatientScreen(),
+              ),
+            ),
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -120,22 +165,7 @@ class _TopBarState extends State<TopBar> {
 
           GestureDetector(
             onTap: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return const Align(
-                    alignment: Alignment.center,
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
-                      child: Dialog(
-                        elevation: 0,
-                        backgroundColor: Colors.transparent,
-                        child: AddPatientScreen(),
-                      ),
-                    ),
-                  );
-                },
-              );
+              addPatientButtonClick();
             },
             child: Container(
               width: 101,
