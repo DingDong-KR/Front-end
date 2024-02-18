@@ -300,6 +300,17 @@ class PatientQueueProvider {
     );
   }
 
+  Future<void> updatePatientQueueStatus(
+      int patientNumber, String newStatus) async {
+    final db = await SqlDataBase.instance.database;
+    await db.update(
+      PatientQueue.tableName,
+      {PatientQueueFields.status: newStatus},
+      where: '${PatientQueueFields.patientNumber} = ?',
+      whereArgs: [patientNumber],
+    );
+  }
+
   // 환자 chart number 수정
   Future<void> updatePatientQueueChartNum(
       int patientNumber, int newChartNumber) async {
@@ -335,6 +346,7 @@ class PatientQueueProvider {
     }
     return null; // Return null if no chart number is found for the given patient number
   }
+
 }
 
 class PatientVitalProvider {

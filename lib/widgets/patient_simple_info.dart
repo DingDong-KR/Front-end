@@ -5,6 +5,7 @@ import 'package:my_desktop_app/controller/chart_number_controller.dart';
 import 'package:my_desktop_app/models/patient_private_info.dart';
 import 'package:my_desktop_app/models/patient_vital.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
+import '../controller/auth_controllder.dart';
 import '../controller/submit_button_controller.dart';
 import '../models/pre_examination.dart';
 import '../screens/add_vital_screen.dart';
@@ -24,6 +25,8 @@ class PatientSimpleInfo extends StatefulWidget {
 class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
   late SubmitButtonController submitButtonController;
   late ChartNumberController chartNumberController;
+  final AuthController authController= Get.find<AuthController>();
+
 
   bool _isLoadingPatient = true;
   bool _isLoadingVital = true;
@@ -91,18 +94,19 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
   Future<void> savePreExamination(chartNumber) async {
 
     //preExamination 객체 만들기
-    // final PreExamination newPreExamination = PreExamination(
-    //   chartNumber: chartNumberController.chartNumber.value,
-    //   patientNumber: widget.patientNumber, // patientNumber 추가
-    //   bt: double.tryParse(btController.text),
-    //   sbp: int.tryParse(sbpController.text),
-    //   dbp: int.tryParse(dbpController.text),
-    //   bloodSugar: int.tryParse(bsController.text),
-    // );
+    final PreExamination newPreExamination = PreExamination(
+      chartNumber: chartNumberController.chartNumber.value,
+      patientNumber: widget.patientNumber,
+      userId: authController.userId.value,
+      measurementDate: DateTime.now(),
+    );
 
+    //PreExamination 테이블에 정보 업데이트
     final PreExaminationProvider preExaminationProvider = PreExaminationProvider();
-    // preExaminationProvider.insertPreExamination(newPreExamination);
-
+    preExaminationProvider.insertPreExamination(newPreExamination);
+    //PatientQueue 테이블에 상태 변경
+    final PatientQueueProvider patientQueueProvider = PatientQueueProvider();
+    patientQueueProvider.updatePatientQueueStatus(widget.patientNumber, "진료중");
   }
 
   @override
