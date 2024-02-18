@@ -80,6 +80,7 @@ class _DiagnosisState extends State<Diagnosis> {
           ),
           SizedBox(height: 20,),
           _buildIndexRow('주','부','상병코드','상병명'),
+          SizedBox(height: 5,),
           _buildItemRow("56543", "아래 허리 긴장, 요추부")
         ],
       ),

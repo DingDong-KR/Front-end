@@ -102,6 +102,12 @@ flutter:
     - assets/icons/icon_arrow_right_gray.svg
     - assets/icons/icon_arrow_left_gray.svg
     - assets/images/image_human_body.jpg
+    - assets/icons/icon_add.svg
+    - assets/icons/icon_filled_heart.svg
+    - assets/icons/icon_folder.svg
+    - assets/icons/icon_four_boxes.svg
+    - assets/images/image_dingdong_menu.svg
+    - assets/icons/icon_menu.svg
     
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -24,6 +24,7 @@ class _TreatRecordState extends State<TreatRecord> {
 
   late DateTime _currentTime;
   late Timer _timer;
+  final TextEditingController _textController = TextEditingController();
 
   @override
   void initState() {
@@ -40,6 +41,7 @@ class _TreatRecordState extends State<TreatRecord> {
   @override
   void dispose() {
     _timer.cancel(); // 위젯이 dispose될 때 타이머 취소
+    _textController.dispose();
     super.dispose();
   }
 
@@ -47,7 +49,7 @@ class _TreatRecordState extends State<TreatRecord> {
   Widget build(BuildContext context) {
     return Container(
       width: 400,
-      height: 207,
+      height: 267,
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 15),
       decoration: const BoxDecoration(color: Colors.white),
       child: Column(
@@ -92,7 +94,48 @@ class _TreatRecordState extends State<TreatRecord> {
               ),
             ],
           ),
-          const SizedBox(height: 1), // 주증상과 추가 정보 사이 간격
+          SizedBox(height: 30,),
+          Stack(
+            children: [
+              Container(
+                width: 375,
+                height: 180,
+                decoration: ShapeDecoration(
+                  color: const Color(0xFFF7F7F7),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: TextFormField(
+                    controller: _textController,
+                    decoration: InputDecoration(
+                      hintStyle: TextStyle(
+                        color: Color(0xFFAFAFAF),
+                        fontSize: 11,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w400,
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 15, // Adjust the vertical padding
+                      ),
+                      border: InputBorder.none,
+                    ),
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 11,
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w400,
+                    ),
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                  ),
+                ),
+              ),
+            ],
+          ),
+            -----------------------------------
           TextField(
               controller: trController,
               onChanged: (value) {

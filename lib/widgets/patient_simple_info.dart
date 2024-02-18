@@ -198,11 +198,12 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
           ),
           Row(
             children: [
-              Obx(() => Text(
-                    'Chart Number: ${chartNumberController.chartNumber.value}',
-                    style: TextStyles.text14Style,
-                  )),
-              const SizedBox(width: 10),
+              Obx(()=>
+                  Text(
+                'Chart Number: ${chartNumberController.chartNumber.value}',
+                style: TextStyles.text12Style,
+              )),
+              SizedBox(width: 10),
               _buildTreatmentButton(),
             ],
           ),

@@ -10,11 +10,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:path_provider/path_provider.dart';
 
+import '../widgets/dropdown_button_widget.dart';
+
 class HomeScreen extends StatelessWidget {
   RxString lastSyncTime = RxString('');
   final User user; // 유저 정보를 저장할 변수
   final AffiliationController affiliationController =
-      Get.find<AffiliationController>();
+      Get.put<AffiliationController>(AffiliationController());
 
   HomeScreen({Key? key, required this.user}) : super(key: key);
 
@@ -56,37 +58,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 10),
-                Container(
-                  width: 119,
-                  height: 32.23,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 9, vertical: 10),
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 1, color: Color(0xFFB9DFD3)),
-                      borderRadius: BorderRadius.circular(38),
-                    ),
-                  ),
-                  child: Obx(() => Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            affiliationController.currentAffiliation.value ??
-                                '채널을 선택하세요',
-                            style: TextStyle(
-                              color: Color(0xFF1E3932),
-                              fontSize: 12,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w700,
-                              height: 0.12,
-                              letterSpacing: 0.12,
-                            ),
-                          ),
-                        ],
-                      )),
-                ),
+                DropdownButtonWidget(user: user),
                 SizedBox(width: 10),
                 Text(
                   '입니다.',

@@ -11,8 +11,12 @@ class MedicalHistoryWidget extends StatefulWidget {
   final double height;
   final double width;
 
-  MedicalHistoryWidget({Key? key, required this.patientNumber,required this.height, required this.width}) : super(key: key);
-
+  MedicalHistoryWidget(
+      {Key? key,
+        required this.patientNumber,
+        required this.height,
+        required this.width})
+      : super(key: key);
 
   @override
   _MedicalHistoryWidgetState createState() => _MedicalHistoryWidgetState();
@@ -21,7 +25,7 @@ class MedicalHistoryWidget extends StatefulWidget {
 class _MedicalHistoryWidgetState extends State<MedicalHistoryWidget> {
   int _selectedIndex = -1;
   final MedicalHistoryProvider _medicalHistoryProvider =
-      MedicalHistoryProvider();
+  MedicalHistoryProvider();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -133,12 +137,16 @@ class _MedicalHistoryWidgetState extends State<MedicalHistoryWidget> {
                   } else {
                     final medicalHistorys = snapshot.data;
                     return Column(
-                      children: medicalHistorys?.asMap().entries.map((entry) {
-                            final index = entry.key;
-                            final history = entry.value;
-                            return _buildHistoryItem(index, history);
-                          }).toList() ??
-                          [],
+                      children: List.generate(
+                        (widget.height == 640) ? 38 : 20,
+                            (index) {
+                          if (index < medicalHistorys!.length) {
+                            return _buildHistoryItem(index, medicalHistorys[index]);
+                          } else {
+                            return _buildEmptyContainer(index);
+                          }
+                        },
+                      ),
                     );
                   }
                 },
@@ -156,12 +164,16 @@ class _MedicalHistoryWidgetState extends State<MedicalHistoryWidget> {
         : const Color(0xFFE2F1F6); // Alternating colors
     if (_selectedIndex == index) {
       backgroundColor =
-          const Color(0xFF00C9FF); // Change to darker blue when clicked
+      const Color(0xFF00C9FF); // Change to darker blue when clicked
     }
     return GestureDetector(
       onTap: () {
         setState(() {
-          _selectedIndex = index; // Update selected index
+          if (_selectedIndex == index) {
+            _selectedIndex = -1; // Deselect if already selected
+          } else {
+            _selectedIndex = index; // Update selected index
+          }
         });
       },
       child: Container(
@@ -181,7 +193,7 @@ class _MedicalHistoryWidgetState extends State<MedicalHistoryWidget> {
                 child: Text(
                   item.visitDate != null
                       ? DateFormat('yy.MM.dd')
-                          .format(DateTime.parse(item.visitDate))
+                      .format(DateTime.parse(item.visitDate))
                       : '', // Format date as yy.MM.dd
                   overflow: TextOverflow.ellipsis, // Handle overflow
                   maxLines: 1, // Show only 1 line
@@ -239,6 +251,20 @@ class _MedicalHistoryWidgetState extends State<MedicalHistoryWidget> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildEmptyContainer(int index) {
+    Color backgroundColor = index % 2 == 0
+        ? Colors.white
+        : const Color(0xFFE2F1F6); // Alternating colors
+    return Container(
+      width: 223,
+      height: 15,
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(7.50),
       ),
     );
   }

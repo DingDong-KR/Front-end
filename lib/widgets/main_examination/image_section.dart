@@ -28,7 +28,10 @@ class ImageSection extends StatelessWidget {
                   height: 0.11,
                 ),
               ),
-              Spacer()
+              Spacer(),
+              SvgPicture.asset('assets/icons/icon_four_boxes.svg'),
+              SizedBox(width: 10,),
+              SvgPicture.asset('assets/icons/icon_add.svg'),
             ],
           ),
           SizedBox(height: 15,),
