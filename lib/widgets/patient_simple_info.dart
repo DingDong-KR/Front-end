@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:my_desktop_app/controller/chart_number_controller.dart';
 import 'package:my_desktop_app/models/patient_private_info.dart';
 import 'package:my_desktop_app/models/patient_vital.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
 import '../controller/submit_button_controller.dart';
+import '../models/pre_examination.dart';
 import '../screens/add_vital_screen.dart';
 import '../styles/textStyles.dart';
 import 'package:get/get.dart';
@@ -20,6 +22,7 @@ class PatientSimpleInfo extends StatefulWidget {
 
 class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
   late SubmitButtonController submitButtonController;
+  late ChartNumberController chartNumberController;
 
   bool _isLoadingPatient = true;
   bool _isLoadingVital = true;
@@ -84,6 +87,23 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
     }
   }
 
+  Future<void> savePreExamination(chartNumber) async {
+
+    //preExamination 객체 만들기
+    // final PreExamination newPreExamination = PreExamination(
+    //   chartNumber: chartNumberController.chartNumber.value,
+    //   patientNumber: widget.patientNumber, // patientNumber 추가
+    //   bt: double.tryParse(btController.text),
+    //   sbp: int.tryParse(sbpController.text),
+    //   dbp: int.tryParse(dbpController.text),
+    //   bloodSugar: int.tryParse(bsController.text),
+    // );
+
+    final PreExaminationProvider preExaminationProvider = PreExaminationProvider();
+    // preExaminationProvider.insertPreExamination(newPreExamination);
+
+  }
+
   @override
   void initState() {
     super.initState();
@@ -91,30 +111,12 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
       loadPatient(widget.patientNumber);
       loadVital(widget.patientNumber);
 
-      // // ever를 사용하여 상태가 변경될 때마다 화면을 재빌드
-      // ever(addVitalController.isButtonPressed, (_) {
-      //   if (addVitalController.isButtonPressed.value) {
-      //     print('ever');
-      //     updateState();
-      //     addVitalController.isButtonPressed.value = false;
-      //   }
-      // });
     }
     submitButtonController =
-        Get.find<SubmitButtonController>(); // SelectedPatientController 초기화
+        Get.find<SubmitButtonController>(); // submitButtonController 초기화
+    chartNumberController =
+        Get.find<ChartNumberController>(); // chartNumberController 초기화
   }
-
-  // void updateState() {
-  //   print('updateState, mounted: $mounted');
-  //   setState(() {
-  //     // 추가적인 로직이 있다면 여기에 추가
-  //     print('mounted: ${widget.patientNumber}');
-  //     loadPatient(widget.patientNumber);
-  //     print('load patient: ${widget.patientNumber}');
-  //     loadVital(widget.patientNumber);
-  //     print('load vital: ${widget.patientNumber}');
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -185,43 +187,18 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
                   return _buildSimpleInfo(bt!, sbp!, dbp!, bloodSugar!);
                 },
               ),
-              // const SizedBox(width: 10),
-              // GetBuilder<AddVitalButtonController>(
-              //   init: AddVitalButtonController(),
-              //   builder: (controller) {
-              //     if (controller.isButtonPressed.value) {
-              //       loadVital(widget.patientNumber);
-              //     }
-              //     return _buildInfoItem('SBP:',
-              //         '${controller.isButtonPressed.value ? sbp : sbp}');
-              //   },
-              // ),
-              // const SizedBox(width: 10),
-              // GetBuilder<AddVitalButtonController>(
-              //   init: AddVitalButtonController(),
-              //   builder: (controller) {
-              //     if (controller.isButtonPressed.value) {
-              //       loadVital(widget.patientNumber);
-              //     }
-              //     return _buildInfoItem('DBP:',
-              //         '${controller.isButtonPressed.value ? dbp : dbp}');
-              //   },
-              // ),
-              // const SizedBox(width: 10),
-              // GetBuilder<AddVitalButtonController>(
-              //   init: AddVitalButtonController(),
-              //   builder: (controller) {
-              //     if (controller.isButtonPressed.value) {
-              //       loadVital(widget.patientNumber);
-              //     }
-              //     return _buildInfoItem('혈당:',
-              //         '${controller.isButtonPressed.value ? bloodSugar : bloodSugar}',
-              //         color: const Color(0xFFFF3120));
-              //   },
-              // ),
             ],
           ),
-          _buildTreatmentButton(),
+          Row(
+            children: [
+              Text(
+                'Chart Number: ${chartNumberController.chartNumber.value}',
+                style: TextStyles.text14Style,
+              ),
+              SizedBox(width: 10),
+              _buildTreatmentButton(),
+            ],
+          ),
         ],
       ),
     );
@@ -277,6 +254,7 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
       onTap: () {
         loadPatient(widget.patientNumber);
         loadVital(widget.patientNumber);
+        //preExaminationProvider.insertPreExamination();
       },
       child: Container(
         width: 74,

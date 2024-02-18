@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:my_desktop_app/controller/chart_number_controller.dart';
 import 'package:my_desktop_app/models/patient_private_info.dart';
 import 'package:my_desktop_app/models/patient_queue.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
@@ -17,8 +18,8 @@ class PatientsList extends StatefulWidget {
 
 class _PatientsListState extends State<PatientsList>
     with SingleTickerProviderStateMixin {
-  AffiliationController affiliationController =
-      Get.find<AffiliationController>();
+  AffiliationController affiliationController= Get.find<AffiliationController>();
+  ChartNumberController chartNumberController = Get.find<ChartNumberController>();
   String affiliation = 'default';
   final SelectedPatientController selectedPatientController =
       Get.put(SelectedPatientController()); // 컨트롤러 인스턴스 생성
@@ -210,14 +211,24 @@ class _PatientsListState extends State<PatientsList>
               itemBuilder: (context, index) {
                 bool isClicked = _selectedItemIndex == index;
                 return GestureDetector(
-                  onTap: () {
+                  onTap: () async {
+                    PatientQueueProvider patientQueueProvider = PatientQueueProvider();
+                    // 비동기 함수로 변경
                     setState(() {
                       _selectedItemIndex = index;
                       // 선택된 환자의 patientNumber를 설정
                       selectedPatientController
                           .setPatientNumber(patients[index].patientNumber!);
                     });
+
+                    // 비동기로 환자 번호에 해당하는 차트 번호를 가져옴
+                    final chartNumber = await patientQueueProvider.getChartNumberByPatientNumber(
+                        selectedPatientController.patientNumber.value
+                    );
+                    // 차트 번호를 설정
+                    chartNumberController.setChartNumber(chartNumber ?? 0);
                   },
+
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(8, 3, 8, 3),
                     child: AnimatedContainer(

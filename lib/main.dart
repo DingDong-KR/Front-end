@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:my_desktop_app/controller/chart_number_controller.dart';
 import 'package:my_desktop_app/controller/submit_button_controller.dart';
 import 'package:my_desktop_app/controller/affiliation_controller.dart';
 import 'package:my_desktop_app/controller/selected_patient_controller.dart'; // SelectedPatientController import 추가
@@ -23,6 +24,7 @@ class App extends StatelessWidget {
         Get.put(AffiliationController()); //
         Get.put(SelectedPatientController()); //
         Get.put(SubmitButtonController()); //
+        Get.put(ChartNumberController());
       }),
       title: 'DingDong',
       home: const LoginScreen(),
