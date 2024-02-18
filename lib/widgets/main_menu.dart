@@ -29,7 +29,7 @@ class MainMenu extends StatefulWidget {
 
 class _MainMenuState extends State<MainMenu> {
   int selectedMenuIndex = 100;
-  late int chartNumber;
+  int? chartNumber;
   late SelectedPatientController selectedPatientController;
 
   @override
@@ -39,7 +39,8 @@ class _MainMenuState extends State<MainMenu> {
         Get.find<SelectedPatientController>(); // SelectedPatientController 초기화
     // patientNumber의 변경을 감지하여 navigateToScreen 실행
     ever(selectedPatientController.patientNumber, (_) {
-      navigateToScreen(selectedMenuIndex, selectedPatientController.patientNumber.value);
+      navigateToScreen(
+          selectedMenuIndex, selectedPatientController.patientNumber.value);
     });
   }
 
@@ -61,7 +62,8 @@ class _MainMenuState extends State<MainMenu> {
                         selectedMenuIndex = i;
                       });
                       // 콜백 함수에서 index와 환자 번호를 함께 전달합니다.
-                      navigateToScreen(i, selectedPatientController.patientNumber.value);
+                      navigateToScreen(
+                          i, selectedPatientController.patientNumber.value);
                     },
                     child: buildMenuItem(i),
                   ),
@@ -142,14 +144,16 @@ class _MainMenuState extends State<MainMenu> {
         loadChartNumber(2);
         widget.navigatorKey.currentState?.pushReplacement(
           MaterialPageRoute(
-            builder: (context) => PreExaminationScreen(patientNumber: patientNumber,chartNumber:chartNumber),
+            builder: (context) => PreExaminationScreen(
+                patientNumber: patientNumber, chartNumber: chartNumber),
           ),
         );
         break;
       case 3:
         widget.navigatorKey.currentState?.pushReplacement(
           MaterialPageRoute(
-            builder: (context) => MainExaminationScreen(patientNumber: patientNumber),
+            builder: (context) =>
+                MainExaminationScreen(patientNumber: patientNumber),
           ),
         );
         break;
@@ -175,7 +179,7 @@ class _MainMenuState extends State<MainMenu> {
         );
         break;
       case 7:
-      // 설정 화면 다이어로그로 띄우기
+        // 설정 화면 다이어로그로 띄우기
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -198,9 +202,10 @@ class _MainMenuState extends State<MainMenu> {
   }
 
   // 차트번호 불러오기 위한 함수
-  Future<int> loadChartNumber(int selectedIndex) async {
+  Future<int?> loadChartNumber(int selectedIndex) async {
     if (selectedIndex == 2) {
-      final PreExaminationProvider preExaminationProvider = PreExaminationProvider();
+      final PreExaminationProvider preExaminationProvider =
+          PreExaminationProvider();
       chartNumber = await preExaminationProvider.getLargestPreChartNumber() + 1;
     }
     return chartNumber;
