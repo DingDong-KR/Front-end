@@ -110,6 +110,12 @@ class _TreatRecordState extends State<TreatRecord> {
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: TextFormField(
                     controller: _textController,
+                    onChanged: (value) {
+                      // mainSymptom의 값을 변경합니다.
+                      mainExaminationController.updateTreatRecord(value);
+                      print(
+                          '저장하는 진료기록: ${mainExaminationController.treatRecord.value}');
+                    },
                     decoration: InputDecoration(
                       hintStyle: TextStyle(
                         color: Color(0xFFAFAFAF),
@@ -135,29 +141,6 @@ class _TreatRecordState extends State<TreatRecord> {
               ),
             ],
           ),
-            -----------------------------------
-          TextField(
-              controller: trController,
-              onChanged: (value) {
-                // mainSymptom의 값을 변경합니다.
-                mainExaminationController.updateTreatRecord(value);
-                print(
-                    '저장하는 진료기록: ${mainExaminationController.treatRecord.value}');
-              },
-              maxLines: 8,
-              decoration: const InputDecoration(
-                  hintText: '진료기록을 작성해주세요.',
-                  hintStyle: TextStyle(
-                    color: Color(0xFFAFAFAF),
-                    fontSize: 11,
-                    fontFamily: 'Pretendard',
-                    fontWeight: FontWeight.w400,
-                  ),
-                  contentPadding: EdgeInsets.symmetric(
-                    vertical: 15,
-                  ),
-                  border: InputBorder.none),
-              style: TextStyles.text11Style.copyWith(height: 1.5)),
         ],
       ),
     );
