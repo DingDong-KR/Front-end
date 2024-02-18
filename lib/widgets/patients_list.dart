@@ -17,9 +17,11 @@ class PatientsList extends StatefulWidget {
 
 class _PatientsListState extends State<PatientsList>
     with SingleTickerProviderStateMixin {
-  AffiliationController affiliationController= Get.find<AffiliationController>();
+  AffiliationController affiliationController =
+      Get.find<AffiliationController>();
   String affiliation = 'default';
-  final SelectedPatientController selectedPatientController = Get.put(SelectedPatientController()); // 컨트롤러 인스턴스 생성
+  final SelectedPatientController selectedPatientController =
+      Get.put(SelectedPatientController()); // 컨트롤러 인스턴스 생성
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
   bool isSwitchOn = false;
@@ -44,7 +46,8 @@ class _PatientsListState extends State<PatientsList>
   // 환자 상태를 불러오기 위한 함수
   Future<void> loadPatientQueues(String affiliation) async {
     final PatientQueueProvider patientQueueProvider = PatientQueueProvider();
-    patientQueues = await patientQueueProvider.getPatientQueuesByAffiliation(affiliation);
+    patientQueues =
+        await patientQueueProvider.getPatientQueuesByAffiliation(affiliation);
     setState(() {
       _isLoadingQueue = false;
     });
@@ -66,7 +69,8 @@ class _PatientsListState extends State<PatientsList>
     loadPatients(affiliation);
     loadPatientQueues(affiliation);
 
-    ever(affiliationController.currentAffiliation, (String? newItem) { //선택한 채널이 변경되면 affiliation 업데이트 하고 새로고침
+    ever(affiliationController.currentAffiliation, (String? newItem) {
+      //선택한 채널이 변경되면 affiliation 업데이트 하고 새로고침
       // Update the affiliation variable with the new value
       affiliation = newItem ?? '';
       // Call loadPatients and loadPatientQueues whenever the affiliation changes
@@ -210,11 +214,12 @@ class _PatientsListState extends State<PatientsList>
                     setState(() {
                       _selectedItemIndex = index;
                       // 선택된 환자의 patientNumber를 설정
-                      selectedPatientController.setPatientNumber(patients[index].patientNumber!);
+                      selectedPatientController
+                          .setPatientNumber(patients[index].patientNumber!);
                     });
                   },
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(8,3,8,3),
+                    padding: const EdgeInsets.fromLTRB(8, 3, 8, 3),
                     child: AnimatedContainer(
                       //클릭시 서식 변경 애니메이션
                       duration: const Duration(milliseconds: 120),
@@ -246,11 +251,13 @@ class _PatientsListState extends State<PatientsList>
                                   height: 13,
                                   decoration: ShapeDecoration(
                                     color: isClicked
-                                        ? const Color(0xFFD9D9D9) // 클릭된 아이템의 배경색
+                                        ? const Color(
+                                            0xFFD9D9D9) // 클릭된 아이템의 배경색
                                         : const Color(
                                             0xFFADE9F9), // 클릭되지 않은 아이템의 배경색
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(14.50),
+                                      borderRadius:
+                                          BorderRadius.circular(14.50),
                                     ),
                                   ),
                                   child: Center(
@@ -273,12 +280,14 @@ class _PatientsListState extends State<PatientsList>
                                 ),
                                 const Spacer(),
                                 Text(
+                                  // TODO: list range 오류 떴었음! 수정필요
                                   '${patientQueues[index].status}',
                                   // 's',
                                   style: TextStyle(
-                                    color: (patientQueues[index].status == '진료중')
-                                        ? const Color(0xFF12E158)
-                                        : const Color(0xFFFFBE17),
+                                    color:
+                                        (patientQueues[index].status == '진료중')
+                                            ? const Color(0xFF12E158)
+                                            : const Color(0xFFFFBE17),
                                     // color: Color(0xFF12E158),
                                     fontSize: 12,
                                     fontFamily: 'Pretendard',
@@ -291,7 +300,8 @@ class _PatientsListState extends State<PatientsList>
                                   width: 5,
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 4, 0, 0),
                                   child: Container(
                                     width: 5,
                                     height: 5,
@@ -364,8 +374,8 @@ class _PatientsListState extends State<PatientsList>
                                 const Text(
                                   '14:01:25',
                                   style: TextStyle(
-                                    color:
-                                        Color(0xFF999999), // 클릭되지 않은 아이템의 텍스트 색상
+                                    color: Color(
+                                        0xFF999999), // 클릭되지 않은 아이템의 텍스트 색상
                                     fontSize: 10,
                                     fontFamily: 'Pretendard',
                                     fontWeight: FontWeight.w400,
