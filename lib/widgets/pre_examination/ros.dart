@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:my_desktop_app/controller/submit_button_controller.dart';
 
 import '../../screens/ros/add_ros_screen.dart';
 
 class Ros extends StatelessWidget {
   final int chartNumber;
 
-  const Ros({super.key, required this.chartNumber});
+  Ros({super.key, required this.chartNumber});
+
+  SubmitButtonController submitButtonController =
+      Get.find<SubmitButtonController>();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -65,38 +71,27 @@ class Ros extends StatelessWidget {
                 )
               ],
             ),
+            const SizedBox(height: 10),
             Expanded(
               child: Container(
                 width: double.infinity,
                 clipBehavior: Clip.antiAlias,
                 decoration: const BoxDecoration(),
-                child: Row(
+                child: const Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      child: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '# 식욕부진',
-                            style: TextStyle(
-                              color: Color(0xFF3EA7C2),
-                              fontSize: 12,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w400,
-                              height: 0.12,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 5),
-                    Container(
-                      child: const Row(
+                    // GetBuilder<SubmitButtonController>(init: SubmitButtonController(), builder: (controller) {
+                    //   if(controller.isRosButtonPressed.value) {
+                    //     loadRos(widget.chartNumber);
+                    //   }
+                    //   controller.isRosButtonPressed.value = false;
+                    // })
+                    // RosKeywordWidget(),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                      child: Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,7 +103,7 @@ class Ros extends StatelessWidget {
                               fontSize: 12,
                               fontFamily: 'Pretendard',
                               fontWeight: FontWeight.w400,
-                              height: 0.12,
+                              //height: 0.12,
                             ),
                           ),
                         ],
@@ -120,6 +115,34 @@ class Ros extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class RosKeywordWidget extends StatelessWidget {
+  String keyword;
+  RosKeywordWidget({super.key, required this.keyword});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '# $keyword',
+            style: const TextStyle(
+              color: Color(0xFF3EA7C2),
+              fontSize: 12,
+              fontFamily: 'Pretendard',
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
       ),
     );
   }
