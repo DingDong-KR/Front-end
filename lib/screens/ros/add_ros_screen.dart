@@ -147,6 +147,8 @@ class _AddRosScreenState extends State<AddRosScreen> {
                             onCompletionPressed();
 
                             submitButtonController.rosButtonPressed();
+                            print(
+                                'addrosscreen: ${submitButtonController.isRosButtonPressed.value}');
                             Navigator.pop(context);
                           },
                           child: Container(
