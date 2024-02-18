@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../controller/affiliation_controller.dart';
+import '../controller/chart_number_controller.dart';
 import '../controller/selected_patient_controller.dart';
 import '../screens/settings_screen.dart';
 import '../screens_main/archive_screen.dart';
@@ -31,12 +32,13 @@ class _MainMenuState extends State<MainMenu> {
   int selectedMenuIndex = 100;
   int chartNumber=0;
   late SelectedPatientController selectedPatientController;
+  late ChartNumberController chartNumberController;
 
   @override
   void initState() {
     super.initState();
-    selectedPatientController =
-        Get.find<SelectedPatientController>(); // SelectedPatientController 초기화
+    selectedPatientController = Get.find<SelectedPatientController>(); // SelectedPatientController 초기화
+    chartNumberController = Get.find<ChartNumberController>(); // SelectedPatientController 초기화
     // patientNumber의 변경을 감지하여 navigateToScreen 실행
     ever(selectedPatientController.patientNumber, (_) {
       navigateToScreen(
@@ -141,11 +143,10 @@ class _MainMenuState extends State<MainMenu> {
         );
         break;
       case 2:
-        loadChartNumber(2);
         widget.navigatorKey.currentState?.pushReplacement(
           MaterialPageRoute(
             builder: (context) => PreExaminationScreen(
-                patientNumber: patientNumber, chartNumber: chartNumber),
+                patientNumber: patientNumber, chartNumber: chartNumberController.chartNumber.value),
           ),
         );
         break;
@@ -201,13 +202,4 @@ class _MainMenuState extends State<MainMenu> {
     }
   }
 
-  // 차트번호 불러오기 위한 함수
-  Future<int?> loadChartNumber(int selectedIndex) async {
-    if (selectedIndex == 2) {
-      final PatientVitalProvider patientVitalProvider =
-      PatientVitalProvider();
-      chartNumber = await patientVitalProvider.getLargestVitalChartNumber() + 1;
-    }
-    return chartNumber;
-  }
 }
