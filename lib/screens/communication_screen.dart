@@ -9,6 +9,11 @@ import 'package:my_desktop_app/screens/sign_up_screen.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart'; // Import sqflite package
 import 'package:my_desktop_app/models/user.dart'; // Import user model
+import 'package:flutter/services.dart' show rootBundle;
+
+import 'dart:io';
+import 'dart:async';
+import 'dart:convert';
 
 class CommunicationScreen extends StatefulWidget {
   const CommunicationScreen({Key? key}) : super(key: key);
@@ -28,10 +33,11 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
       body: Stack(
         children: [
           Transform.scale(
-            scale:0.8,
+            scale: 0.8,
             child: Transform.translate(
-                offset: Offset(-100,-100),
-                child:SvgPicture.asset('assets/images/image_background_circle.svg')),
+                offset: Offset(-100, -100),
+                child: SvgPicture.asset(
+                    'assets/images/image_background_circle.svg')),
           ),
           Center(
             child: Column(
@@ -44,7 +50,10 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
                   height: 40,
                   child: ElevatedButton(
                     onPressed: () {
-                      syncronizeToServer(context); // Update lastSyncTime with the synchronization time
+                      sendFileOverSocket(
+                          'assets/db/chart_send.db', "10.50.33.204", 8080);
+                      syncronizeToServer(
+                          context); // Update lastSyncTime with the synchronization time
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFF3FA7C3),
@@ -58,30 +67,32 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Obx(() => Text(
-                    '최근 동기화 ${lastSyncTime.value}',
-                    style: TextStyle(
-                      color: Color(0xFF404855),
-                      fontSize: 13,
-                      fontFamily: 'Pretendard',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
-                    ),
-                  )),
+                        '최근 동기화 ${lastSyncTime.value}',
+                        style: TextStyle(
+                          color: Color(0xFF404855),
+                          fontSize: 13,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w400,
+                          height: 0,
+                        ),
+                      )),
                 )
               ],
             ),
           ),
           Transform.scale(
-            scale:0.7,
+            scale: 0.7,
             child: Transform.translate(
-                offset: Offset(1150,250),
-                child:SvgPicture.asset('assets/images/image_background_dingdong_1.svg')),
+                offset: Offset(1150, 250),
+                child: SvgPicture.asset(
+                    'assets/images/image_background_dingdong_1.svg')),
           ),
           Transform.scale(
-            scale:0.9,
+            scale: 0.9,
             child: Transform.translate(
-                offset: Offset(1050,680),
-                child:SvgPicture.asset('assets/images/image_background_dingdong_2.svg')),
+                offset: Offset(1050, 680),
+                child: SvgPicture.asset(
+                    'assets/images/image_background_dingdong_2.svg')),
           ),
         ],
       ),
@@ -114,7 +125,8 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
     if (syncResult) {
       // Save the current time as the synchronization time
       DateTime now = DateTime.now();
-      synchronizationTime = '${now.year}-${now.month}-${now.day} ${now.hour}:${now.minute}:${now.second}';
+      synchronizationTime =
+          '${now.year}-${now.month}-${now.day} ${now.hour}:${now.minute}:${now.second}';
       // Update the UI with the new synchronization time
       lastSyncTime.value = synchronizationTime;
       // Stop the sync animation
@@ -124,5 +136,35 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
   }
 }
 
+Future<void> sendFileOverSocket(String assetPath, String host, int port) async {
+  var completer = Completer<void>();
 
+  try {
+    // assets에서 파일 데이터 읽기
+    final byteData = await rootBundle.load(assetPath);
+    final fileBytes = byteData.buffer.asUint8List();
 
+    // 소켓 연결 생성
+    final socket = await Socket.connect(host, port);
+    print('Connected to: ${socket.remoteAddress.address}:${socket.remotePort}');
+
+    // 파일 데이터 전송
+    socket.add(fileBytes);
+    await socket.flush(); // 데이터 전송이 완료될 때까지 기다립니다.
+    print('File sent successfully');
+
+    socket.listen((data) {
+      final response = utf8.decode(data);
+      print('서버로부터 응답을 받았습니다: $response');
+      socket.close();
+    }, onDone: () {
+      print('서버와의 연결이 종료되었습니다.');
+      completer.complete(); // 파일 전송 작업이 완료되었음을 알림
+    });
+  } catch (e) {
+    print('An error occurred: $e');
+    completer.completeError('Error sending file');
+  }
+
+  return completer.future; // 이 Future를 반환하여 작업의 완료를 기다림
+}
