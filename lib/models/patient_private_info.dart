@@ -51,7 +51,8 @@ class PatientPrivateInfo {
       name: json[PatientPrivateInfoFields.name] as String,
       gender: json[PatientPrivateInfoFields.gender] as String,
       age: json[PatientPrivateInfoFields.age] as int,
-      socialSecurityNumber: json[PatientPrivateInfoFields.socialSecurityNumber] as String,
+      socialSecurityNumber:
+          json[PatientPrivateInfoFields.socialSecurityNumber] as String,
       birthDate: json[PatientPrivateInfoFields.birthDate] as String,
       address: json[PatientPrivateInfoFields.address] as String,
       affiliation: json[PatientPrivateInfoFields.affiliation] as String,

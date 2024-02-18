@@ -92,30 +92,30 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
       loadPatient(widget.patientNumber);
       loadVital(widget.patientNumber);
 
-      // ever를 사용하여 상태가 변경될 때마다 화면을 재빌드
-      ever(addVitalController.isButtonPressed, (_) {
-        if (addVitalController.isButtonPressed.value) {
-          print('ever');
-          updateState();
-          addVitalController.isButtonPressed.value = false;
-        }
-      });
+      // // ever를 사용하여 상태가 변경될 때마다 화면을 재빌드
+      // ever(addVitalController.isButtonPressed, (_) {
+      //   if (addVitalController.isButtonPressed.value) {
+      //     print('ever');
+      //     updateState();
+      //     addVitalController.isButtonPressed.value = false;
+      //   }
+      // });
     }
     addVitalButtonController =
         Get.find<AddVitalButtonController>(); // SelectedPatientController 초기화
   }
 
-  void updateState() {
-    print('updateState, mounted: $mounted');
-    setState(() {
-      // 추가적인 로직이 있다면 여기에 추가
-      print('mounted: ${widget.patientNumber}');
-      loadPatient(widget.patientNumber);
-      print('load patient: ${widget.patientNumber}');
-      loadVital(widget.patientNumber);
-      print('load vital: ${widget.patientNumber}');
-    });
-  }
+  // void updateState() {
+  //   print('updateState, mounted: $mounted');
+  //   setState(() {
+  //     // 추가적인 로직이 있다면 여기에 추가
+  //     print('mounted: ${widget.patientNumber}');
+  //     loadPatient(widget.patientNumber);
+  //     print('load patient: ${widget.patientNumber}');
+  //     loadVital(widget.patientNumber);
+  //     print('load vital: ${widget.patientNumber}');
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -166,7 +166,7 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
               Text('$gender', style: TextStyles.text12Style),
               const SizedBox(width: 10),
               Text(
-                '${age}세 ',
+                '$age세 ',
                 style: TextStyles.text12Style,
               ),
               const SizedBox(width: 3),
@@ -181,45 +181,65 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
                   if (controller.isButtonPressed.value) {
                     loadVital(widget.patientNumber);
                   }
-                  return _buildInfoItem('BT:', '${controller.isButtonPressed.value ? bt : bt}');
+                  controller.isButtonPressed.value = false;
+
+                  return _buildSimpleInfo(bt!, sbp!, dbp!, bloodSugar!);
                 },
               ),
-              const SizedBox(width: 10),
-              GetBuilder<AddVitalButtonController>(
-                init: AddVitalButtonController(),
-                builder: (controller) {
-                  if (controller.isButtonPressed.value) {
-                    loadVital(widget.patientNumber);
-                  }
-                  return _buildInfoItem('SBP:', '${controller.isButtonPressed.value ? sbp : sbp}');
-                },
-              ),
-              const SizedBox(width: 10),
-              GetBuilder<AddVitalButtonController>(
-                init: AddVitalButtonController(),
-                builder: (controller) {
-                  if (controller.isButtonPressed.value) {
-                    loadVital(widget.patientNumber);
-                  }
-                  return _buildInfoItem('DBP:', '${controller.isButtonPressed.value ? dbp : dbp}');
-                },
-              ),
-              const SizedBox(width: 10),
-              GetBuilder<AddVitalButtonController>(
-                init: AddVitalButtonController(),
-                builder: (controller) {
-                  if (controller.isButtonPressed.value) {
-                    loadVital(widget.patientNumber);
-                  }
-                  return _buildInfoItem('혈당:', '${controller.isButtonPressed.value ? bloodSugar : bloodSugar}', color: const Color(0xFFFF3120));
-                },
-              ),
+              // const SizedBox(width: 10),
+              // GetBuilder<AddVitalButtonController>(
+              //   init: AddVitalButtonController(),
+              //   builder: (controller) {
+              //     if (controller.isButtonPressed.value) {
+              //       loadVital(widget.patientNumber);
+              //     }
+              //     return _buildInfoItem('SBP:',
+              //         '${controller.isButtonPressed.value ? sbp : sbp}');
+              //   },
+              // ),
+              // const SizedBox(width: 10),
+              // GetBuilder<AddVitalButtonController>(
+              //   init: AddVitalButtonController(),
+              //   builder: (controller) {
+              //     if (controller.isButtonPressed.value) {
+              //       loadVital(widget.patientNumber);
+              //     }
+              //     return _buildInfoItem('DBP:',
+              //         '${controller.isButtonPressed.value ? dbp : dbp}');
+              //   },
+              // ),
+              // const SizedBox(width: 10),
+              // GetBuilder<AddVitalButtonController>(
+              //   init: AddVitalButtonController(),
+              //   builder: (controller) {
+              //     if (controller.isButtonPressed.value) {
+              //       loadVital(widget.patientNumber);
+              //     }
+              //     return _buildInfoItem('혈당:',
+              //         '${controller.isButtonPressed.value ? bloodSugar : bloodSugar}',
+              //         color: const Color(0xFFFF3120));
+              //   },
+              // ),
             ],
           ),
           _buildTreatmentButton(),
         ],
-
       ),
+    );
+  }
+
+  Widget _buildSimpleInfo(double bt, int sbp, int dbp, int sugar) {
+    return Row(
+      children: [
+        const SizedBox(width: 10),
+        _buildInfoItem('BT:', '$bt'),
+        const SizedBox(width: 10),
+        _buildInfoItem('SBP:', '$sbp'),
+        const SizedBox(width: 10),
+        _buildInfoItem('DBP:', '$dbp'),
+        const SizedBox(width: 10),
+        _buildInfoItem('혈당:', '$bloodSugar', color: const Color(0xFFFF3120)),
+      ],
     );
   }
 
