@@ -225,6 +225,7 @@ class _PatientsListState extends State<PatientsList>
                     final chartNumber = await patientQueueProvider.getChartNumberByPatientNumber(
                         selectedPatientController.patientNumber.value
                     );
+                    print('선택된 환자의 데이터베이스에서 가져온 차트번호: $chartNumber');
                     // 차트 번호를 설정
                     chartNumberController.setChartNumber(chartNumber ?? 0);
                   },
