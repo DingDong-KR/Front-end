@@ -7,14 +7,12 @@ import 'package:my_desktop_app/repository/chart_sql_db.dart';
 import 'package:my_desktop_app/styles/textStyles.dart';
 
 class MedicalHistoryWidget extends StatefulWidget {
-  final double length;
   final int patientNumber;
+  final double height;
+  final double width;
 
-  const MedicalHistoryWidget(
-    this.length,
-    this.patientNumber, {
-    super.key,
-  }); // Constructor to receive historyItems
+  MedicalHistoryWidget({Key? key, required this.patientNumber,required this.height, required this.width}) : super(key: key);
+
 
   @override
   _MedicalHistoryWidgetState createState() => _MedicalHistoryWidgetState();
@@ -29,8 +27,8 @@ class _MedicalHistoryWidgetState extends State<MedicalHistoryWidget> {
     return Column(
       children: [
         Container(
-          width: 247,
-          height: widget.length,
+          width: widget.width,
+          height: widget.height,
           padding: const EdgeInsets.all(14),
           decoration: const BoxDecoration(color: Colors.white),
           child: Column(

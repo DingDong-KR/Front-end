@@ -5,10 +5,12 @@ import 'package:my_desktop_app/controller/submit_button_controller.dart';
 import 'package:my_desktop_app/models/ros.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
 
-import '../../screens/ros/add_ros_screen.dart';
+import '../screens/ros/add_ros_screen.dart';
 
 class Ros extends StatefulWidget {
   final int chartNumber;
+  final double height;
+  final double width;
 
   const Ros({super.key, required this.chartNumber});
 
@@ -62,8 +64,8 @@ class _RosState extends State<Ros> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 313,
-      height: 259,
+      width: width,
+      height: height,
       decoration: const BoxDecoration(color: Colors.white),
       child: Padding(
         padding: const EdgeInsets.all(10.0),

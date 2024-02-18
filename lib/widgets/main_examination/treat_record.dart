@@ -36,8 +36,8 @@ class _TreatRecordState extends State<TreatRecord> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 421,
-      height: 258,
+      width: 400,
+      height: 207,
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 15),
       decoration: const BoxDecoration(color: Colors.white),
       child: Column(

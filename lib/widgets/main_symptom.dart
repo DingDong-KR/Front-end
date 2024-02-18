@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:my_desktop_app/controller/pre_examination_controller.dart';
+
+import '../styles/textStyles.dart';
 
 class MainSymptom extends StatelessWidget {
   final int chartNumber;
-  MainSymptom({Key? key, required this.chartNumber}) : super(key: key);
+  final double height;
+  final double width;
+  MainSymptom({Key? key, required this.chartNumber,required this.height, required this.width}) : super(key: key);
+
+  final PreExaminationController preExaminationController = Get.put(PreExaminationController()); //컨트롤러에 데이터를 집어넣기 때문에 get.put을 써야함.
+  final TextEditingController mainSymptomController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 629,
-      height: 312,
+      width: width,
+      height: height,
       decoration: ShapeDecoration(
         color: Colors.white,
         shape: RoundedRectangleBorder(
@@ -32,7 +41,13 @@ class MainSymptom extends StatelessWidget {
             ),
             SizedBox(height: 1), // 주증상과 추가 정보 사이 간격
             TextField(
-              maxLines: 15, // Set maxLines to null for multiline input
+              controller: mainSymptomController,
+              onChanged: (value) {
+                // mainSymptom의 값을 변경합니다.
+                preExaminationController.updateMainSymptom(value);
+                print('저장하는 주증상: ${preExaminationController.mainSymptom.value}');
+              },
+              maxLines: 15,
               decoration: InputDecoration(
                   hintText: 'Please Write Main Symptom of the Patient.',
                   hintStyle: TextStyle(
@@ -42,16 +57,11 @@ class MainSymptom extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                   ),
                   contentPadding: EdgeInsets.symmetric(
-                    vertical: 15, // Adjust the vertical padding
+                    vertical: 15,
                   ),
                   border: InputBorder.none
               ),
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 11,
-                fontFamily: 'Pretendard',
-                fontWeight: FontWeight.w400,
-              ),
+              style: TextStyles.text11Style
             ),
           ],
         ),

@@ -1,28 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import '../../styles/textStyles.dart';
 
-class Diagnosis extends StatelessWidget {
-  const Diagnosis({super.key});
+class Diagnosis extends StatefulWidget {
+  const Diagnosis({Key? key}) : super(key: key);
+
+  @override
+  _DiagnosisState createState() => _DiagnosisState();
+}
+
+class _DiagnosisState extends State<Diagnosis> {
+  int isMain = 0; //상병코드 주/부
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 421,
-      height: 115,
+      width: 400,
+      height: 135,
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
       decoration: const BoxDecoration(color: Colors.white),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            width: double.infinity,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Text(
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
+                child: Text(
                   '진단',
                   style: TextStyle(
                     color: Color(0xFF404855),
@@ -30,310 +33,161 @@ class Diagnosis extends StatelessWidget {
                     fontFamily: 'Pretendard',
                     fontWeight: FontWeight.w700,
                     height: 0.11,
+                    letterSpacing: 0.14,
                   ),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Container(
-                    height: 24,
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+              ),
+              Stack(
+                children: [
+                  Container(
+                    width: 328,
+                    height: 22,
                     decoration: ShapeDecoration(
                       color: const Color(0xFFF7F7F7),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5)),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          child: const Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '상병코드 혹은 상병명을 검색하세요.',
-                                style: TextStyle(
-                                  color: Color(0xFFAFAFAF),
-                                  fontSize: 12,
-                                  fontFamily: 'Pretendard',
-                                  fontWeight: FontWeight.w400,
-                                  height: 0.15,
-                                ),
-                              ),
-                            ],
-                          ),
+                    child: const Padding(
+                      padding: EdgeInsets.fromLTRB(6, 0, 0, 3),
+                      child: TextField(
+                        decoration: InputDecoration(
+                            hintText: '상병 코드 및 상병명을 입력하세요',
+                            hintStyle: TextStyle(
+                              color: Color(0xFFAFAFAF),
+                              fontSize: 11,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w400,
+                            ),
+                            border: InputBorder.none),
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 11,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w400,
                         ),
-                        Container(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                width: 14.25,
-                                height: 15.29,
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      left: -0,
-                                      top: 0,
-                                      child: Container(
-                                        width: 14.25,
-                                        height: 15.29,
-                                        decoration: const BoxDecoration(
-                                            // image: DecorationImage(
-                                            //   image: NetworkImage(
-                                            //       "https://via.placeholder.com/14x15"),
-                                            //   fit: BoxFit.fill,
-                                            // ),
-                                            ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
+                  Positioned(
+                    right: 10,
+                    top: 5,
+                    child: SvgPicture.asset('assets/icons/icon_search.svg'),
+                  ),
+                ],
+              ),
+            ],
           ),
-          SizedBox(
-            width: double.infinity,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        child: const Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              '주',
-                              style: TextStyle(
-                                color: Color(0xFF404855),
-                                fontSize: 12,
-                                fontFamily: 'Pretendard',
-                                fontWeight: FontWeight.w400,
-                                height: 0.12,
-                                letterSpacing: -0.13,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 15),
-                      SizedBox(
-                        width: 13,
-                        height: 13,
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              left: 0,
-                              top: 0,
-                              child: Container(
-                                width: 13,
-                                height: 13,
-                                decoration: const ShapeDecoration(
-                                  shape: OvalBorder(
-                                    side: BorderSide(
-                                        width: 1, color: Color(0xFFD9D9D9)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              left: 3,
-                              top: 3,
-                              child: Container(
-                                width: 7,
-                                height: 7,
-                                decoration: const ShapeDecoration(
-                                  color: Color(0xFF00C9FF),
-                                  shape: OvalBorder(),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 35),
-                Container(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        child: const Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              '부',
-                              style: TextStyle(
-                                color: Color(0xFF404855),
-                                fontSize: 12,
-                                fontFamily: 'Pretendard',
-                                fontWeight: FontWeight.w400,
-                                height: 0.12,
-                                letterSpacing: -0.13,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 15),
-                      SizedBox(
-                        width: 13,
-                        height: 13,
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              left: 0,
-                              top: 0,
-                              child: Container(
-                                width: 13,
-                                height: 13,
-                                decoration: const ShapeDecoration(
-                                  shape: OvalBorder(
-                                    side: BorderSide(
-                                        width: 1, color: Color(0xFFD9D9D9)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 35),
-                Container(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        child: const Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              '상병코드',
-                              style: TextStyle(
-                                color: Color(0xFF404855),
-                                fontSize: 12,
-                                fontFamily: 'Pretendard',
-                                fontWeight: FontWeight.w400,
-                                height: 0.12,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 15),
-                      Container(
-                        child: const Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '56543',
-                              style: TextStyle(
-                                color: Color(0xFF404855),
-                                fontSize: 12,
-                                fontFamily: 'Pretendard',
-                                fontWeight: FontWeight.w500,
-                                height: 0.12,
-                                letterSpacing: 0.12,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 35),
-                Container(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        child: const Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              '상병명',
-                              style: TextStyle(
-                                color: Color(0xFF404855),
-                                fontSize: 12,
-                                fontFamily: 'Pretendard',
-                                fontWeight: FontWeight.w400,
-                                height: 0.12,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 15),
-                      Container(
-                        child: const Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              '아래 허리 긴장, 요추부',
-                              style: TextStyle(
-                                color: Color(0xFF404855),
-                                fontSize: 12,
-                                fontFamily: 'Pretendard',
-                                fontWeight: FontWeight.w500,
-                                height: 0.12,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+          SizedBox(height: 20,),
+          _buildIndexRow('주','부','상병코드','상병명'),
+          _buildItemRow("56543", "아래 허리 긴장, 요추부")
         ],
       ),
     );
   }
+
+  Widget _buildIndexRow(String main, String sub, String code, String name) {
+    return Row(
+      children: [
+        Text(
+          '$main ',
+          style: TextStyle(
+            fontSize: 12,
+            fontFamily: 'Pretendard',
+            fontWeight: FontWeight.w400,
+            height: 0.12,
+            letterSpacing: 0.12,
+          ),
+        ),
+        const SizedBox(width: 30),
+        Text(
+          '$sub ',
+          style: TextStyle(
+            fontSize: 12,
+            fontFamily: 'Pretendard',
+            fontWeight: FontWeight.w400,
+            height: 0.12,
+            letterSpacing: 0.12,
+          ),
+        ),
+        const SizedBox(width: 30),
+        Text(
+          '$code ',
+          style: TextStyle(
+            fontSize: 12,
+            fontFamily: 'Pretendard',
+            fontWeight: FontWeight.w400,
+            height: 0.12,
+            letterSpacing: 0.12,
+          ),
+        ),
+        const SizedBox(width: 30),
+        Text(
+          '$name ',
+          style: TextStyle(
+            fontSize: 12,
+            fontFamily: 'Pretendard',
+            fontWeight: FontWeight.w400,
+            height: 0.12,
+            letterSpacing: 0.12,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildItemRow(String code, String name) {
+    return Row(
+      children: [
+        _buildRadioButton(isMain, (newValue) {
+          setState(() {
+            isMain = newValue!;
+          });
+        }),
+        const SizedBox(width: 30),
+        Text(
+          '$code ',
+          style: TextStyle(
+            fontSize: 12,
+            fontFamily: 'Pretendard',
+            fontWeight: FontWeight.w400,
+            height: 0.12,
+            letterSpacing: 0.12,
+          ),
+        ),
+        const SizedBox(width: 30),
+        Text(
+          '$name ',
+          style: TextStyle(
+            fontSize: 12,
+            fontFamily: 'Pretendard',
+            fontWeight: FontWeight.w400,
+            height: 0.12,
+            letterSpacing: 0.12,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRadioButton(int value, void Function(int?) onChanged) {
+    return Row(
+      children: [
+        Radio(
+          value: 1,
+          groupValue: value,
+          onChanged: onChanged,
+          activeColor: const Color(0xFF3FA7C3),
+        ),
+        SizedBox(width: 5,),
+        Radio(
+          value: 0,
+          groupValue: value,
+          onChanged: onChanged,
+          activeColor: const Color(0xFF3FA7C3),
+        ),
+      ],
+    );
+  }
 }
+
