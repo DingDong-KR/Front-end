@@ -5,10 +5,7 @@ class PreExaminationFields {
   static final String measurementDate = 'measurementDate';  // 진찰 일
   static final String mainSymptoms = 'mainSymptoms';        // 주증상
   static final String rosKeywords = 'rosKeywords';          // 향후 본진에서 출력할 keyword들 ex) #오한
-  static final List<String> rosDescriptives = [
-    'rosDescriptive1',
-    'rosDescriptive2',
-  ]; // ros 부분에서의 주관식
+  static final String rosDescriptive = 'rosDescriptive1'; // ros 부분에서의 주관식
   static final String bodyType = 'bodyType';
   static final String additionalNotes = 'additionalNotes'; // 추가 정보 -> 간호 노트
   static final String consentToCollectPersonalInformation = 'consentToCollectPersonalInformation'; // 향후 사용 할 수 있는 개인정보 동의서
@@ -22,7 +19,7 @@ class PreExamination {
   final DateTime measurementDate;
   final String? mainSymptoms;
   final String? rosKeywords;
-  final List<String>? rosDescriptives;
+  final String? rosDescriptive;
   final int? bodyType;
   final String? additionalNotes;
   final bool? consentToCollectPersonalInformation;
@@ -34,7 +31,7 @@ class PreExamination {
     required this.measurementDate,
     this.mainSymptoms,
     this.rosKeywords,
-    this.rosDescriptives,
+    this.rosDescriptive,
     this.bodyType,
     this.additionalNotes,
     this.consentToCollectPersonalInformation,
@@ -49,8 +46,7 @@ class PreExamination {
       PreExaminationFields.measurementDate: measurementDate.toIso8601String(),
       PreExaminationFields.mainSymptoms: mainSymptoms,
       PreExaminationFields.rosKeywords: rosKeywords,
-      for (int i = 0; i < PreExaminationFields.rosDescriptives.length; i++)
-        PreExaminationFields.rosDescriptives[i]: rosDescriptives?[i],
+      PreExaminationFields.rosDescriptive: rosDescriptive,
       PreExaminationFields.bodyType: bodyType,
       PreExaminationFields.additionalNotes: additionalNotes,
       PreExaminationFields.consentToCollectPersonalInformation: consentToCollectPersonalInformation == null ? null : (consentToCollectPersonalInformation! ? 1 : 0),
@@ -63,15 +59,13 @@ class PreExamination {
       userId: json[PreExaminationFields.userId] as String,
       patientNumber: json[PreExaminationFields.patientNumber] as int,
       measurementDate: DateTime.parse(json[PreExaminationFields.measurementDate] as String),
-      mainSymptoms: json[PreExaminationFields.mainSymptoms] as String,
-      rosKeywords: json[PreExaminationFields.rosKeywords] as String,
-      rosDescriptives: List<String>.generate(
-        PreExaminationFields.rosDescriptives.length,
-            (i) => json[PreExaminationFields.rosDescriptives[i]] as String,
-      ),
-      bodyType: json[PreExaminationFields.bodyType] as int,
-      additionalNotes: json[PreExaminationFields.additionalNotes] as String,
+      mainSymptoms: json[PreExaminationFields.mainSymptoms] as String?,
+      rosKeywords: json[PreExaminationFields.rosKeywords] as String?,
+      rosDescriptive: json[PreExaminationFields.rosDescriptive] as String?,
+      bodyType: json[PreExaminationFields.bodyType] as int?,
+      additionalNotes: json[PreExaminationFields.additionalNotes] as String?,
       consentToCollectPersonalInformation: json[PreExaminationFields.consentToCollectPersonalInformation] == null ? null : json[PreExaminationFields.consentToCollectPersonalInformation] == 1,
     );
   }
+
 }

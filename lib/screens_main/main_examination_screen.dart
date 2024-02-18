@@ -5,6 +5,7 @@ import '../widgets/main_examination/diagnosis.dart';
 import '../widgets/main_examination/image_section.dart';
 import '../widgets/main_examination/order_set.dart';
 import '../widgets/main_symptom.dart';
+import '../widgets/main_symptom_main.dart';
 import '../widgets/medical_history_widget.dart';
 import '../widgets/main_examination/treat_record.dart';
 import '../widgets/main_examination/treatment.dart';
@@ -43,7 +44,7 @@ class MainExaminationScreen extends StatelessWidget {
                       ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
-                        child: MainSymptom(chartNumber: chartNumber, width: 132,height: 142,),
+                        child: MainSymptomMain(chartNumber: chartNumber, width: 132,height: 142,),
                       ),
                     ],
                   ),

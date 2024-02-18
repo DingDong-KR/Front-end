@@ -36,11 +36,11 @@ class MainSymptom extends StatelessWidget {
                 fontSize: 12,
                 fontFamily: 'Pretendard',
                 fontWeight: FontWeight.w700,
-                height: 1,
               ),
             ),
             SizedBox(height: 1), // 주증상과 추가 정보 사이 간격
             TextField(
+              cursorHeight: 8.0,
               controller: mainSymptomController,
               onChanged: (value) {
                 // mainSymptom의 값을 변경합니다.
@@ -49,7 +49,6 @@ class MainSymptom extends StatelessWidget {
               },
               maxLines: 15,
               decoration: InputDecoration(
-                  hintText: 'Please Write Main Symptom of the Patient.',
                   hintStyle: TextStyle(
                     color: Color(0xFFAFAFAF),
                     fontSize: 11,
@@ -61,8 +60,9 @@ class MainSymptom extends StatelessWidget {
                   ),
                   border: InputBorder.none
               ),
-              style: TextStyles.text11Style
+              style: TextStyles.text11Style.copyWith(height: 1.5), // height 값을 조절해주세요
             ),
+
           ],
         ),
       ),
