@@ -2,16 +2,26 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:my_desktop_app/controller/main_examination_controller.dart';
+import 'package:my_desktop_app/styles/textStyles.dart';
 
 class TreatRecord extends StatefulWidget {
-  const TreatRecord({Key? key}) : super(key: key);
+  final int chartNumber;
+
+  const TreatRecord({Key? key, required this.chartNumber}) : super(key: key);
 
   @override
   _TreatRecordState createState() => _TreatRecordState();
 }
 
 class _TreatRecordState extends State<TreatRecord> {
+  final MainExaminationController mainExaminationController =
+      Get.put(MainExaminationController());
+
+  final TextEditingController trController = TextEditingController();
+
   late DateTime _currentTime;
   late Timer _timer;
   final TextEditingController _textController = TextEditingController();
@@ -48,7 +58,7 @@ class _TreatRecordState extends State<TreatRecord> {
         children: [
           Row(
             children: [
-              Text(
+              const Text(
                 '진료기록',
                 style: TextStyle(
                   color: Color(0xFF404855),
@@ -125,6 +135,29 @@ class _TreatRecordState extends State<TreatRecord> {
               ),
             ],
           ),
+            -----------------------------------
+          TextField(
+              controller: trController,
+              onChanged: (value) {
+                // mainSymptom의 값을 변경합니다.
+                mainExaminationController.updateTreatRecord(value);
+                print(
+                    '저장하는 진료기록: ${mainExaminationController.treatRecord.value}');
+              },
+              maxLines: 8,
+              decoration: const InputDecoration(
+                  hintText: '진료기록을 작성해주세요.',
+                  hintStyle: TextStyle(
+                    color: Color(0xFFAFAFAF),
+                    fontSize: 11,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w400,
+                  ),
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 15,
+                  ),
+                  border: InputBorder.none),
+              style: TextStyles.text11Style.copyWith(height: 1.5)),
         ],
       ),
     );

@@ -12,7 +12,11 @@ class Ros extends StatefulWidget {
   final double height;
   final double width;
 
-  const Ros({super.key, required this.chartNumber, required this.width, required this.height});
+  const Ros(
+      {super.key,
+      required this.chartNumber,
+      required this.width,
+      required this.height});
 
   @override
   State<Ros> createState() => _RosState();
@@ -22,6 +26,9 @@ class _RosState extends State<Ros> {
   late SubmitButtonController submitButtonController;
 
   bool _isLoadingRos = true;
+
+  RxString rosString1 = RxString('');
+  RxString rosString2 = RxString('');
 
   String? getHotEasily = '';
   String? handFootWarm = '';
@@ -34,18 +41,35 @@ class _RosState extends State<Ros> {
   ROS? ros;
   Future<void> loadRos(chartNum) async {
     if (widget.chartNumber != 0) {
-      final ROSProvider rosProvider = ROSProvider();
-      ros = await rosProvider.getROSByChartNumber(chartNum);
+      try {
+        final ROSProvider rosProvider = ROSProvider();
+        ros = await rosProvider.getROSByChartNumber(chartNum);
 
-      getHotEasily = ros!.getHotEasily;
-      handFootWarm = ros!.handFootWarm;
+        getHotEasily = ros!.getHotEasily;
+        handFootWarm = ros!.handFootWarm;
 
-      setState(() {
-        _isLoadingRos = false;
-      });
+        setState(() {
+          _isLoadingRos = false;
+          rosString1 = RxString(getHotEasily!);
+          rosString2 = RxString(handFootWarm!);
+        });
 
-      print('=============================');
-      print('getHotEasily: $getHotEasily, handfootwarm: $handFootWarm');
+        print('chart num: ${widget.chartNumber}');
+        print('getHotEasily: $getHotEasily, handfootwarm: $handFootWarm');
+      } catch (e) {
+        print('no ros');
+      }
+    }
+  }
+
+  double fontSize = 12;
+  void fontSizeMaker() {
+    double getHeight = widget.height;
+    fontSize = 12;
+    if (getHeight == 259) {
+      fontSize = 12;
+    } else {
+      fontSize = 11;
     }
   }
 
@@ -56,9 +80,11 @@ class _RosState extends State<Ros> {
       print('ros initstate');
 
       loadRos(widget.chartNumber);
+      fontSizeMaker();
     }
 
     submitButtonController = Get.find<SubmitButtonController>();
+    submitButtonController.isRosButtonPressed.value = false;
   }
 
   @override
@@ -109,6 +135,7 @@ class _RosState extends State<Ros> {
                   child: Container(
                     child: Row(
                       children: [
+
                         SvgPicture.asset('assets/icons/icon_document.svg'),
                         const SizedBox(width: 5),
                         SvgPicture.asset('assets/icons/icon_right_arrow.svg'),
@@ -118,7 +145,7 @@ class _RosState extends State<Ros> {
                 )
               ],
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 13),
             Expanded(
               child: Container(
                 width: double.infinity,
@@ -129,37 +156,23 @@ class _RosState extends State<Ros> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    GetBuilder<SubmitButtonController>(
-                        init: SubmitButtonController(),
-                        builder: (controller) {
-                          if (controller.isRosButtonPressed.value) {
-                            print('ros controller true');
-                            loadRos(widget.chartNumber);
-                          }
-                          controller.isRosButtonPressed.value = false;
-                          return _buildRosKeywords(
-                              getHotEasily!, handFootWarm!);
-                        }),
-                    // const Padding(
-                    //   padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                    //   child: Row(
-                    //     mainAxisSize: MainAxisSize.min,
-                    //     mainAxisAlignment: MainAxisAlignment.start,
-                    //     crossAxisAlignment: CrossAxisAlignment.start,
-                    //     children: [
-                    //       Text(
-                    //         '# 오한',
-                    //         style: TextStyle(
-                    //           color: Color(0xFF3EA7C2),
-                    //           fontSize: 12,
-                    //           fontFamily: 'Pretendard',
-                    //           fontWeight: FontWeight.w400,
-                    //           //height: 0.12,
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
+                    // GetBuilder<SubmitButtonController>(
+                    //     init: SubmitButtonController(),
+                    //     builder: (controller) {
+                    //       if (controller.isRosButtonPressed.value) {
+                    //         print('ros controller true');
+                    //         loadRos(widget.chartNumber);
+                    //       }
+                    //       controller.isRosButtonPressed.value = false;
+                    //       loadRos(widget.chartNumber);
+                    //       return _buildRosKeywords(
+                    //           getHotEasily!, handFootWarm!);
+                    //     }),
+                    Column(
+                      children: [
+                        Obx(() => _buildRosKeywords(rosString1, rosString2))
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -169,36 +182,48 @@ class _RosState extends State<Ros> {
       ),
     );
   }
-}
 
-Widget _buildRosKeywords(String getHotEasily, String handFootWarm) {
-  print('_buildros: $getHotEasily, $handFootWarm');
-  return Column(
-    children: [
-      _rosKeywordWidget(getHotEasily),
-      _rosKeywordWidget(handFootWarm),
-    ],
-  );
-}
+  Widget _buildRosKeywords(RxString getHotEasily, RxString handFootWarm) {
+    String putGetHotEasily = '';
+    String putHandFootWarm = '';
 
-Widget _rosKeywordWidget(String keyword) {
-  return Padding(
-    padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-    child: Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.start,
+    if (getHotEasily != '') {
+      putGetHotEasily = '#더위 $getHotEasily 탐';
+    }
+
+    if (handFootWarm != '') {
+      putHandFootWarm = '#$handFootWarm 따뜻한 편';
+    }
+
+    print('_buildros: $getHotEasily, $handFootWarm');
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '# $keyword',
-          style: const TextStyle(
-            color: Color(0xFF3EA7C2),
-            fontSize: 12,
-            fontFamily: 'Pretendard',
-            fontWeight: FontWeight.w400,
-          ),
-        ),
+        _rosKeywordWidget(putGetHotEasily),
+        _rosKeywordWidget(putHandFootWarm),
       ],
-    ),
-  );
+    );
+  }
+
+  Widget _rosKeywordWidget(String keyword) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(5, 0, 0, 5),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            keyword,
+            style: TextStyle(
+              color: const Color(0xFF3EA7C2),
+              fontSize: fontSize,
+              fontFamily: 'Pretendard',
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

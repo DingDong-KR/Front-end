@@ -21,12 +21,12 @@ class MainExaminationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xFFE2F1F6), // 예시로 파란색 배경 적용
+      color: const Color(0xFFE2F1F6), // 예시로 파란색 배경 적용
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.fromLTRB(9.0, 9.0, 9.0, 0),
+            padding: const EdgeInsets.fromLTRB(9.0, 9.0, 9.0, 0),
             child: PatientSimpleInfo(
               patientNumber: patientNumber,
             ),
@@ -39,36 +39,46 @@ class MainExaminationScreen extends StatelessWidget {
                   Row(
                     children: [
                       Padding(
-                        padding: EdgeInsets.fromLTRB(9.0, 3.0, 0.0, 0),
-                        child: Ros(chartNumber: chartNumber, width: 132, height: 142),
+                        padding: const EdgeInsets.fromLTRB(9.0, 3.0, 0.0, 0),
+                        child: Ros(
+                            chartNumber: chartNumber, width: 132, height: 142),
                       ),
                       Padding(
+
                         padding: EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
                         child: MainSymptomMain(chartNumber: chartNumber, width: 132,height: 142,),
+
                       ),
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(9.0, 3.0, 0.0, 0),
-                    child: NursingNote(chartNumber: chartNumber, width:268, height:122),
+                    padding: const EdgeInsets.fromLTRB(9.0, 3.0, 0.0, 0),
+                    child: NursingNote(
+                        chartNumber: chartNumber, width: 268, height: 122),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(9.0, 3.0, 0.0, 0),
-                    child: MedicalHistoryWidget(patientNumber:patientNumber, width:268, height: 370,),
+                    child: MedicalHistoryWidget(
+                      patientNumber: patientNumber,
+                      width: 268,
+                      height: 370,
+                    ),
                   ),
                 ],
               ),
-              const Column(
+              Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0.0),
-                    child: TreatRecord(),
+                    padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0.0),
+                    child: TreatRecord(
+                      chartNumber: chartNumber,
+                    ),
                   ),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0.0),
                     child: Diagnosis(),
                   ),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0.0),
                     child: Treatment(),
                   ),

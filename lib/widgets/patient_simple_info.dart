@@ -27,8 +27,7 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
   late PreExaminationController preExaminationController;
   late SubmitButtonController submitButtonController;
   late ChartNumberController chartNumberController;
-  final AuthController authController= Get.find<AuthController>();
-
+  final AuthController authController = Get.find<AuthController>();
 
   bool _isLoadingPatient = true;
   bool _isLoadingVital = true;
@@ -100,12 +99,12 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
       patientNumber: widget.patientNumber,
       userId: authController.userId.value,
       measurementDate: DateTime.now(),
-        mainSymptoms: preExaminationController.mainSymptom.value
-
+      mainSymptoms: preExaminationController.mainSymptom.value,
     );
 
     //PreExamination 테이블에 정보 업데이트
-    final PreExaminationProvider preExaminationProvider = PreExaminationProvider();
+    final PreExaminationProvider preExaminationProvider =
+        PreExaminationProvider();
     preExaminationProvider.insertPreExamination(newPreExamination);
     //PatientQueue 테이블에 상태 변경
     final PatientQueueProvider patientQueueProvider = PatientQueueProvider();
@@ -118,14 +117,12 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
     if (widget.patientNumber != 0) {
       loadPatient(widget.patientNumber);
       loadVital(widget.patientNumber);
-
     }
     submitButtonController =
         Get.find<SubmitButtonController>(); // submitButtonController 초기화
     chartNumberController =
         Get.find<ChartNumberController>(); // chartNumberController 초기화
-    preExaminationController =
-        Get.find<PreExaminationController>();
+    preExaminationController = Get.find<PreExaminationController>();
   }
 
   @override
@@ -269,10 +266,10 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return Align(
+            return const Align(
               alignment: Alignment.center,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 300.0),
+                padding: EdgeInsets.symmetric(horizontal: 300.0),
                 child: Dialog(
                   elevation: 0,
                   backgroundColor: Colors.transparent,
