@@ -151,14 +151,15 @@ class SqlDataBase {
       ${PreExaminationFields.patientNumber} INTEGER NOT NULL,
       ${PreExaminationFields.measurementDate} TEXT NOT NULL,
       ${PreExaminationFields.mainSymptoms} TEXT,
-      ${PreExaminationFields.rosKeywords} TEXT,
-      ${PreExaminationFields.bodyType} INTEGER,
-      ${PreExaminationFields.additionalNotes} TEXT,
-      ${PreExaminationFields.consentToCollectPersonalInformation} INTEGER,
-      
+    
       FOREIGN KEY (${PreExaminationFields.patientNumber}) REFERENCES ${PatientPrivateInfo.tableName}(${PatientPrivateInfoFields.patientNumber}) ON DELETE CASCADE
     )
     ''');
+
+    // ${PreExaminationFields.rosKeywords} TEXT,
+    //   ${PreExaminationFields.bodyType} INTEGER,
+    //   ${PreExaminationFields.additionalNotes} TEXT,
+    //   ${PreExaminationFields.consentToCollectPersonalInformation} INTEGER,
     await db.execute('''
       CREATE TABLE ${ROS.tableName}(
         ${ROSFields.chartNumber} INTEGER PRIMARY KEY,

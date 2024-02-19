@@ -4,10 +4,10 @@ class PreExaminationFields {
   static final String patientNumber = 'patientNumber';      // 환자 번호
   static final String measurementDate = 'measurementDate';  // 진찰 일
   static final String mainSymptoms = 'mainSymptoms';        // 주증상
-  static final String rosKeywords = 'rosKeywords';          // 향후 본진에서 출력할 keyword들 ex) #오한
-  static final String bodyType = 'bodyType';
-  static final String additionalNotes = 'additionalNotes'; // 추가 정보 -> 간호 노트
-  static final String consentToCollectPersonalInformation = 'consentToCollectPersonalInformation'; // 향후 사용 할 수 있는 개인정보 동의서
+  // static final String rosKeywords = 'rosKeywords';          // 향후 본진에서 출력할 keyword들 ex) #오한
+  // static final String bodyType = 'bodyType';
+  // static final String additionalNotes = 'additionalNotes'; // 추가 정보 -> 간호 노트
+  // static final String consentToCollectPersonalInformation = 'consentToCollectPersonalInformation'; // 향후 사용 할 수 있는 개인정보 동의서
 }
 class PreExamination {
   static String tableName = 'preExamination';
@@ -17,10 +17,10 @@ class PreExamination {
   final int patientNumber;
   final DateTime measurementDate;
   final String? mainSymptoms;
-  final String? rosKeywords;
-  final int? bodyType;
-  final String? additionalNotes;
-  final bool? consentToCollectPersonalInformation;
+  // final String? rosKeywords;
+  // final int? bodyType;
+  // final String? additionalNotes;
+  // final bool? consentToCollectPersonalInformation;
 
   const PreExamination({
     this.chartNumber,
@@ -28,10 +28,10 @@ class PreExamination {
     required this.patientNumber,
     required this.measurementDate,
     this.mainSymptoms,
-    this.rosKeywords,
-    this.bodyType,
-    this.additionalNotes,
-    this.consentToCollectPersonalInformation,
+    // this.rosKeywords,
+    // this.bodyType,
+    // this.additionalNotes,
+    // this.consentToCollectPersonalInformation,
 
   });
 
@@ -42,10 +42,10 @@ class PreExamination {
       PreExaminationFields.patientNumber: patientNumber,
       PreExaminationFields.measurementDate: measurementDate.toIso8601String(),
       PreExaminationFields.mainSymptoms: mainSymptoms,
-      PreExaminationFields.rosKeywords: rosKeywords,
-      PreExaminationFields.bodyType: bodyType,
-      PreExaminationFields.additionalNotes: additionalNotes,
-      PreExaminationFields.consentToCollectPersonalInformation: consentToCollectPersonalInformation == null ? null : (consentToCollectPersonalInformation! ? 1 : 0),
+      // PreExaminationFields.rosKeywords: rosKeywords,
+      // PreExaminationFields.bodyType: bodyType,
+      // PreExaminationFields.additionalNotes: additionalNotes,
+      // PreExaminationFields.consentToCollectPersonalInformation: consentToCollectPersonalInformation == null ? null : (consentToCollectPersonalInformation! ? 1 : 0),
     };
   }
 
@@ -56,10 +56,10 @@ class PreExamination {
       patientNumber: json[PreExaminationFields.patientNumber] as int,
       measurementDate: DateTime.parse(json[PreExaminationFields.measurementDate] as String),
       mainSymptoms: json[PreExaminationFields.mainSymptoms] as String?,
-      rosKeywords: json[PreExaminationFields.rosKeywords] as String?,
-      bodyType: json[PreExaminationFields.bodyType] as int?,
-      additionalNotes: json[PreExaminationFields.additionalNotes] as String?,
-      consentToCollectPersonalInformation: json[PreExaminationFields.consentToCollectPersonalInformation] == null ? null : json[PreExaminationFields.consentToCollectPersonalInformation] == 1,
+      // rosKeywords: json[PreExaminationFields.rosKeywords] as String?,
+      // bodyType: json[PreExaminationFields.bodyType] as int?,
+      // additionalNotes: json[PreExaminationFields.additionalNotes] as String?,
+      // consentToCollectPersonalInformation: json[PreExaminationFields.consentToCollectPersonalInformation] == null ? null : json[PreExaminationFields.consentToCollectPersonalInformation] == 1,
     );
   }
 

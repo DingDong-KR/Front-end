@@ -195,11 +195,11 @@ class PreExaminationProvider {
       patientNumber: preExamination.patientNumber,
       measurementDate: DateTime.now(), // 현재 날짜를 사용
       mainSymptoms: preExamination.mainSymptoms,
-      rosKeywords: preExamination.rosKeywords,
-      bodyType: preExamination.bodyType,
-      additionalNotes: preExamination.additionalNotes,
-      consentToCollectPersonalInformation:
-          preExamination.consentToCollectPersonalInformation,
+      // rosKeywords: preExamination.rosKeywords,
+      // bodyType: preExamination.bodyType,
+      // additionalNotes: preExamination.additionalNotes,
+      // consentToCollectPersonalInformation:
+      //     preExamination.consentToCollectPersonalInformation,
     );
 
     return await db.insert(
