@@ -23,6 +23,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       initialBinding: BindingsBuilder(() {
         Get.put(AffiliationController()); //
         Get.put(SelectedPatientController()); //
