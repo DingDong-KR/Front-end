@@ -152,7 +152,6 @@ class SqlDataBase {
       ${PreExaminationFields.measurementDate} TEXT NOT NULL,
       ${PreExaminationFields.mainSymptoms} TEXT,
       ${PreExaminationFields.rosKeywords} TEXT,
-      ${PreExaminationFields.rosDescriptive} TEXT,
       ${PreExaminationFields.bodyType} INTEGER,
       ${PreExaminationFields.additionalNotes} TEXT,
       ${PreExaminationFields.consentToCollectPersonalInformation} INTEGER,

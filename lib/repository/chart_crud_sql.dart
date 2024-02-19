@@ -196,7 +196,6 @@ class PreExaminationProvider {
       measurementDate: DateTime.now(), // 현재 날짜를 사용
       mainSymptoms: preExamination.mainSymptoms,
       rosKeywords: preExamination.rosKeywords,
-      rosDescriptive: preExamination.rosDescriptive,
       bodyType: preExamination.bodyType,
       additionalNotes: preExamination.additionalNotes,
       consentToCollectPersonalInformation:
