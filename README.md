@@ -60,11 +60,17 @@ We have addressed this issue by introducing AI proctoring.
 
 ## 🛣 Architecture
 <p  align="center">
-<img width = "1000px" height = "500px" src="https://github.com/Chartify-KR/Front-end/assets/111236793/33a2554b-76cd-4018-bfb6-b58a5bc31252"/>
+<img width = "1000px" height = "550px" src="https://github.com/Chartify-KR/Front-end/assets/111236793/33a2554b-76cd-4018-bfb6-b58a5bc31252"/>
 </p>
-Data integrity is maintained by storing hub computer's data in the internet environment after the fieldwork.
-
-Uses Firebase to store medical data, synchronizing data among users in the same affiliation before they participate in the medical activity.
+Medical volunteer activity can be divided into three main teams: pre-examination, main-examination, and treatment. <br>
+<br>
+So, taking inspiration from distributed computing, we designated a hub computer for each team and transmitted data generated from each node computer to the hub computer.<br>
+<br>
+In addition, the hub computer was able to exchange data by communicating with the hub computers of other teams.<br>
+<br>
+Data integrity is maintained by storing hub computer's data in the internet environment after the fieldwork.<br>
+<br>
+Uses Firebase to store medical data, synchronizing data among users in the same affiliation before they participate in the medical activity.<br>
 
 ## 📚 Project overview
 <p  align="center">
