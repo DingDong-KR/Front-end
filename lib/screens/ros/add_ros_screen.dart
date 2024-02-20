@@ -48,6 +48,9 @@ class _AddRosScreenState extends State<AddRosScreen> {
       // Call saveROS method of ROSTemperatureSensitive
       ROSTemperatureSensitiveState? rosState = _rosKey.currentState;
       rosState?.saveROS();
+
+      submitButtonController.rosButtonPressed();
+      print('addrosscreen: ${submitButtonController.isRosButtonPressed.value}');
     }
 
     return Container(
@@ -146,9 +149,6 @@ class _AddRosScreenState extends State<AddRosScreen> {
                           onTap: () {
                             onCompletionPressed();
 
-                            submitButtonController.rosButtonPressed();
-                            print(
-                                'addrosscreen: ${submitButtonController.isRosButtonPressed.value}');
                             Navigator.pop(context);
                           },
                           child: Container(

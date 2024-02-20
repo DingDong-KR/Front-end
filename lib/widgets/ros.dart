@@ -27,8 +27,8 @@ class _RosState extends State<Ros> {
 
   bool _isLoadingRos = true;
 
-  RxString rosString1 = RxString('');
-  RxString rosString2 = RxString('');
+  // RxString rosString1 = RxString('');
+  // RxString rosString2 = RxString('');
 
   String? getHotEasily = '';
   String? handFootWarm = '';
@@ -50,8 +50,8 @@ class _RosState extends State<Ros> {
 
         setState(() {
           _isLoadingRos = false;
-          rosString1 = RxString(getHotEasily!);
-          rosString2 = RxString(handFootWarm!);
+          // rosString1 = RxString(getHotEasily!);
+          // rosString2 = RxString(handFootWarm!);
         });
 
         print('chart num: ${widget.chartNumber}');
@@ -84,7 +84,6 @@ class _RosState extends State<Ros> {
     }
 
     submitButtonController = Get.find<SubmitButtonController>();
-    submitButtonController.isRosButtonPressed.value = false;
   }
 
   @override
@@ -135,7 +134,6 @@ class _RosState extends State<Ros> {
                   child: Container(
                     child: Row(
                       children: [
-
                         SvgPicture.asset('assets/icons/icon_document.svg'),
                         const SizedBox(width: 5),
                         SvgPicture.asset('assets/icons/icon_right_arrow.svg'),
@@ -156,23 +154,26 @@ class _RosState extends State<Ros> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // GetBuilder<SubmitButtonController>(
-                    //     init: SubmitButtonController(),
-                    //     builder: (controller) {
-                    //       if (controller.isRosButtonPressed.value) {
-                    //         print('ros controller true');
-                    //         loadRos(widget.chartNumber);
-                    //       }
-                    //       controller.isRosButtonPressed.value = false;
-                    //       loadRos(widget.chartNumber);
-                    //       return _buildRosKeywords(
-                    //           getHotEasily!, handFootWarm!);
-                    //     }),
-                    Column(
-                      children: [
-                        Obx(() => _buildRosKeywords(rosString1, rosString2))
-                      ],
-                    ),
+                    GetBuilder<SubmitButtonController>(
+                        init: SubmitButtonController(),
+                        builder: (controller) {
+                          if (controller.isRosButtonPressed.value) {
+                            print(
+                                'ros controller: ${controller.isRosButtonPressed.value}');
+                            //loadRos(widget.chartNumber);
+                            controller.isRosButtonPressed.value = false;
+                            return _buildRosKeywords('true', 'true');
+                          } else {
+                            print(
+                                'ros controller: ${controller.isRosButtonPressed.value}');
+                            return _buildRosKeywords('false', 'false');
+                          }
+                        }),
+                    // Column(
+                    //   children: [
+                    //     Obx(() => _buildRosKeywords(rosString1, rosString2))
+                    //   ],
+                    // ),
                   ],
                 ),
               ),
@@ -183,7 +184,7 @@ class _RosState extends State<Ros> {
     );
   }
 
-  Widget _buildRosKeywords(RxString getHotEasily, RxString handFootWarm) {
+  Widget _buildRosKeywords(String getHotEasily, String handFootWarm) {
     String putGetHotEasily = '';
     String putHandFootWarm = '';
 
@@ -192,7 +193,11 @@ class _RosState extends State<Ros> {
     }
 
     if (handFootWarm != '') {
-      putHandFootWarm = '#$handFootWarm 따뜻한 편';
+      if (handFootWarm == '안 따뜻하다') {
+        putHandFootWarm = '#손/발 $handFootWarm';
+      } else {
+        putHandFootWarm = '#$handFootWarm 따뜻한 편';
+      }
     }
 
     print('_buildros: $getHotEasily, $handFootWarm');
@@ -213,13 +218,18 @@ class _RosState extends State<Ros> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            keyword,
-            style: TextStyle(
-              color: const Color(0xFF3EA7C2),
-              fontSize: fontSize,
-              fontFamily: 'Pretendard',
-              fontWeight: FontWeight.w400,
+          Expanded(
+            child: Text(
+              keyword,
+              style: TextStyle(
+                color: const Color(0xFF3EA7C2),
+                fontSize: fontSize,
+                fontFamily: 'Pretendard',
+                fontWeight: FontWeight.w400,
+              ),
+              overflow: TextOverflow.fade,
+              maxLines: 1,
+              softWrap: false,
             ),
           ),
         ],
