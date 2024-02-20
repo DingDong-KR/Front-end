@@ -30,13 +30,14 @@ class _RosState extends State<Ros> {
   // RxString rosString1 = RxString('');
   // RxString rosString2 = RxString('');
 
+  // loadRos로 ros 받아오기
   String? getHotEasily = '';
   String? handFootWarm = '';
-  int? coldShower = -1;
-  int? sleepTemperaturePreference = -1;
-  int? flushSummer = -1;
-  int? flush = -1;
-  String? flushCircumstance = '';
+  // int? coldShower = -1;
+  // int? sleepTemperaturePreference = -1;
+  // int? flushSummer = -1;
+  // int? flush = -1;
+  // String? flushCircumstance = '';
 
   ROS? ros;
   Future<void> loadRos(chartNum) async {
@@ -57,7 +58,7 @@ class _RosState extends State<Ros> {
         print('chart num: ${widget.chartNumber}');
         print('getHotEasily: $getHotEasily, handfootwarm: $handFootWarm');
       } catch (e) {
-        print('no ros');
+        print('no ros: fail to loadRos');
       }
     }
   }
@@ -160,13 +161,15 @@ class _RosState extends State<Ros> {
                           if (controller.isRosButtonPressed.value) {
                             print(
                                 'ros controller: ${controller.isRosButtonPressed.value}');
-                            //loadRos(widget.chartNumber);
+                            loadRos(widget.chartNumber);
                             controller.isRosButtonPressed.value = false;
-                            return _buildRosKeywords('true', 'true');
+                            return _buildRosKeywords(
+                                getHotEasily!, handFootWarm!);
                           } else {
                             print(
                                 'ros controller: ${controller.isRosButtonPressed.value}');
-                            return _buildRosKeywords('false', 'false');
+                            return _buildRosKeywords(
+                                getHotEasily!, handFootWarm!);
                           }
                         }),
                     // Column(

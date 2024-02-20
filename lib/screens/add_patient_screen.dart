@@ -43,7 +43,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
         name: nameController.text,
         gender: selectedGender,
         age: age,
-        socialSecurityNumber: ssn,
+        socialSecurityNumber: ssn, //TODO: 주민번호 익셉션 알림창 만들기
         address: addressController.text,
         birthDate: bd,
         affiliation: affiliation!);
