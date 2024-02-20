@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:my_desktop_app/controller/pre_examination_controller.dart';
 import 'package:my_desktop_app/repository/chart_crud_sql.dart';
 
-import '../models/pre_examination.dart';
-import '../styles/textStyles.dart';
+import '../../models/pre_examination.dart';
+import '../../styles/textStyles.dart';
 
 class MainSymptomMain extends StatelessWidget {
   final int chartNumber;

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:my_desktop_app/widgets/main_examination/nursing_note_main.dart';
 import 'package:my_desktop_app/widgets/nursing_note.dart';
 import 'package:my_desktop_app/widgets/ros.dart';
 import '../widgets/main_examination/diagnosis.dart';
 import '../widgets/main_examination/image_section.dart';
 import '../widgets/main_examination/order_set.dart';
 import '../widgets/main_symptom.dart';
-import '../widgets/main_symptom_main.dart';
+import '../widgets/main_examination/main_symptom_main.dart';
 import '../widgets/medical_history_widget.dart';
 import '../widgets/main_examination/treat_record.dart';
 import '../widgets/main_examination/treatment.dart';
@@ -44,16 +45,18 @@ class MainExaminationScreen extends StatelessWidget {
                             chartNumber: chartNumber, width: 132, height: 142),
                       ),
                       Padding(
-
-                        padding: EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
-                        child: MainSymptomMain(chartNumber: chartNumber, width: 132,height: 142,),
-
+                        padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
+                        child: MainSymptomMain(
+                          chartNumber: chartNumber,
+                          width: 132,
+                          height: 142,
+                        ),
                       ),
                     ],
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(9.0, 3.0, 0.0, 0),
-                    child: NursingNote(
+                    child: NursingNoteMain(
                         chartNumber: chartNumber, width: 268, height: 122),
                   ),
                   Padding(
