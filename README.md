@@ -43,12 +43,13 @@ Our challenge is to shorten the set-up time by replacing current digital environ
 
   
 ### 📄 UN SDG
-![enter image description here](https://user-images.githubusercontent.com/111236793/229104885-08f072f1-83ad-4603-9bd4-bed9f79638bf.png)
+![image](https://github.com/Chartify-KR/Front-end/assets/111236793/71812aa3-ec79-45e4-b8fa-88859f8bab1d)
+
 Inspired by the product manager’s experience, Dingdong Chart chose ‘Good Health and Wellbeing’ as the goal to achieve. <br>
 <br>
 Our product manager is currently running a medical volunteer group in a medical school and felt inconvenience of using paper chart. <br>
 <br>
-While searching other groups for a hint, he found out that even other medical humanitarian organizations, even big groups like Médecins Sans Frontières or Samsung Seoul Hospital, suffer from similar limits.  <br>
+While searching other groups for a hint, we found out that even other medical humanitarian organizations, even big groups like Médecins Sans Frontières or Samsung Seoul Hospital, suffer from similar limits.  <br>
 <br>
 In the goal, UN aims to decrease several indicators like maternal mortality, which are problem mainly in developing countries. <br>
  <br>
