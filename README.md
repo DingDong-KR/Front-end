@@ -132,5 +132,5 @@ Uses Firebase to store medical data, synchronizing data among users in the same 
 
 - Wontaek Lee (Product Manager)
 - KangMin Kim (Frontend)
-- Youn-ho Jang (Backend)
+- Yun-ho Jang (Backend)
 - Ho-yeon Choi (Design)
