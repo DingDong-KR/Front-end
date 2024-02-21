@@ -43,7 +43,7 @@ Our challenge is to shorten the set-up time by replacing current digital environ
 
   
 ### 📄 UN SDG
-![image](https://github.com/Chartify-KR/Front-end/assets/111236793/71812aa3-ec79-45e4-b8fa-88859f8bab1d)
+![image](https://github.com/Chartify-KR/Front-end/assets/111236793/31b5f28b-1f70-4061-a751-a4da40946650)
 
 Inspired by the product manager’s experience, Dingdong Chart chose ‘Good Health and Wellbeing’ as the goal to achieve. <br>
 <br>
