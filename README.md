@@ -15,32 +15,32 @@ Our DingDong team was launched to solve this situation using **Electronic Medica
 
 ## 📄 Abstract
 
-In current condition, setting digital infrastructure takes the longest time in setting up the hospital because numerous cables must connect each device.  <br>
+ Wired network infrastructure, which many medical humanitarian groups use, is taking up too much time and can be damaged so easily.  <br>
+ <br>
+ Our challenge is to provide more time and agility to the team.<br>
+ <br>
+ ![image](https://github.com/Chartify-KR/Front-end/assets/111236793/50477e69-c6cf-4b24-9472-d1664ff071b2)
+ Due to the lack of internet access, most medical groups have been using cables to facilitate communication between staffs.<br>
+ <br>
+However, setting wired network takes up a lot of time.<br>
 <br>
-
-![image](https://github.com/Chartify-KR/Front-end/assets/111236793/50477e69-c6cf-4b24-9472-d1664ff071b2)
-
-In places like field hospital, where every second is valuable, saving lives should be put first in any case. <br>
-As medical staffs don’t have enough time to diagnose and cure each patient, insufficient treatment time could deteriorate the quality of the medical services in the long term. <br>
-<br>
-Also, changes occur at any time in a field hospital. It may be the natural disaster, battle, or bomb terror. In those cases, the team faces urgent need to change their route. <br>
+It is the main reason why medical staffs can’t attend the patients as early as they want. <br>
 <br>
 <img width="1503" alt="image" src="https://github.com/Chartify-KR/Front-end/assets/111236793/de5a56a0-497b-4958-9d11-633d28431f19">
-
-
-Current cable-based digital environment in field hospital takes too much setup time. <br>
+Also, it causes staff overwork and stress. Because setting wired network shortened the time that should be used to diagnose and treat patients,<br>
 <br>
-It shortens the time needed to save the patients and makes the team vulnerable to changes. <br>
+staffs feel like they’re pressed for time. This reduces service quality and the number of patients, hindering achieving our goal.  <br>
 <br>
-
-Also, cable-based digital environment is vulnerable to those outbreaks. What if the cable is damaged? What if the hospital must take atypical shape that the cable environment cannot afford? <br>
-<br>
-Using wireless infrastructure prevents these worries from the first place, making the team agile to the changes. <br>
-<br>
-Our challenge is to shorten the set-up time by replacing current digital environment into wireless environment, using Ad-hoc technology. <br>
-<br>
-
-
+ Also, cables are vulnerable to physical damages. Medical areas are exposed to various outbreaks like natural disaster, bomb attacks, etc.<br>
+ <br>
+ When the team faces those threats, the team must move very quickly to avoid further damages.<br>
+ <br>
+ However, wired network is vulnerable and sluggish. What if the cable is cut? <br>
+ <br>
+ What if the hospital must move to another place several times in a row?<br>
+ <br>
+ Wireless infrastructure can better protect the team, making the team agile to the changes.<br>
+ 
   
 ### 📄 UN SDG
 ![image](https://github.com/Chartify-KR/Front-end/assets/111236793/31b5f28b-1f70-4061-a751-a4da40946650)
