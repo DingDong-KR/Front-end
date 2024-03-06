@@ -43,11 +43,10 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
         name: nameController.text,
         gender: selectedGender,
         age: age,
-        socialSecurityNumber: ssn,
+        socialSecurityNumber: ssn, //TODO: 주민번호 익셉션 알림창 만들기
         address: addressController.text,
         birthDate: bd,
-        affiliation: affiliation!!
-    );
+        affiliation: affiliation!);
 
     // 데이터베이스에 환자 정보 추가
     final PatientProvider patientProvider = PatientProvider();
@@ -445,7 +444,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                     width: 10,
                   ),
                   Container(
-                    width: 67.25,
+                    width: 70,
                     height: 22,
                     padding: const EdgeInsets.only(left: 10),
                     decoration: const BoxDecoration(
@@ -456,7 +455,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const Text(
