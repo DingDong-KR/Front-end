@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_desktop_app/widgets/nursing_note.dart';
 import 'package:my_desktop_app/widgets/patient_simple_info.dart';
+import 'package:my_desktop_app/widgets/pre_examination/bt_bp_sugar.dart';
 import '../widgets/main_symptom.dart';
 import '../widgets/medical_history_widget.dart';
 import '../widgets/ros.dart'; // Import PatientHistoryItem model
@@ -36,13 +37,25 @@ class PreExaminationScreen extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
-                    child: Ros(
-                      chartNumber: chartNumber,
-                      width: 470,
-                      height: 260,
-                    ),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0.0),
+                        child: BtBpSugar(
+                          chartNumber: chartNumber,
+                          width: 470,
+                          height: 120,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
+                        child: Ros(
+                          chartNumber: chartNumber,
+                          width: 470,
+                          height: 137,
+                        ),
+                      ),
+                    ],
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
