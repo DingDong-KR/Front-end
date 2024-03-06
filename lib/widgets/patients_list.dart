@@ -19,13 +19,10 @@ class PatientsList extends StatefulWidget {
 
 class _PatientsListState extends State<PatientsList>
     with SingleTickerProviderStateMixin {
-  AffiliationController affiliationController =
-      Get.find<AffiliationController>();
-  ChartNumberController chartNumberController =
-      Get.find<ChartNumberController>();
+  AffiliationController affiliationController = Get.find<AffiliationController>();
+  ChartNumberController chartNumberController = Get.find<ChartNumberController>();
   String affiliation = 'default';
-  final SelectedPatientController selectedPatientController =
-      Get.put(SelectedPatientController()); // 컨트롤러 인스턴스 생성
+  final SelectedPatientController selectedPatientController = Get.put(SelectedPatientController()); // 컨트롤러 인스턴스 생성
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
   bool isSwitchOn = false;
@@ -85,6 +82,8 @@ class _PatientsListState extends State<PatientsList>
     final PatientQueueProvider patientQueueProvider = PatientQueueProvider();
     patientQueues =
         await patientQueueProvider.getPatientQueuesByAffiliation(affiliation);
+    print("어필리:$affiliation");
+    print("환자큐:$patientQueues");
     setState(() {
       _isLoadingQueue = false;
     });
@@ -106,11 +105,8 @@ class _PatientsListState extends State<PatientsList>
     loadPatients(affiliation);
     loadPatientQueues(affiliation);
 
-    ever(affiliationController.currentAffiliation, (String? newItem) {
-//선택한 채널이 변경되면 affiliation 업데이트 하고 새로고침
-// Update the affiliation variable with the new value
-      affiliation = newItem ?? '';
-// Call loadPatients and loadPatientQueues whenever the affiliation changes
+    ever(affiliationController.currentAffiliation, (String? newItem) {//선택한 채널이 변경되면 affiliation 업데이트 하고 새로고침
+      affiliation = newItem ?? ''; //TODO:ever 현재 호출 안됨
       loadPatients(affiliation);
       loadPatientQueues(affiliation);
     });
@@ -120,12 +116,11 @@ class _PatientsListState extends State<PatientsList>
       if (mounted) {
 // 화면이 소멸되면 타이머를 중단하기 위해 체크
         setState(() {
-          loadPatients(affiliation);
-          loadPatientQueues(affiliation);
+          loadPatients(affiliationController.currentAffiliation.value);
+          loadPatientQueues(affiliationController.currentAffiliation.value);
         });
       }
     });
-    loadPatientQueues(affiliation);
   }
 
   @override
@@ -143,20 +138,6 @@ class _PatientsListState extends State<PatientsList>
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
-            const Padding(
-              padding: EdgeInsets.all(13.0),
-              child: Text(
-                '환자리스트',
-                style: TextStyle(
-                  color: Color(0xFF404855),
-                  fontSize: 14,
-                  fontFamily: 'Pretendard',
-                  fontWeight: FontWeight.w700,
-                  height: 0,
-                ),
-              ),
-            ),
-// Toggle Switch
             GestureDetector(
               onTap: () {
                 setState(() {
@@ -236,8 +217,7 @@ class _PatientsListState extends State<PatientsList>
                 ),
               ),
             ),
-            SizedBox(width: 20),
-// List View of Patients
+            SizedBox(width: 20), // List View of Patients
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -246,16 +226,13 @@ class _PatientsListState extends State<PatientsList>
                   return GestureDetector(
                     onTap: () async {
                       PatientQueueProvider patientQueueProvider =
-                          PatientQueueProvider();
-// 비동기 함수로 변경
+                          PatientQueueProvider(); // 비동기 함수로 변경
                       setState(() {
-                        _selectedItemIndex = index;
-// 선택된 환자의 patientNumber를 설정
+                        _selectedItemIndex = index; // 선택된 환자의 patientNumber를 설정
                         selectedPatientController
                             .setPatientNumber(patients[index].patientNumber!);
                       });
-
-// 비동기로 환자 번호에 해당하는 차트 번호를 가져옴
+                      // 비동기로 환자 번호에 해당하는 차트 번호를 가져옴
                       final chartNumber = await patientQueueProvider
                           .getChartNumberByPatientNumber(
                               selectedPatientController.patientNumber.value);
