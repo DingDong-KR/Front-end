@@ -20,8 +20,9 @@ import '../repository/chart_crud_sql.dart';
 class MainMenu extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey;
   final User user; // 유저 정보를 받을 변수
+  final Function(int) onMenuSelected; // 메뉴 선택 시 호출할 콜백 함수
 
-  const MainMenu({Key? key, required this.navigatorKey, required this.user})
+  const MainMenu({Key? key, required this.navigatorKey, required this.user, required this.onMenuSelected})
       : super(key: key);
 
   @override
@@ -70,6 +71,8 @@ class _MainMenuState extends State<MainMenu> {
                         setState(() {
                           selectedMenuIndex = i;
                         });
+                        // 콜백 함수에서 index를 전달합니다.
+                        widget.onMenuSelected(i);
                         // 콜백 함수에서 index와 환자 번호를 함께 전달합니다.
                         navigateToScreen(
                             i, selectedPatientController.patientNumber.value);
@@ -77,10 +80,10 @@ class _MainMenuState extends State<MainMenu> {
                       child: buildMenuItem(i),
                     ),
                   ),
-                const Spacer(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 30.0),
-                  child: Container(
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 30.0),
+                    child: Container(
                       width: 119,
                       height: 32.23,
                       padding:
@@ -110,8 +113,8 @@ class _MainMenuState extends State<MainMenu> {
                           ),
                         ],
                       )),
+                    ),
                   ),
-                ),
               ],
             ),
           ),
@@ -222,7 +225,7 @@ class _MainMenuState extends State<MainMenu> {
         );
         break;
       case 7:
-        // 설정 화면 다이어로그로 띄우기
+      // 설정 화면 다이어로그로 띄우기
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -243,5 +246,5 @@ class _MainMenuState extends State<MainMenu> {
         break;
     }
   }
-
 }
+

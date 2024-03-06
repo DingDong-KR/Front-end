@@ -16,42 +16,46 @@ class PreExaminationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: const Color(0xFFE2F1F6),
-      child: Column(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(9.0, 9.0, 9.0, 0),
-            child: PatientSimpleInfo(
-              patientNumber: patientNumber,
-            ),
-          ),
-          Row(
+            padding: const EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 0),
+            child: MedicalHistoryWidget(
+                patientNumber: patientNumber, width: 320, height: 684),
+          ), // Pass patientsItems as argument
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(9.0, 3.0, 0.0, 0),
-                child: MedicalHistoryWidget(patientNumber: patientNumber, width: 247, height:640),
-              ), // Pass patientsItems as argument
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                padding: const EdgeInsets.fromLTRB(3.0, 3.0, 9.0, 0),
+                child: PatientSimpleInfo(
+                  patientNumber: patientNumber,
+                ),
+              ),
+              Row(
                 children: [
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
-                        child: Ros(chartNumber: chartNumber,width: 313, height: 259,),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
-                        child: NursingNote(chartNumber:chartNumber, width:313, height: 259),
-                      ),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
+                    child: Ros(
+                      chartNumber: chartNumber,
+                      width: 470,
+                      height: 260,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
-                    child: MainSymptom(chartNumber: chartNumber,height: 380, width: 629),
+                    child: NursingNote(
+                        chartNumber: chartNumber, width: 470, height: 260),
                   ),
                 ],
-              )
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
+                child: MainSymptom(
+                    chartNumber: chartNumber, height: 380, width: 943),
+              ),
             ],
           ),
         ],
