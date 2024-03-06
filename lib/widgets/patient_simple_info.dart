@@ -128,14 +128,14 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 879,
+      width: 943,
       height: 38,
       padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
       decoration: const ShapeDecoration(
         color: Colors.white,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(5)),
-        ),
+            //borderRadius: BorderRadius.only(topLeft: Radius.circular(5)),
+            ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -198,12 +198,11 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
           ),
           Row(
             children: [
-              Obx(()=>
-                  Text(
-                'Chart Number: ${chartNumberController.chartNumber.value}',
-                style: TextStyles.text12Style,
-              )),
-              SizedBox(width: 10),
+              Obx(() => Text(
+                    'Chart Number: ${chartNumberController.chartNumber.value}',
+                    style: TextStyles.text12Style,
+                  )),
+              const SizedBox(width: 10),
               _buildTreatmentButton(),
             ],
           ),
