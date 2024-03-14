@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../controller/affiliation_controller.dart';
 import '../controller/chart_number_controller.dart';
@@ -22,86 +25,82 @@ class MainMenu extends StatefulWidget {
   final User user; // 유저 정보를 받을 변수
   final Function(int) onMenuSelected; // 메뉴 선택 시 호출할 콜백 함수
 
-  const MainMenu({Key? key, required this.navigatorKey, required this.user, required this.onMenuSelected})
-      : super(key: key);
+  const MainMenu({
+    Key? key,
+    required this.navigatorKey,
+    required this.user,
+    required this.onMenuSelected,
+  }) : super(key: key);
 
   @override
   _MainMenuState createState() => _MainMenuState();
 }
 
 class _MainMenuState extends State<MainMenu> {
-  int selectedMenuIndex = 100;
-  int chartNumber=0;
+  int selectedMenuIndex = 0; // 홈 메뉴를 기본으로 선택
+  int chartNumber = 0;
   late SelectedPatientController selectedPatientController;
   late ChartNumberController chartNumberController;
   late AffiliationController affiliationController;
+  late DateTime _currentTime;
 
   @override
   void initState() {
     super.initState();
-    selectedPatientController = Get.find<SelectedPatientController>(); // SelectedPatientController 초기화
-    chartNumberController = Get.find<ChartNumberController>(); // SelectedPatientController 초기화
+    selectedPatientController =
+        Get.find<SelectedPatientController>(); // SelectedPatientController 초기화
+    chartNumberController =
+        Get.find<ChartNumberController>(); // SelectedPatientController 초기화
     // patientNumber의 변경을 감지하여 navigateToScreen 실행
     ever(selectedPatientController.patientNumber, (_) {
       navigateToScreen(
           selectedMenuIndex, selectedPatientController.patientNumber.value);
     });
     affiliationController = Get.find<AffiliationController>();
+
+    // 초기에 현재 시간을 가져와서 설정
+    _currentTime = DateTime.now();
+    // 1초마다 화면을 업데이트하는 타이머 설정
+    Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      if (mounted) {
+        // 화면이 소멸되면 타이머를 중단하기 위해 체크
+        setState(() {
+          _currentTime = DateTime.now();
+        });
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Flexible(
-          child: Container(
-            width: 154,
-            decoration: const BoxDecoration(color: Color(0xFFE2F1F6)),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 15.0),
-                  child: SvgPicture.asset('assets/images/image_dingdong_menu.svg'),
+    return Container(
+      width: 1500,
+      height: 45,
+      decoration: const BoxDecoration(color: Color(0xFFE2F1F6)),
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Container(
+              width: 119,
+              height: 32.23,
+              padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 10),
+              decoration: ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(width: 1, color: Color(0xFF3EA7C2)),
+                  borderRadius: BorderRadius.circular(38),
                 ),
-                for (var i = 1; i < menuItems.length; i++)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedMenuIndex = i;
-                        });
-                        // 콜백 함수에서 index를 전달합니다.
-                        widget.onMenuSelected(i);
-                        // 콜백 함수에서 index와 환자 번호를 함께 전달합니다.
-                        navigateToScreen(
-                            i, selectedPatientController.patientNumber.value);
-                      },
-                      child: buildMenuItem(i),
-                    ),
-                  ),
-                  Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 30.0),
-                    child: Container(
-                      width: 119,
-                      height: 32.23,
-                      padding:
-                      const EdgeInsets.symmetric(horizontal: 9, vertical: 10),
-                      decoration: ShapeDecoration(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 1, color: Color(0xFF3EA7C2)),
-                          borderRadius: BorderRadius.circular(38),
-                        ),
-                      ),
-                      child:Obx(() => Row(
+              ),
+              child: Row(
+                children: [
+                  SvgPicture.asset('assets/icons/icon_dingdong_small.svg'),
+                  Obx(() => Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            affiliationController.currentAffiliation.value ??
-                                '채널을 선택하세요',
+                            affiliationController.currentAffiliation.value,
                             style: TextStyle(
                               color: Color(0xFF3EA7C2),
                               fontSize: 12,
@@ -113,50 +112,133 @@ class _MainMenuState extends State<MainMenu> {
                           ),
                         ],
                       )),
-                    ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+          SizedBox(width: 10), // 간격 조정
+          ...List.generate(menuItems.length, (index) {
+            return GestureDetector(
+              onTap: () {
+                setState(() {
+                  selectedMenuIndex = index;
+                });
+                // 콜백 함수에서 index를 전달합니다.
+                widget.onMenuSelected(index);
+                // 콜백 함수에서 index와 환자 번호를 함께 전달합니다.
+                navigateToScreen(
+                  index,
+                  selectedPatientController.patientNumber.value,
+                );
+              },
+              child: buildMenuItem(index),
+            );
+          }),
+          Spacer(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Text(
+              '${widget.user.name}님',
+              style: const TextStyle(
+                color: Color(0xFF404855),
+                fontSize: 12,
+                fontFamily: 'Pretendard',
+                fontWeight: FontWeight.w400,
+                height: 0.12,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Text(
+              DateFormat('yyyy-MM-dd').format(_currentTime),
+              style: const TextStyle(
+                color: Color(0xFF404855),
+                fontSize: 12,
+                fontFamily: 'Pretendard',
+                fontWeight: FontWeight.w400,
+                height: 0.12,
+                letterSpacing: 0.12,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Text(
+              DateFormat('HH:mm:ss').format(_currentTime),
+              style: const TextStyle(
+                color: Color(0xFF404855),
+                fontSize: 12,
+                fontFamily: 'Pretendard',
+                fontWeight: FontWeight.w400,
+                height: 0.12,
+                letterSpacing: 0.12,
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("Settings"),
+                    content: SettingsScreen(),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text("Close"),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            child: SvgPicture.asset('assets/icons/icon_settings.svg'),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: SvgPicture.asset('assets/icons/icon_message.svg'),
+          ),
+        ],
+      ),
     );
   }
 
   // 메뉴 아이템 위젯
   Widget buildMenuItem(int index) {
     return SizedBox(
-      height: 50.0,
+      width: 100, // 각 메뉴의 가로 크기를 100으로 지정
       child: Padding(
-        padding: index != 0
-            ? const EdgeInsets.symmetric(horizontal: 16.0)
-            : const EdgeInsets.fromLTRB(16.0, 0, 2.0, 0),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           textBaseline: TextBaseline.alphabetic,
           children: [
-            if (index != 0 && index == selectedMenuIndex)
+            if (index == selectedMenuIndex)
               Container(
                 width: 4,
                 height: 14,
                 decoration: const BoxDecoration(color: Color(0xFF3EA7C2)),
               ),
-            if (index != 0) SizedBox(width: index == 0 ? 2.0 : 8.0),
-            if (index != 0)
-              Align(
-                alignment: Alignment.center,
-                child: SizedBox(
-                  height: 20,
-                  width: 20,
-                  child: SvgPicture.asset(
-                    menuItems[index].iconPath,
-                    color: index == selectedMenuIndex
-                        ? const Color(0xFF3EA7C2)
-                        : const Color(0xFF404855),
-                  ),
+            const SizedBox(width: 8.0),
+            Align(
+              alignment: Alignment.center,
+              child: SizedBox(
+                height: 20,
+                width: 20,
+                child: SvgPicture.asset(
+                  menuItems[index].iconPath,
+                  color: index == selectedMenuIndex
+                      ? const Color(0xFF3EA7C2)
+                      : const Color(0xFF404855),
                 ),
               ),
-            if (index != 0) const SizedBox(width: 8.0),
+            ),
+            const SizedBox(width: 4.0),
             Text(
               menuItems[index].title,
               style: TextStyle(
@@ -179,7 +261,7 @@ class _MainMenuState extends State<MainMenu> {
 
   void navigateToScreen(int index, int patientNumber) {
     switch (index) {
-      case 1:
+      case 0: // 홈 메뉴
         widget.navigatorKey.currentState?.pushReplacement(
           MaterialPageRoute(
             builder: (context) =>
@@ -187,64 +269,45 @@ class _MainMenuState extends State<MainMenu> {
           ),
         );
         break;
-      case 2:
+      case 1:
         widget.navigatorKey.currentState?.pushReplacement(
           MaterialPageRoute(
             builder: (context) => PreExaminationScreen(
-                patientNumber: patientNumber, chartNumber: chartNumberController.chartNumber.value),
+                patientNumber: patientNumber,
+                chartNumber: chartNumberController.chartNumber.value),
+          ),
+        );
+        break;
+      case 2:
+        widget.navigatorKey.currentState?.pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => MainExaminationScreen(
+                patientNumber: patientNumber,
+                chartNumber: chartNumberController.chartNumber.value),
           ),
         );
         break;
       case 3:
         widget.navigatorKey.currentState?.pushReplacement(
           MaterialPageRoute(
-            builder: (context) =>
-                MainExaminationScreen(patientNumber: patientNumber,chartNumber: chartNumberController.chartNumber.value),
+            builder: (context) => BeddingScreen(patientNumber: patientNumber),
           ),
         );
         break;
       case 4:
         widget.navigatorKey.currentState?.pushReplacement(
           MaterialPageRoute(
-            builder: (context) => BeddingScreen(patientNumber: patientNumber),
+            builder: (context) => MedicinesScreen(),
           ),
         );
         break;
       case 5:
         widget.navigatorKey.currentState?.pushReplacement(
           MaterialPageRoute(
-            builder: (context) => MedicinesScreen(),
-          ),
-        );
-        break;
-      case 6:
-        widget.navigatorKey.currentState?.pushReplacement(
-          MaterialPageRoute(
             builder: (context) => ArchiveScreen(),
           ),
-        );
-        break;
-      case 7:
-      // 설정 화면 다이어로그로 띄우기
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text("Settings"),
-              content: SettingsScreen(),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text("Close"),
-                ),
-              ],
-            );
-          },
         );
         break;
     }
   }
 }
-
