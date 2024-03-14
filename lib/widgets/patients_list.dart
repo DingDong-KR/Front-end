@@ -73,8 +73,6 @@ class _PatientsListState extends State<PatientsList>
   Future<void> loadPatients(String affiliation) async {
     final PatientProvider patientProvider = PatientProvider();
     patients = await patientProvider.getPatientsByAffiliation(affiliation);
-    print("loadPatient의 affiliation: $affiliation");
-    print("loadPatient: $patients");
     setState(() {
       _isLoadingPatient = false;
     });
@@ -153,7 +151,6 @@ class _PatientsListState extends State<PatientsList>
                       fontSize: 14,
                       fontFamily: 'Pretendard',
                       fontWeight: FontWeight.w700,
-                      height: 0,
                     ),
                   ),
                 ),

@@ -21,24 +21,10 @@ class TopBar extends StatefulWidget implements PreferredSizeWidget {
 
 class _TopBarState extends State<TopBar> {
   String? affiliation;
-  late DateTime _currentTime;
 
   @override
   void initState() {
     super.initState();
-
-    // 초기에 현재 시간을 가져와서 설정
-    _currentTime = DateTime.now();
-
-    // 1초마다 화면을 업데이트하는 타이머 설정
-    Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-      if (mounted) {
-        // 화면이 소멸되면 타이머를 중단하기 위해 체크
-        setState(() {
-          _currentTime = DateTime.now();
-        });
-      }
-    });
   }
 
   Future<void> addPatientButtonClick() async {
@@ -196,52 +182,6 @@ class _TopBarState extends State<TopBar> {
           ),
           const Spacer(),
           // Added Spacer to push '이수민' and the following texts to the right
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Text(
-              'Doc. ${widget.user.name}',
-              style: const TextStyle(
-                color: Color(0xFF404855),
-                fontSize: 12,
-                fontFamily: 'Pretendard',
-                fontWeight: FontWeight.w400,
-                height: 0.12,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Text(
-              DateFormat('yyyy-MM-dd').format(_currentTime),
-              style: const TextStyle(
-                color: Color(0xFF404855),
-                fontSize: 12,
-                fontFamily: 'Pretendard',
-                fontWeight: FontWeight.w400,
-                height: 0.12,
-                letterSpacing: 0.12,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Text(
-              DateFormat('HH:mm:ss').format(_currentTime),
-              style: const TextStyle(
-                color: Color(0xFF404855),
-                fontSize: 12,
-                fontFamily: 'Pretendard',
-                fontWeight: FontWeight.w400,
-                height: 0.12,
-                letterSpacing: 0.12,
-              ),
-            ),
-          ),
-          SvgPicture.asset('assets/icons/icon_lining.svg'),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: SvgPicture.asset('assets/icons/icon_message.svg'),
-          ),
         ],
       ),
     );
