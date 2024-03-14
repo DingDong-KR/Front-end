@@ -36,14 +36,14 @@ class _TopBarState extends State<TopBar> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("경고"),
-            content: Text("채널을 선택하세요"),
+            title: const Text("경고"),
+            content: const Text("채널을 선택하세요"),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text("확인"),
+                child: const Text("확인"),
               ),
             ],
           );
@@ -182,6 +182,7 @@ class _TopBarState extends State<TopBar> {
           ),
           const Spacer(),
           // Added Spacer to push '이수민' and the following texts to the right
+
         ],
       ),
     );

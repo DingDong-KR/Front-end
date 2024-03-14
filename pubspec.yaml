@@ -108,6 +108,7 @@ flutter:
     - assets/icons/icon_four_boxes.svg
     - assets/images/image_dingdong_menu.svg
     - assets/icons/icon_menu.svg
+    - assets/icons/icon_record.svg
     - assets/icons/icon_dingdong_small.svg
     
 

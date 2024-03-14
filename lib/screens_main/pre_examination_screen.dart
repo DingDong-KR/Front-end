@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_desktop_app/widgets/nursing_note.dart';
+import 'package:my_desktop_app/widgets/past_history.dart';
 import 'package:my_desktop_app/widgets/patient_simple_info.dart';
 import 'package:my_desktop_app/widgets/pre_examination/bt_bp_sugar.dart';
 import '../widgets/main_symptom.dart';
@@ -25,51 +26,83 @@ class PreExaminationScreen extends StatelessWidget {
             child: MedicalHistoryWidget(
                 patientNumber: patientNumber, width: 320, height: 684),
           ), // Pass patientsItems as argument
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(3.0, 3.0, 9.0, 0),
-                child: PatientSimpleInfo(
-                  patientNumber: patientNumber,
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(3.0, 3.0, 3.0, 0),
+                  child: PatientSimpleInfo(
+                    patientNumber: patientNumber,
+                    width: double.infinity,
+                    height: 38,
+                  ),
                 ),
-              ),
-              Row(
-                children: [
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0.0),
-                        child: BtBpSugar(
-                          chartNumber: chartNumber,
-                          width: 470,
-                          height: 120,
-                        ),
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0.0),
+                            child: BtBpSugar(
+                              chartNumber: chartNumber,
+                              width: double.infinity,
+                              height: 120,
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
+                            child: MainSymptom(
+                              chartNumber: chartNumber,
+                              width: double.infinity,
+                              height: 200,
+                            ),
+                          ),
+                        ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
-                        child: Ros(
-                          chartNumber: chartNumber,
-                          width: 470,
-                          height: 137,
-                        ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(3.0, 3.0, 3.0, 0.0),
+                            child: Ros(
+                              chartNumber: chartNumber,
+                              width: double.infinity,
+                              height: 120,
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(3.0, 3.0, 3.0, 0),
+                            child: PastHistory(
+                              chartNumber: chartNumber,
+                              width: double.infinity,
+                              height: 200,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(3.0, 3.0, 3.0, 0),
+                  child: NursingNote(
+                    chartNumber: chartNumber,
+                    width: double.infinity,
+                    height: 250,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
-                    child: NursingNote(
-                        chartNumber: chartNumber, width: 470, height: 260),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
-                child: MainSymptom(
-                    chartNumber: chartNumber, height: 380, width: 943),
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ],
       ),

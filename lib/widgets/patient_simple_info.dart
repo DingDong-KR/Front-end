@@ -16,8 +16,14 @@ import 'package:get/get.dart';
 
 class PatientSimpleInfo extends StatefulWidget {
   final int patientNumber;
+  final double height;
+  final double width;
 
-  const PatientSimpleInfo({super.key, required this.patientNumber});
+  const PatientSimpleInfo(
+      {super.key,
+      required this.patientNumber,
+      required this.height,
+      required this.width});
 
   @override
   State<PatientSimpleInfo> createState() => _PatientSimpleInfoState();
@@ -128,8 +134,8 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 943,
-      height: 38,
+      width: widget.width,
+      height: widget.height,
       padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
       decoration: const ShapeDecoration(
         color: Colors.white,
@@ -138,7 +144,7 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
             ),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
@@ -196,6 +202,8 @@ class _PatientSimpleInfoState extends State<PatientSimpleInfo> {
               ),
             ],
           ),
+          const SizedBox(width: 10),
+          const Spacer(),
           Row(
             children: [
               Obx(() => Text(
