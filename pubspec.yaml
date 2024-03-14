@@ -109,8 +109,7 @@ flutter:
     - assets/images/image_dingdong_menu.svg
     - assets/icons/icon_menu.svg
     - assets/icons/icon_record.svg
-
-    
+    - assets/icons/icon_dingdong_small.svg
     
 
   # An image asset can refer to one or more resolution-specific "variants", see

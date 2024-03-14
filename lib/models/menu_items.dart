@@ -15,14 +15,8 @@ class MenuItem {
   });
 }
 
-// Define your menu items
+
 final List<MenuItem> menuItems = [
-  MenuItem(
-    title: 'A 봉사동아리',
-    fontSize: 14,
-    fontWeight: FontWeight.w700,
-    iconPath: 'assets/icons/icon_dropDown.svg',
-  ),
   MenuItem(
     title: '홈',
     fontSize: 12,
@@ -58,11 +52,5 @@ final List<MenuItem> menuItems = [
     fontSize: 12,
     fontWeight: FontWeight.w400,
     iconPath: 'assets/icons/icon_box.svg',
-  ),
-  MenuItem(
-    title: '설정',
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
-    iconPath: 'assets/icons/icon_settings.svg',
   ),
 ];

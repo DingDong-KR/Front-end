@@ -6,7 +6,7 @@ import '../widgets/top_bar.dart';
 import 'package:my_desktop_app/models/user.dart';
 
 class MainScreen extends StatefulWidget {
-  final User user; // Update to accept User object
+  final User user;
 
   const MainScreen({required this.user, Key? key}) : super(key: key);
 
@@ -17,13 +17,13 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
 
-  int _selectedMenuIndex = 1; // Initially selected index is 1 (Home menu)
+  int _selectedMenuIndex = 1;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFE2F1F6),
-      body: Row(
+      body: Column(
         children: [
           MainMenu(
             navigatorKey: _navigatorKey,
@@ -35,30 +35,35 @@ class _MainScreenState extends State<MainScreen> {
             },
           ),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Row(
               children: [
-                TopBar(user: widget.user),
-                if (_selectedMenuIndex != 1) // If the selected menu is Home, render PatientsList widget
-                  const SizedBox(
-                    height: 84, // 너비 명시해야 Navigator 정상작동
+                if (_selectedMenuIndex != 1)
+                  SizedBox(
+                    width: 213,
                     child: PatientsList(),
                   ),
                 Expanded(
-                  // Navigator takes the remaining space
-                  child: Navigator(
-                    key: _navigatorKey,
-                    onGenerateRoute: (settings) {
-                      WidgetBuilder? builder;
-                      switch (settings.name) {
-                        case '/':
-                          builder = (context) =>
-                              HomeScreen(user: widget.user); //default screen
-                          break;
-                      }
-                      return MaterialPageRoute(
-                          builder: builder!, settings: settings);
-                    },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TopBar(user: widget.user),
+                      Expanded(
+                        child: Navigator(
+                          key: _navigatorKey,
+                          onGenerateRoute: (settings) {
+                            WidgetBuilder? builder;
+                            switch (settings.name) {
+                              case '/':
+                                builder = (context) =>
+                                    HomeScreen(user: widget.user);
+                                break;
+                            }
+                            return MaterialPageRoute(
+                                builder: builder!, settings: settings);
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
