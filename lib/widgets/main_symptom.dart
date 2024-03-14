@@ -24,12 +24,13 @@ class MainSymptom extends StatelessWidget {
     return Container(
       width: width,
       height: height,
-      decoration: const ShapeDecoration(
-        color: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(bottomRight: Radius.circular(5)),
-        ),
-      ),
+      color: Colors.white,
+      // decoration: const ShapeDecoration(
+      //   color: Colors.white,
+      //   shape: RoundedRectangleBorder(
+      //     borderRadius: BorderRadius.only(bottomRight: Radius.circular(5)),
+      //   ),
+      // ),
       child: Padding(
         padding: const EdgeInsets.only(left: 10, top: 10), // 왼쪽과 위쪽 여백 추가
         child: Column(
@@ -54,7 +55,7 @@ class MainSymptom extends StatelessWidget {
                 print(
                     '저장하는 주증상: ${preExaminationController.mainSymptom.value}');
               },
-              maxLines: 15,
+              maxLines: 5,
               decoration: const InputDecoration(
                   hintStyle: TextStyle(
                     color: Color(0xFFAFAFAF),

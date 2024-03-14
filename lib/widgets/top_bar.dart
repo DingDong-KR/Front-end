@@ -50,14 +50,14 @@ class _TopBarState extends State<TopBar> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("경고"),
-            content: Text("채널을 선택하세요"),
+            title: const Text("경고"),
+            content: const Text("채널을 선택하세요"),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text("확인"),
+                child: const Text("확인"),
               ),
             ],
           );
@@ -196,46 +196,51 @@ class _TopBarState extends State<TopBar> {
           ),
           const Spacer(),
           // Added Spacer to push '이수민' and the following texts to the right
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Text(
-              'Doc. ${widget.user.name}',
-              style: const TextStyle(
-                color: Color(0xFF404855),
-                fontSize: 12,
-                fontFamily: 'Pretendard',
-                fontWeight: FontWeight.w400,
-                height: 0.12,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: Text(
+                  'Doc. ${widget.user.name}',
+                  style: const TextStyle(
+                    color: Color(0xFF404855),
+                    fontSize: 12,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w400,
+                    height: 0.12,
+                  ),
+                ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Text(
-              DateFormat('yyyy-MM-dd').format(_currentTime),
-              style: const TextStyle(
-                color: Color(0xFF404855),
-                fontSize: 12,
-                fontFamily: 'Pretendard',
-                fontWeight: FontWeight.w400,
-                height: 0.12,
-                letterSpacing: 0.12,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                child: Text(
+                  DateFormat('yyyy-MM-dd').format(_currentTime),
+                  style: const TextStyle(
+                    color: Color(0xFF404855),
+                    fontSize: 12,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w400,
+                    height: 0.12,
+                    letterSpacing: 0.12,
+                  ),
+                ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Text(
-              DateFormat('HH:mm:ss').format(_currentTime),
-              style: const TextStyle(
-                color: Color(0xFF404855),
-                fontSize: 12,
-                fontFamily: 'Pretendard',
-                fontWeight: FontWeight.w400,
-                height: 0.12,
-                letterSpacing: 0.12,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: Text(
+                  DateFormat('HH:mm:ss').format(_currentTime),
+                  style: const TextStyle(
+                    color: Color(0xFF404855),
+                    fontSize: 12,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w400,
+                    height: 0.12,
+                    letterSpacing: 0.12,
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
           SvgPicture.asset('assets/icons/icon_lining.svg'),
           Padding(

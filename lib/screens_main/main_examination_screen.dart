@@ -30,6 +30,8 @@ class MainExaminationScreen extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(9.0, 9.0, 9.0, 0),
             child: PatientSimpleInfo(
               patientNumber: patientNumber,
+              width: double.infinity,
+              height: 38,
             ),
           ),
           Row(
