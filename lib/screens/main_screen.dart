@@ -25,6 +25,11 @@ class _MainScreenState extends State<MainScreen> {
       backgroundColor: const Color(0xFFE2F1F6),
       body: Row(
         children: [
+          if (_selectedMenuIndex != 1) // If the selected menu is Home, render PatientsList widget
+            const SizedBox(
+              width: 213, // 너비 명시해야 Navigator 정상작동
+              child: PatientsList(),
+            ),
           MainMenu(
             navigatorKey: _navigatorKey,
             user: widget.user,
@@ -39,11 +44,6 @@ class _MainScreenState extends State<MainScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TopBar(user: widget.user),
-                if (_selectedMenuIndex != 1) // If the selected menu is Home, render PatientsList widget
-                  const SizedBox(
-                    height: 84, // 너비 명시해야 Navigator 정상작동
-                    child: PatientsList(),
-                  ),
                 Expanded(
                   // Navigator takes the remaining space
                   child: Navigator(
