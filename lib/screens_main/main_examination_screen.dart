@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_desktop_app/widgets/main_examination/nursing_note_main.dart';
 import 'package:my_desktop_app/widgets/nursing_note.dart';
+import 'package:my_desktop_app/widgets/past_history.dart';
 import 'package:my_desktop_app/widgets/ros.dart';
 import '../widgets/main_examination/diagnosis.dart';
 import '../widgets/main_examination/image_section.dart';
@@ -27,7 +28,7 @@ class MainExaminationScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(9.0, 9.0, 9.0, 0),
+            padding: const EdgeInsets.fromLTRB(3.0, 3.0, 3.0, 3.0),
             child: PatientSimpleInfo(
               patientNumber: patientNumber,
               width: double.infinity,
@@ -42,30 +43,36 @@ class MainExaminationScreen extends StatelessWidget {
                   Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(9.0, 3.0, 0.0, 0),
+                        padding: const EdgeInsets.fromLTRB(3.0, 0.0, 0.0, 0),
                         child: Ros(
-                            chartNumber: chartNumber, width: 132, height: 142),
+                            chartNumber: chartNumber,
+                            width: 158.5,
+                            height: 142),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
+                        padding: const EdgeInsets.fromLTRB(3.0, 0.0, 0.0, 0),
                         child: MainSymptomMain(
-                          chartNumber: chartNumber,
-                          width: 132,
-                          height: 142,
-                        ),
+                            chartNumber: chartNumber,
+                            width: 158.5,
+                            height: 142),
                       ),
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(9.0, 3.0, 0.0, 0),
-                    child: NursingNoteMain(
-                        chartNumber: chartNumber, width: 268, height: 122),
+                    padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0, 0),
+                    child: PastHistory(
+                        chartNumber: chartNumber, width: 320, height: 122),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(9.0, 3.0, 0.0, 0),
+                    padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
+                    child: NursingNoteMain(
+                        chartNumber: chartNumber, width: 320, height: 122),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
                     child: MedicalHistoryWidget(
                       patientNumber: patientNumber,
-                      width: 268,
+                      width: 320,
                       height: 370,
                     ),
                   ),
@@ -74,7 +81,7 @@ class MainExaminationScreen extends StatelessWidget {
               Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0.0),
+                    padding: const EdgeInsets.fromLTRB(3.0, 0.0, 0.0, 0.0),
                     child: TreatRecord(
                       chartNumber: chartNumber,
                     ),
@@ -92,7 +99,7 @@ class MainExaminationScreen extends StatelessWidget {
               const Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0.0),
+                    padding: EdgeInsets.fromLTRB(3.0, 0.0, 0.0, 0.0),
                     child: ImageSection(),
                   ),
                   Padding(

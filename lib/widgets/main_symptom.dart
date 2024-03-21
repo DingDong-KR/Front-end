@@ -32,7 +32,7 @@ class MainSymptom extends StatelessWidget {
       //   ),
       // ),
       child: Padding(
-        padding: const EdgeInsets.only(left: 10, top: 10), // 왼쪽과 위쪽 여백 추가
+        padding: const EdgeInsets.all(10), // 왼쪽과 위쪽 여백 추가
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -40,7 +40,7 @@ class MainSymptom extends StatelessWidget {
               '주증상',
               style: TextStyle(
                 color: Color(0xFF404855),
-                fontSize: 12,
+                fontSize: 14,
                 fontFamily: 'Pretendard',
                 fontWeight: FontWeight.w700,
               ),

@@ -47,12 +47,13 @@ class MainSymptomMain extends StatelessWidget {
     return Container(
       width: width,
       height: height,
-      decoration: const ShapeDecoration(
-        color: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(bottomRight: Radius.circular(5)),
-        ),
-      ),
+      color: Colors.white,
+      // decoration: const ShapeDecoration(
+      //   color: Colors.white,
+      //   shape: RoundedRectangleBorder(
+      //     borderRadius: BorderRadius.only(bottomRight: Radius.circular(5)),
+      //   ),
+      // ),
       child: Padding(
         padding: const EdgeInsets.only(left: 10, top: 10),
         child: Column(

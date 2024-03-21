@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 
 class PastHistory extends StatelessWidget {
   final int chartNumber;
-  final double height;
   final double width;
-  const PastHistory(
-      {super.key,
-      required this.chartNumber,
-      required this.height,
-      required this.width});
+  final double height;
+  const PastHistory({
+    super.key,
+    required this.chartNumber,
+    required this.width,
+    required this.height,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class PastHistory extends StatelessWidget {
               '과거력',
               style: TextStyle(
                 color: Color(0xFF404855),
-                fontSize: 12,
+                fontSize: 14,
                 fontFamily: 'Pretendard',
                 fontWeight: FontWeight.w700,
               ),

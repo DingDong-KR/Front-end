@@ -104,7 +104,7 @@ class _RosState extends State<Ros> {
                   'ROS',
                   style: TextStyle(
                     color: Color(0xFF404855),
-                    fontSize: 12,
+                    fontSize: 14,
                     fontFamily: 'Pretendard',
                     fontWeight: FontWeight.w700,
                     letterSpacing: 0.12,

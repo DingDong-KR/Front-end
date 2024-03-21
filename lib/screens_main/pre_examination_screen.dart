@@ -22,7 +22,7 @@ class PreExaminationScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 0),
+            padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 3.0),
             child: MedicalHistoryWidget(
                 patientNumber: patientNumber, width: 320, height: 684),
           ), // Pass patientsItems as argument
@@ -93,13 +93,17 @@ class PreExaminationScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(3.0, 3.0, 3.0, 0),
-                  child: NursingNote(
-                    chartNumber: chartNumber,
-                    width: double.infinity,
-                    height: 250,
-                  ),
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(3.0, 3.0, 3.0, 0),
+                      child: NursingNote(
+                        chartNumber: chartNumber,
+                        width: double.infinity,
+                        height: 250,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
