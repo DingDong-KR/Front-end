@@ -23,7 +23,7 @@ class NursingNote extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      height: height,
+      //height: height,
       decoration: const BoxDecoration(color: Colors.white),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start, // Row 내 자식들을 시작점에 맞추기

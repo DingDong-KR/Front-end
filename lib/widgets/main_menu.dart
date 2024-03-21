@@ -74,7 +74,7 @@ class _MainMenuState extends State<MainMenu> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 1500,
+      //width: 1500,
       height: 45,
       decoration: const BoxDecoration(color: Color(0xFFE2F1F6)),
       child: Row(

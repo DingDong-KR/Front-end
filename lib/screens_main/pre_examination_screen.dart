@@ -21,10 +21,16 @@ class PreExaminationScreen extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 3.0),
-            child: MedicalHistoryWidget(
-                patientNumber: patientNumber, width: 320, height: 684),
+          Column(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 3.0),
+                  child: MedicalHistoryWidget(
+                      patientNumber: patientNumber, width: 320, height: 684),
+                ),
+              ),
+            ],
           ), // Pass patientsItems as argument
           Expanded(
             child: Column(
@@ -60,7 +66,7 @@ class PreExaminationScreen extends StatelessWidget {
                             child: MainSymptom(
                               chartNumber: chartNumber,
                               width: double.infinity,
-                              height: 200,
+                              height: 220,
                             ),
                           ),
                         ],
@@ -85,7 +91,7 @@ class PreExaminationScreen extends StatelessWidget {
                             child: PastHistory(
                               chartNumber: chartNumber,
                               width: double.infinity,
-                              height: 200,
+                              height: 220,
                             ),
                           ),
                         ],
@@ -93,17 +99,15 @@ class PreExaminationScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(3.0, 3.0, 3.0, 0),
-                      child: NursingNote(
-                        chartNumber: chartNumber,
-                        width: double.infinity,
-                        height: 250,
-                      ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(3.0, 3.0, 3.0, 3.0),
+                    child: NursingNote(
+                      chartNumber: chartNumber,
+                      width: double.infinity,
+                      height: 250,
                     ),
-                  ],
+                  ),
                 ),
               ],
             ),
