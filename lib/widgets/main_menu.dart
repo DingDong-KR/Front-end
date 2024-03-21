@@ -75,7 +75,7 @@ class _MainMenuState extends State<MainMenu> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 1500,
+      //width: 1500,
       height: 45,
       decoration: const BoxDecoration(color: Color(0xFFE2F1F6)),
       child: Row(
@@ -89,7 +89,7 @@ class _MainMenuState extends State<MainMenu> {
               decoration: ShapeDecoration(
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
-                  side: BorderSide(width: 1, color: Color(0xFF3EA7C2)),
+                  side: const BorderSide(width: 1, color: Color(0xFF3EA7C2)),
                   borderRadius: BorderRadius.circular(38),
                 ),
               ),
@@ -102,7 +102,7 @@ class _MainMenuState extends State<MainMenu> {
                         children: [
                           Text(
                             affiliationController.currentAffiliation.value,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Color(0xFF3EA7C2),
                               fontSize: 12,
                               fontFamily: 'Pretendard',
@@ -117,7 +117,7 @@ class _MainMenuState extends State<MainMenu> {
               ),
             ),
           ),
-          SizedBox(width: 10), // 간격 조정
+          const SizedBox(width: 10), // 간격 조정
           ...List.generate(menuItems.length, (index) {
             return GestureDetector(
               onTap: () {
@@ -135,7 +135,7 @@ class _MainMenuState extends State<MainMenu> {
               child: buildMenuItem(index),
             );
           }),
-          Spacer(),
+          const Spacer(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Text(
@@ -171,27 +171,31 @@ class _MainMenuState extends State<MainMenu> {
               ),
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text("Settings"),
-                    content: SettingsScreen(),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text("Close"),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-            child: SvgPicture.asset('assets/icons/icon_settings.svg'),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text("Settings"),
+                      content: SettingsScreen(),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text("Close"),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: SvgPicture.asset('assets/icons/icon_settings.svg'),
+            ),
           ),
 
           Padding(

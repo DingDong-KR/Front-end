@@ -77,14 +77,14 @@ class _TopBarState extends State<TopBar> {
       height: 49,
       decoration: const BoxDecoration(
         color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Color(0x26000000),
-            blurRadius: 4,
-            offset: Offset(0, 0),
-            spreadRadius: 0,
-          ),
-        ],
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Color(0x26000000),
+        //     blurRadius: 4,
+        //     offset: Offset(0, 0),
+        //     spreadRadius: 0,
+        //   ),
+        // ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,

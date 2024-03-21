@@ -6,13 +6,11 @@ class Treatment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 400,
+      //width: 400,
       height: 232,
-      padding: const EdgeInsets.all(15),
+      padding: const EdgeInsets.all(10),
       decoration: const BoxDecoration(color: Colors.white),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
@@ -28,19 +26,16 @@ class Treatment extends StatelessWidget {
                     fontSize: 14,
                     fontFamily: 'Pretendard',
                     fontWeight: FontWeight.w700,
-                    height: 0.11,
-                    letterSpacing: 0.14,
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: 10),
           Expanded(
             // Wrap the SingleChildScrollView with Expanded
             child: SingleChildScrollView(
               child: Column(
-                mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
