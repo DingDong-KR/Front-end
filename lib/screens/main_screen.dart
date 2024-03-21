@@ -17,7 +17,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
 
-  int _selectedMenuIndex = 1;
+  int _selectedMenuIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +37,8 @@ class _MainScreenState extends State<MainScreen> {
           Expanded(
             child: Row(
               children: [
-                if (_selectedMenuIndex != 1)
-                  SizedBox(
+                if (_selectedMenuIndex != 0)
+                  const SizedBox(
                     width: 213,
                     child: PatientsList(),
                   ),
@@ -54,8 +54,8 @@ class _MainScreenState extends State<MainScreen> {
                             WidgetBuilder? builder;
                             switch (settings.name) {
                               case '/':
-                                builder = (context) =>
-                                    HomeScreen(user: widget.user);
+                                builder =
+                                    (context) => HomeScreen(user: widget.user);
                                 break;
                             }
                             return MaterialPageRoute(
