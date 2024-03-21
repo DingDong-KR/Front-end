@@ -8,14 +8,14 @@ import 'package:my_desktop_app/styles/textStyles.dart';
 
 class MedicalHistoryWidget extends StatefulWidget {
   final int patientNumber;
-  final double height;
   final double width;
+  final double height;
 
   const MedicalHistoryWidget(
       {Key? key,
       required this.patientNumber,
-      required this.height,
-      required this.width})
+      required this.width,
+      required this.height})
       : super(key: key);
 
   @override
@@ -28,92 +28,89 @@ class _MedicalHistoryWidgetState extends State<MedicalHistoryWidget> {
       MedicalHistoryProvider();
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: widget.width,
-          //height: widget.height,
-          padding: const EdgeInsets.all(10),
-          decoration: const BoxDecoration(color: Colors.white),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return Container(
+      width: widget.width,
+      //height: widget.height,
+      padding: const EdgeInsets.all(10),
+      decoration: const BoxDecoration(color: Colors.white),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    child: const Row(
-                      children: [
-                        Text(
-                          '진료내역',
-                          style: TextStyle(
-                            color: Color(0xFF404855),
-                            fontSize: 14,
-                            fontFamily: 'Pretendard',
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Row(
-                      children: [
-                        const Text(
-                          '최신순',
-                          style: TextStyle(
-                            color: Color(0xFF404855),
-                            fontSize: 10,
-                            fontFamily: 'Pretendard',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        const SizedBox(width: 5),
-                        Container(
-                          child: Column(
-                            children: [
-                              SvgPicture.asset(
-                                  'assets/icons/icon_down_arrow.svg'),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
               Container(
                 child: const Row(
                   children: [
-                    SizedBox(width: 8),
                     Text(
-                      '방문일자',
-                      style: TextStyles.text11Style,
+                      '진료내역',
+                      style: TextStyle(
+                        color: Color(0xFF404855),
+                        fontSize: 14,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                    SizedBox(width: 45),
-                    Text(
-                      '진단명',
-                      style: TextStyles.text11Style,
-                    ),
-                    SizedBox(width: 30),
-                    Text(
-                      '침구치료',
-                      style: TextStyles.text11Style,
-                    ),
-                    SizedBox(width: 50),
-                    Text(
-                      '방약',
-                      style: TextStyles.text11Style,
-                    )
                   ],
                 ),
               ),
-              const SizedBox(height: 10),
-              FutureBuilder<List<MedicalHistory>>(
+              Container(
+                child: Row(
+                  children: [
+                    const Text(
+                      '최신순',
+                      style: TextStyle(
+                        color: Color(0xFF404855),
+                        fontSize: 10,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    const SizedBox(width: 5),
+                    Container(
+                      child: Column(
+                        children: [
+                          SvgPicture.asset('assets/icons/icon_down_arrow.svg'),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          const Row(
+            children: [
+              SizedBox(width: 8),
+              Text(
+                '방문일자',
+                style: TextStyles.text11Style,
+              ),
+              SizedBox(width: 45),
+              Text(
+                '진단명',
+                style: TextStyles.text11Style,
+              ),
+              SizedBox(width: 30),
+              Text(
+                '침구치료',
+                style: TextStyles.text11Style,
+              ),
+              SizedBox(width: 50),
+              Text(
+                '방약',
+                style: TextStyles.text11Style,
+              )
+            ],
+          ),
+          const SizedBox(height: 10),
+          Expanded(
+            child: SingleChildScrollView(
+              child: FutureBuilder<List<MedicalHistory>>(
                 future: _medicalHistoryProvider
                     .getMedicalHistorys(widget.patientNumber),
                 builder: (context, snapshot) {
@@ -123,26 +120,41 @@ class _MedicalHistoryWidgetState extends State<MedicalHistoryWidget> {
                     return Text('Error: ${snapshot.error}');
                   } else {
                     final medicalHistorys = snapshot.data;
+
                     return Column(
                       children: List.generate(
-                        (widget.height == 684) ? 40 : 15,
+                        (widget.height == 684) ? 60 : 30,
                         (index) {
                           if (index < medicalHistorys!.length) {
                             return _buildHistoryItem(
                                 index, medicalHistorys[index]);
                           } else {
-                            return _buildEmptyContainer(index);
+                            return Container(); // emptyContainer 생성 안하게 임시
                           }
                         },
                       ),
                     );
+
+                    // return Column(
+                    //   children: List.generate(
+                    //     (widget.height == 684) ? 40 : 15,
+                    //     (index) {
+                    //       if (index < medicalHistorys!.length) {
+                    //         return _buildHistoryItem(
+                    //             index, medicalHistorys[index]);
+                    //       } else {
+                    //         return _buildEmptyContainer(index);
+                    //       }
+                    //     },
+                    //   ),
+                    // );
                   }
                 },
               ),
-            ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

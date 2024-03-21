@@ -35,80 +35,96 @@ class MainExaminationScreen extends StatelessWidget {
               height: 38,
             ),
           ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                children: [
-                  Row(
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(3.0, 0.0, 0.0, 0),
+                          child: Ros(
+                              chartNumber: chartNumber,
+                              width: 158.5,
+                              height: 122),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(3.0, 0.0, 0.0, 0),
+                          child: MainSymptomMain(
+                              chartNumber: chartNumber,
+                              width: 158.5,
+                              height: 122),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0, 0),
+                      child: PastHistory(
+                          chartNumber: chartNumber, width: 320, height: 122),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
+                      child: NursingNoteMain(
+                          chartNumber: chartNumber, width: 320, height: 122),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 3.0),
+                        child: MedicalHistoryWidget(
+                          patientNumber: patientNumber,
+                          width: 320,
+                          height: 370,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Expanded(
+                  child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(3.0, 0.0, 0.0, 0),
-                        child: Ros(
-                            chartNumber: chartNumber,
-                            width: 158.5,
-                            height: 142),
+                        padding: const EdgeInsets.fromLTRB(3.0, 0.0, 0.0, 0.0),
+                        child: TreatRecord(
+                          chartNumber: chartNumber,
+                          width: 400,
+                          height: 372,
+                        ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(3.0, 0.0, 0.0, 0),
-                        child: MainSymptomMain(
-                            chartNumber: chartNumber,
-                            width: 158.5,
-                            height: 142),
+                        padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0.0),
+                        child: Diagnosis(
+                          chartNumber: chartNumber,
+                          width: 400,
+                          height: 150,
+                        ),
+                      ),
+                      const Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 3.0),
+                          child: Treatment(),
+                        ),
                       ),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0, 0),
-                    child: PastHistory(
-                        chartNumber: chartNumber, width: 320, height: 122),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
-                    child: NursingNoteMain(
-                        chartNumber: chartNumber, width: 320, height: 122),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0),
-                    child: MedicalHistoryWidget(
-                      patientNumber: patientNumber,
-                      width: 320,
-                      height: 370,
+                ),
+                const Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(3.0, 0.0, 0.0, 0.0),
+                      child: ImageSection(),
                     ),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(3.0, 0.0, 0.0, 0.0),
-                    child: TreatRecord(
-                      chartNumber: chartNumber,
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 3.0),
+                        child: OrderSet(),
+                      ),
                     ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0.0),
-                    child: Diagnosis(),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0.0),
-                    child: Treatment(),
-                  ),
-                ],
-              ),
-              const Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(3.0, 0.0, 0.0, 0.0),
-                    child: ImageSection(),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(3.0, 3.0, 0.0, 0.0),
-                    child: OrderSet(),
-                  ),
-                ],
-              )
-            ],
+                  ],
+                )
+              ],
+            ),
           ),
         ],
       ),

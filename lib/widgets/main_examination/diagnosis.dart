@@ -3,7 +3,16 @@ import 'package:flutter_svg/svg.dart';
 import '../../styles/textStyles.dart';
 
 class Diagnosis extends StatefulWidget {
-  const Diagnosis({Key? key}) : super(key: key);
+  final int chartNumber;
+  final double width;
+  final double height;
+
+  const Diagnosis(
+      {Key? key,
+      required this.chartNumber,
+      required this.width,
+      required this.height})
+      : super(key: key);
 
   @override
   _DiagnosisState createState() => _DiagnosisState();
@@ -15,16 +24,16 @@ class _DiagnosisState extends State<Diagnosis> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 400,
-      height: 135,
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+      //width: 400,
+      height: widget.height,
+      padding: const EdgeInsets.all(10),
       decoration: const BoxDecoration(color: Colors.white),
       child: Column(
         children: [
           Row(
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 12, 0),
                 child: Text(
                   '진단',
                   style: TextStyle(
@@ -32,55 +41,59 @@ class _DiagnosisState extends State<Diagnosis> {
                     fontSize: 14,
                     fontFamily: 'Pretendard',
                     fontWeight: FontWeight.w700,
-                    height: 0.11,
-                    letterSpacing: 0.14,
                   ),
                 ),
               ),
-              Stack(
-                children: [
-                  Container(
-                    width: 328,
-                    height: 22,
-                    decoration: ShapeDecoration(
-                      color: const Color(0xFFF7F7F7),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
+              Expanded(
+                child: Stack(
+                  children: [
+                    Container(
+                      //width: 328,
+                      height: 22,
+                      decoration: ShapeDecoration(
+                        color: const Color(0xFFF7F7F7),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
                       ),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.fromLTRB(6, 0, 0, 3),
-                      child: TextField(
-                        decoration: InputDecoration(
-                            hintText: '상병 코드 및 상병명을 입력하세요',
-                            hintStyle: TextStyle(
-                              color: Color(0xFFAFAFAF),
-                              fontSize: 11,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w400,
-                            ),
-                            border: InputBorder.none),
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 11,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w400,
+                      child: const Padding(
+                        padding: EdgeInsets.fromLTRB(6, 0, 0, 3),
+                        child: TextField(
+                          decoration: InputDecoration(
+                              hintText: '상병 코드 및 상병명을 입력하세요',
+                              hintStyle: TextStyle(
+                                color: Color(0xFFAFAFAF),
+                                fontSize: 11,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w400,
+                              ),
+                              border: InputBorder.none),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 11,
+                            fontFamily: 'Pretendard',
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    right: 10,
-                    top: 5,
-                    child: SvgPicture.asset('assets/icons/icon_search.svg'),
-                  ),
-                ],
+                    Positioned(
+                      right: 10,
+                      top: 2,
+                      child: SvgPicture.asset('assets/icons/icon_search.svg'),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
-          SizedBox(height: 20,),
-          _buildIndexRow('주','부','상병코드','상병명'),
-          SizedBox(height: 5,),
+          const SizedBox(
+            height: 20,
+          ),
+          _buildIndexRow('주', '부', '상병코드', '상병명'),
+          const SizedBox(
+            height: 5,
+          ),
           _buildItemRow("56543", "아래 허리 긴장, 요추부")
         ],
       ),
@@ -90,10 +103,12 @@ class _DiagnosisState extends State<Diagnosis> {
   Widget _buildIndexRow(String main, String sub, String code, String name) {
     return Row(
       children: [
-        SizedBox(width: 10,),
+        const SizedBox(
+          width: 10,
+        ),
         Text(
           '$main ',
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 12,
             fontFamily: 'Pretendard',
             fontWeight: FontWeight.w400,
@@ -104,7 +119,7 @@ class _DiagnosisState extends State<Diagnosis> {
         const SizedBox(width: 24),
         Text(
           '$sub ',
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 12,
             fontFamily: 'Pretendard',
             fontWeight: FontWeight.w400,
@@ -115,7 +130,7 @@ class _DiagnosisState extends State<Diagnosis> {
         const SizedBox(width: 30),
         Text(
           '$code ',
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 12,
             fontFamily: 'Pretendard',
             fontWeight: FontWeight.w400,
@@ -126,7 +141,7 @@ class _DiagnosisState extends State<Diagnosis> {
         const SizedBox(width: 30),
         Text(
           '$name ',
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 12,
             fontFamily: 'Pretendard',
             fontWeight: FontWeight.w400,
@@ -149,7 +164,7 @@ class _DiagnosisState extends State<Diagnosis> {
         const SizedBox(width: 30),
         Text(
           '$code ',
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 12,
             fontFamily: 'Pretendard',
             fontWeight: FontWeight.w400,
@@ -160,7 +175,7 @@ class _DiagnosisState extends State<Diagnosis> {
         const SizedBox(width: 30),
         Text(
           '$name ',
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 12,
             fontFamily: 'Pretendard',
             fontWeight: FontWeight.w400,
@@ -181,7 +196,9 @@ class _DiagnosisState extends State<Diagnosis> {
           onChanged: onChanged,
           activeColor: const Color(0xFF3FA7C3),
         ),
-        SizedBox(width: 5,),
+        const SizedBox(
+          width: 5,
+        ),
         Radio(
           value: 0,
           groupValue: value,
@@ -192,4 +209,3 @@ class _DiagnosisState extends State<Diagnosis> {
     );
   }
 }
-
