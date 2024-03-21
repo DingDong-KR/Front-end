@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:my_desktop_app/widgets/bedding/activity_details_bed.dart';
 
-class BeddingScreen extends StatelessWidget {
+
+class BeddingScreen extends StatefulWidget {
   final int patientNumber;
-  const BeddingScreen({Key? key, required this.patientNumber}) : super(key: key);
+  final int chartNumber;
+  const BeddingScreen(
+      {Key? key, required this.patientNumber, required this.chartNumber})
+      : super(key: key);
+
+  @override
+  State<BeddingScreen> createState() => _BeddingScreenState();
+}
+
+class _BeddingScreenState extends State<BeddingScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.blue, // 예시로 파란색 배경 적용
-      child: Center(
-        child: Text(
-          'BeddingScreen',
-          style: TextStyle(fontSize: 24),
-        ),
-      ),
-    );
+    return ActivityDetailsBed();
   }
 }

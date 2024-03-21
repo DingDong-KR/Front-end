@@ -16,6 +16,7 @@ import '../screens_main/pre_examination_screen.dart';
 import '../models/menu_items.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_desktop_app/models/user.dart';
+import '../styles/textStyles.dart';
 import 'dropdown_button_widget.dart';
 import 'package:get/get.dart';
 import '../repository/chart_crud_sql.dart';
@@ -139,13 +140,7 @@ class _MainMenuState extends State<MainMenu> {
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Text(
               '${widget.user.name}님',
-              style: const TextStyle(
-                color: Color(0xFF404855),
-                fontSize: 12,
-                fontFamily: 'Pretendard',
-                fontWeight: FontWeight.w400,
-                height: 0.12,
-              ),
+                style: TextStyles.text12Style
             ),
           ),
           Padding(
@@ -290,7 +285,7 @@ class _MainMenuState extends State<MainMenu> {
       case 3:
         widget.navigatorKey.currentState?.pushReplacement(
           MaterialPageRoute(
-            builder: (context) => BeddingScreen(patientNumber: patientNumber),
+            builder: (context) => BeddingScreen(chartNumber: chartNumberController.chartNumber.value, patientNumber: patientNumber),
           ),
         );
         break;

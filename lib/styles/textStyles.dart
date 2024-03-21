@@ -19,11 +19,27 @@ class TextStyles {
     height: 0.12,
     letterSpacing: 0.12,
   );
+  static const text12W600Style = TextStyle(
+    color: Color(0xFF404855),
+    fontSize: 12,
+    fontFamily: 'Pretendard',
+    fontWeight: FontWeight.w600,
+    height: 0.12,
+    letterSpacing: 0.12,
+  );
   static const text14Style = TextStyle(
     color: Color(0xFF404855),
     fontSize: 14,
     fontFamily: 'Pretendard',
     fontWeight: FontWeight.w400,
+    height: 0.12,
+    letterSpacing: 0.12,
+  );
+  static const text14W700style = TextStyle(
+    color: Color(0xFF404855),
+    fontSize: 14,
+    fontFamily: 'Pretendard',
+    fontWeight: FontWeight.w700,
     height: 0.12,
     letterSpacing: 0.12,
   );
