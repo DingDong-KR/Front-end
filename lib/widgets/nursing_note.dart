@@ -36,11 +36,9 @@ class NursingNote extends StatelessWidget {
                   '간호노트',
                   style: TextStyle(
                     color: Color(0xFF404855),
-                    fontSize: 12,
+                    fontSize: 14,
                     fontFamily: 'Pretendard',
                     fontWeight: FontWeight.w700,
-                    height: 1,
-                    letterSpacing: 0.12,
                   ),
                 ),
                 const SizedBox(

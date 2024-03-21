@@ -46,7 +46,10 @@ class _MainScreenState extends State<MainScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TopBar(user: widget.user),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(3.0, 0.0, 3.0, 0.0),
+                        child: TopBar(user: widget.user),
+                      ),
                       Expanded(
                         child: Navigator(
                           key: _navigatorKey,
