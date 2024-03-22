@@ -129,7 +129,8 @@ class _MedicalHistoryWidgetState extends State<MedicalHistoryWidget> {
                             return _buildHistoryItem(
                                 index, medicalHistorys[index]);
                           } else {
-                            return Container(); // emptyContainer 생성 안하게 임시
+                            return _buildEmptyContainer(
+                                index); // emptyContainer 생성 안하게 임시
                           }
                         },
                       ),
